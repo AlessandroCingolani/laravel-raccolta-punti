@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PurchaseRequest;
+use App\Models\Customer;
 use App\Models\Purchase;
 use Illuminate\Http\Request;
 use Illuminate\Mail\Mailables\Content;
+use App\Functions\Helper;
+
 
 class PurchaseController extends Controller
 {
@@ -28,7 +31,9 @@ class PurchaseController extends Controller
         $method = "POST";
         $route = route("admin.purchases.store");
         $purchase = null;
-        return view('admin.purchases.create-edit', compact("title", "method", "purchase", "route"));
+        $customers_name = Customer::orderBy('name')->get();
+        $button = 'Aggiungi nuovo acquisto';
+        return view('admin.purchases.create-edit', compact("title", "method", "purchase", "route", "button", "customers_name"));
     }
 
     /**
@@ -36,6 +41,24 @@ class PurchaseController extends Controller
      */
     public function store(PurchaseRequest $request)
     {
+        $form_data = $request->all();
+        dump($form_data);
+        // take id customer
+        $customer = Customer::where('name', $request['name'])->first()->id;
+
+
+        // take point to add at purchase
+        $points_earned = Helper::generatePoints($request['amount']);
+        dump($points_earned);
+
+        // create purchase
+        $form_data = [
+            'customer_id' => $customer,
+            'amount' => $request['amount'],
+            'points_earned' => $points_earned,
+        ];
+        $new_purchase = Purchase::create($form_data);
+        return redirect()->route('admin.purchases.index')->with('success', 'Acquisto aggiunto con successo');
     }
 
     /**
