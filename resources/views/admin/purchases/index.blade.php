@@ -10,7 +10,10 @@
     {{-- TODO: suddividere acquisti per mese settimana o anno --}}
     <ul>
         @forelse ($purchases as $purchase)
-            <li>ID:{{ $purchase->id }} DATA:{{ $purchase->created_at }} IMPORTO: €{{ $purchase->amount }}</li>
+            <li>ID:{{ $purchase->id }} DATA:{{ $purchase->created_at }} IMPORTO: €{{ $purchase->amount }} <a
+                    href="{{ route('admin.purchases.edit', $purchase) }}" class="btn btn-warning">
+                    <i class="fa-solid fa-pencil "></i>
+                </a></li>
         @empty
             <li>Nessun acquisto</li>
         @endforelse
