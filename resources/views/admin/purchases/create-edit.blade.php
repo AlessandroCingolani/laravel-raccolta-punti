@@ -12,6 +12,8 @@
 
             </div>
         @endif
+        @dump(old('name', $purchase?->customer))
+        @dump(old('name', $purchase?->customer_id))
         <div class="row">
             <div class="col-4">
                 <form action="{{ $route }}" method="POST" enctype="multipart/form-data">
@@ -21,12 +23,13 @@
                     <div class="mb-3">
                         <label for="name" class="control-label">Nome Cliente *</label>
                         <select id="name" class="form-select @error('name') is-invalid @enderror" name="name"
-                            value="{{ old('name', $purchase?->name) }}" autocomplete="name" type="text">
-                            <option value="" selected>Seleziona cliente</option>
+                            autocomplete="name" type="text">
+                            <option value="">Seleziona cliente</option>
                             @forelse ($customers_name as $name)
-                                <option value="{{ $name->name }}">{{ $name->name }} </option>
+                                <option {{ old('name', $purchase?->customer_id) === $name->id ? 'selected' : '' }}
+                                    value="{{ $name->id }}">{{ $name->name }} </option>
                             @empty
-                                <option value="null">Nessun cliente</option>
+                                <option value="">Nessun cliente</option>
                             @endforelse
 
                         </select>
