@@ -42,9 +42,10 @@ class PurchaseController extends Controller
     public function store(PurchaseRequest $request)
     {
         $form_data = $request->all();
-        dump($form_data);
+
         // take id customer
-        $customer = Customer::where('name', $request['name'])->first()->id;
+        $customer = $request['name'];
+
 
 
         // take point to add at purchase
@@ -72,17 +73,31 @@ class PurchaseController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Purchase $purchase)
     {
-        //
+        $title = "Modifica acquisto";
+        $method = "PUT";
+        $route = route("admin.purchases.update", $purchase);
+        $customers_name = Customer::orderBy('name')->get();
+        $button = 'Modifica acquisto';
+        return view('admin.purchases.create-edit', compact("title", "method", "purchase", "route", "button", "customers_name"));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(PurchaseRequest $request, Purchase $purchase)
     {
-        //
+        $form_data = $request->all();
+        $customer = $request['name'];
+        $points_earned = Helper::generatePoints($request['amount']);
+        $form_data = [
+            'customer_id' => $customer,
+            'amount' => $request['amount'],
+            'points_earned' => $points_earned,
+        ];
+        $purchase->update($form_data);
+        return redirect()->route('admin.purchases.index')->with('success', 'Acquisto modificato con successo');
     }
 
     /**
