@@ -1,0 +1,99 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\CustomerRequest;
+use App\Models\Customer;
+use App\Models\Purchase;
+use Illuminate\Http\Request;
+
+class CustomerController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        $customers = Customer::orderBy('id', 'desc')->paginate(10);
+        $direction = 'desc';
+        return view("admin.customers.index", compact('customers', 'direction'));
+    }
+
+    // Order Customer
+    public function orderBy($direction, $column)
+    {
+        $direction = $direction == 'desc' ? 'asc' : 'desc';
+        $customers = Customer::orderBy($column, $direction)->paginate(10);
+        return view('admin.customers.index', compact('customers', 'direction'));
+    }
+
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        $title = "Aggiungi cliente";
+        $method = 'POST';
+        $route = route('admin.customers.store');
+        $customer = null;
+        $button = 'Crea nuovo cliente';
+
+        return view('admin.customers.create-edit', compact('title', 'method', 'route', 'button', 'customer'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(CustomerRequest $request)
+    {
+        $form_data = $request->all();
+        $new_customer = Customer::create($form_data);
+
+        return redirect()->route('admin.customers.show', $new_customer);
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Customer $customer)
+    {
+        $purchases = Purchase::where('customer_id', $customer->id)->get();
+        return view('admin.customers.show', compact('customer', 'purchases'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Customer $customer)
+    {
+        $title = "Modifica cliente";
+        $method = 'PUT';
+        $route = route('admin.customers.update', $customer);
+        $button = 'Modifica cliente';
+
+        return view('admin.customers.create-edit', compact('title', 'method', 'route', 'button', 'customer'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(CustomerRequest $request, Customer $customer)
+    {
+        $form_data = $request->all();
+        $customer->update($form_data);
+
+
+        return redirect()->route('admin.customers.show', $customer);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Customer $customer)
+    {
+        $customer->delete();
+        return redirect()->route('admin.customers.index');
+    }
+}

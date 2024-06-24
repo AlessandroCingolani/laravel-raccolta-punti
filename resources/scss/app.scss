@@ -1,0 +1,30 @@
+@import '~bootstrap/scss/bootstrap';
+
+// Sass variables
+$height-nav-bar: 60px;
+$width-aside:200px;
+$color-aside:pink;
+$active-route-color:yellow;
+$color-main:rgba($color-aside,0.3);
+
+
+nav {
+    height: $height-nav-bar;
+}
+
+aside {
+    background-color:$color-aside ;
+    width : $width-aside;
+    height: calc(100vh - $height-nav-bar);
+    ul {
+        list-style: none;
+        .active {
+            color: $active-route-color;
+        }
+    }
+}
+
+main {
+    height: calc(100vh -  $height-nav-bar);
+    background-color:$color-main ;
+}
