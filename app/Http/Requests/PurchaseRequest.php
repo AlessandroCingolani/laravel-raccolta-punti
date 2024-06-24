@@ -9,20 +9,21 @@ class PurchaseRequest extends FormRequest
     /**
      * Determine if the user is authorized to make this request.
      */
-    public function authorize(): bool
-    {
-        return true;
-    }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required'],
+            'amount' => ['required', 'numeric', 'max:1000'],
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'Il cliente è un campo obbligatorio.',
+            'amount.required' => 'Il prezzo è un campo obbligatorio.',
+            'amount.numeric' => 'Il prezzo deve essere un numero.',
+            'amount.max' => 'Il prezzo non può superare i :max euro.',
         ];
     }
 }
