@@ -1,5 +1,11 @@
 @extends('layouts.admin')
 @section('content')
+    @if (session('success'))
+        <div class="alert alert-success mt-3" role="alert">
+            {{ session('success') }}
+        </div>
+    @endif
+
     @dump($purchases)
     {{-- TODO: suddividere acquisti per mese settimana o anno --}}
     <ul>
