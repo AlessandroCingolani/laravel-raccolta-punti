@@ -1,3 +1,7 @@
+<?php
+use App\Functions\Helper;
+?>
+
 @extends('layouts.admin')
 @section('content')
     @if (session('success'))
@@ -10,8 +14,8 @@
     {{-- TODO: suddividere acquisti per mese settimana o anno --}}
     <ul>
         @forelse ($purchases as $purchase)
-            <li>ID:{{ $purchase->id }} DATA:{{ $purchase->created_at }} IMPORTO: €{{ $purchase->amount }} <a
-                    href="{{ route('admin.purchases.edit', $purchase) }}" class="btn btn-warning">
+            <li>ID:{{ $purchase->id }} DATA:{{ Helper::formatDate($purchase->created_at) }} IMPORTO:
+                €{{ $purchase->amount }} <a href="{{ route('admin.purchases.edit', $purchase) }}" class="btn btn-warning">
                     <i class="fa-solid fa-pencil "></i>
                 </a>
                 <form class="d-inline-block" action="{{ route('admin.purchases.destroy', $purchase) }}" method="POST"
