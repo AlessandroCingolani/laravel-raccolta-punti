@@ -15,7 +15,6 @@ class DatabaseSeeder extends Seeder
         $this->call([
             DefaultUserSeeder::class,
             CustomersSeeder::class,
-            Loyalty_PointsSeeder::class,
             PurchasesSeeder::class,
             CustomerPurchaseTableSeeder::class
         ]);
