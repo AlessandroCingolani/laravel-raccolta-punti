@@ -33,4 +33,13 @@ aside {
 main {
     height: calc(100vh -  $height-nav-bar);
     background-color:$color-main ;
+    table {
+        tr {
+            &:hover{
+                td {
+                    background-color: transparent;
+                }
+            }
+        }
+    }
 }
