@@ -5,7 +5,7 @@
         <a href="{{ route('admin.selected-client', $customer) }}">Aggiungi nuovo acquisto
         </a>
     </div>
-    <h1 class="text-success">PUNTI TOTALI : {{ $points }}</h1>
+    <h1 class="text-success">PUNTI TOTALI : {{ $customer->customer_points }}</h1>
     <h1 class="text-success">SOLDI SPESI : {{ $amount }} €</h1>
 
     <ul>
