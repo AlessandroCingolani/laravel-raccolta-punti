@@ -24,7 +24,7 @@ class PurchaseController extends Controller
 
 
 
-    // function custome
+    // function custome route from show customer at create new purchase
     public function clientPurchase($id)
     {
         $customer_selected = Customer::find($id);
@@ -74,7 +74,14 @@ class PurchaseController extends Controller
             'amount' => $request['amount'],
             'points_earned' => $points_earned,
         ];
+        // take customer from id
+        $customer = Customer::find($customer_id);
         $new_purchase = Purchase::create($form_data);
+
+        // update column customer points if point earned > 0
+        if ($points_earned > 0) {
+            $customer->update(array('customer_points' => ($customer->customer_points + $points_earned)));
+        }
         return redirect()->route('admin.customers.show', $customer_id);
     }
 
@@ -105,14 +112,23 @@ class PurchaseController extends Controller
      */
     public function update(PurchaseRequest $request, Purchase $purchase)
     {
+
         $form_data = $request->all();
         $customer_id = $request['id'];
-        $points_earned = Helper::generatePoints($request['amount']);
+        $new_points_earned = Helper::generatePoints($request['amount']);
         $form_data = [
             'customer_id' => $customer_id,
             'amount' => $request['amount'],
-            'points_earned' => $points_earned,
+            'points_earned' => $new_points_earned,
         ];
+        // take customer from id
+        $customer = Customer::find($customer_id);
+        // update column customer points if old purchase amount in < of new request
+        if ($purchase->amount < $request['amount']) {
+            $customer->update(array('customer_points' => ($customer->customer_points + ($new_points_earned - $purchase->points_earned))));
+        } elseif ($purchase->amount > $request['amount']) {
+            $customer->update(array('customer_points' => ($customer->customer_points - ($purchase->points_earned - $new_points_earned))));
+        }
         $purchase->update($form_data);
         return redirect()->route('admin.purchases.index')->with('success', 'Acquisto modificato con successo');
     }
@@ -122,6 +138,8 @@ class PurchaseController extends Controller
      */
     public function destroy(Purchase $purchase)
     {
+        $customer = Customer::find($purchase->customer_id);
+        $customer->update(array('customer_points' => ($customer->customer_points - $purchase->points_earned)));
         $purchase->delete();
         return redirect()->route('admin.purchases.index')->with('success', 'Acquisto eliminato con successo');
     }
