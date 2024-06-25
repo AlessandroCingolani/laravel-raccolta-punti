@@ -61,8 +61,7 @@ class PurchaseController extends Controller
         $form_data = $request->all();
 
         // take id customer
-        $customer = $request['name'];
-
+        $customer_id = $request['id'];
 
 
         // take point to add at purchase
@@ -71,12 +70,12 @@ class PurchaseController extends Controller
 
         // create purchase
         $form_data = [
-            'customer_id' => $customer,
+            'customer_id' => $customer_id,
             'amount' => $request['amount'],
             'points_earned' => $points_earned,
         ];
         $new_purchase = Purchase::create($form_data);
-        return redirect()->route('admin.purchases.index')->with('success', 'Acquisto aggiunto con successo');
+        return redirect()->route('admin.customers.show', $customer_id);
     }
 
     /**
@@ -107,10 +106,10 @@ class PurchaseController extends Controller
     public function update(PurchaseRequest $request, Purchase $purchase)
     {
         $form_data = $request->all();
-        $customer = $request['name'];
+        $customer_id = $request['id'];
         $points_earned = Helper::generatePoints($request['amount']);
         $form_data = [
-            'customer_id' => $customer,
+            'customer_id' => $customer_id,
             'amount' => $request['amount'],
             'points_earned' => $points_earned,
         ];
