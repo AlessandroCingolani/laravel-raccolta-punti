@@ -22,6 +22,22 @@ class PurchaseController extends Controller
         return view('admin.purchases.index', compact('purchases'));
     }
 
+
+
+    // function custome
+    public function clientPurchase($id)
+    {
+        $customer_selected = Customer::find($id);
+        $title = "Aggiungi acquisto";
+        $method = "POST";
+        $route = route("admin.purchases.store");
+        $purchase = null;
+        $customers_name = Customer::orderBy('name')->get();
+        $button = 'Aggiungi nuovo acquisto';
+        return view('admin.purchases.create-edit', compact("title", "method", "purchase", "route", "button", "customers_name", "customer_selected"));
+    }
+
+
     /**
      * Show the form for creating a new resource.
      */
@@ -31,9 +47,10 @@ class PurchaseController extends Controller
         $method = "POST";
         $route = route("admin.purchases.store");
         $purchase = null;
+        $customer_selected = null;
         $customers_name = Customer::orderBy('name')->get();
         $button = 'Aggiungi nuovo acquisto';
-        return view('admin.purchases.create-edit', compact("title", "method", "purchase", "route", "button", "customers_name"));
+        return view('admin.purchases.create-edit', compact("title", "method", "purchase", "route", "button", "customers_name", "customer_selected"));
     }
 
     /**
@@ -78,9 +95,10 @@ class PurchaseController extends Controller
         $title = "Modifica acquisto";
         $method = "PUT";
         $route = route("admin.purchases.update", $purchase);
+        $customer_selected = null;
         $customers_name = Customer::orderBy('name')->get();
         $button = 'Modifica acquisto';
-        return view('admin.purchases.create-edit', compact("title", "method", "purchase", "route", "button", "customers_name"));
+        return view('admin.purchases.create-edit', compact("title", "method", "purchase", "route", "button", "customers_name", "customer_selected"));
     }
 
     /**
