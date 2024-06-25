@@ -26,20 +26,20 @@
                     @csrf
                     @method($method)
                     <div class="mb-3">
-                        <label for="name" class="control-label">Nome Cliente *</label>
-                        <select id="name" class="form-select @error('name') is-invalid @enderror" name="name"
-                            autocomplete="name" type="text">
+                        <label for="id" class="control-label">Nome Cliente *</label>
+                        <select id="id" class="form-select @error('id') is-invalid @enderror" name="id"
+                            autocomplete="id" type="text">
                             <option value="">Seleziona cliente</option>
                             @forelse ($customers_name as $name)
                                 <option
-                                    {{ $customer_selected?->id === $name->id || old('name', $purchase?->customer_id) === $name->id ? 'selected' : '' }}
+                                    {{ $customer_selected?->id === $name->id || old('id', $purchase?->customer_id) === $name->id ? 'selected' : '' }}
                                     value="{{ $name->id }}">{{ $name->name }} </option>
                             @empty
                                 <option value="">Nessun cliente</option>
                             @endforelse
 
                         </select>
-                        @error('name')
+                        @error('id')
                             <p class="text-danger">{{ $message }}</p>
                         @enderror
                     </div>
