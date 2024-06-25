@@ -4,6 +4,7 @@
 $height-nav-bar: 60px;
 $width-aside:200px;
 $color-aside:pink;
+$color-link-aside:white;
 $active-route-color:yellow;
 $color-main:rgba($color-aside,0.3);
 
@@ -20,6 +21,11 @@ aside {
         list-style: none;
         .active {
             color: $active-route-color;
+        }
+        a {
+            text-decoration: none;
+            font-weight: bolder;
+            color: $color-link-aside;
         }
     }
 }
