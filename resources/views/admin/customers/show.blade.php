@@ -5,6 +5,9 @@
         <a href="{{ route('admin.selected-client', $customer) }}">Aggiungi nuovo acquisto
         </a>
     </div>
+    <h1 class="text-success">PUNTI TOTALI : {{ $points }}</h1>
+    <h1 class="text-success">SOLDI SPESI : {{ $amount }} €</h1>
+
     <ul>
         @forelse ($purchases as $purchase)
             <li>ID:{{ $purchase->id }} Amount: €{{ $purchase->amount }}</li>
