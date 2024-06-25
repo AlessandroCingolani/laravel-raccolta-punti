@@ -12,7 +12,7 @@ class PurchaseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required'],
+            'id' => ['required'],
             'amount' => ['required', 'numeric', 'min:0.50', 'max:1000'],
         ];
     }
@@ -20,7 +20,7 @@ class PurchaseRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'Il cliente è un campo obbligatorio.',
+            'id.required' => 'Il cliente è un campo obbligatorio.',
             'amount.required' => 'Il prezzo è un campo obbligatorio.',
             'amount.numeric' => 'Il prezzo deve essere un numero.',
             'amount.min' => 'Il prezzo non può essere minore di :min euro.',
