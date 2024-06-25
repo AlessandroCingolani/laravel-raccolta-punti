@@ -14,19 +14,25 @@
         @endif
         @dump(old('name', $purchase?->customer))
         @dump(old('name', $purchase?->customer_id))
+        @dump($customer_selected)
         <div class="row">
             <div class="col-4">
+                {{-- TODO: style --}}
+                <div class="mb-3">
+                    <a href="{{ route('admin.customers.create') }}">Aggiungi nuovo cliente
+                    </a>
+                </div>
                 <form action="{{ $route }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method($method)
-
                     <div class="mb-3">
                         <label for="name" class="control-label">Nome Cliente *</label>
                         <select id="name" class="form-select @error('name') is-invalid @enderror" name="name"
                             autocomplete="name" type="text">
                             <option value="">Seleziona cliente</option>
                             @forelse ($customers_name as $name)
-                                <option {{ old('name', $purchase?->customer_id) === $name->id ? 'selected' : '' }}
+                                <option
+                                    {{ $customer_selected?->id === $name->id || old('name', $purchase?->customer_id) === $name->id ? 'selected' : '' }}
                                     value="{{ $name->id }}">{{ $name->name }} </option>
                             @empty
                                 <option value="">Nessun cliente</option>
