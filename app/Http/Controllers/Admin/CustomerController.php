@@ -59,10 +59,9 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer)
     {
-        $points = Purchase::where('customer_id', $customer->id)->sum('points_earned');
         $amount = Purchase::where('customer_id', $customer->id)->sum('amount');
         $purchases = Purchase::where('customer_id', $customer->id)->get();
-        return view('admin.customers.show', compact('customer', 'purchases', 'points', 'amount'));
+        return view('admin.customers.show', compact('customer', 'purchases', 'amount'));
     }
 
     /**
