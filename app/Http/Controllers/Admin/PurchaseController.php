@@ -51,10 +51,11 @@ class PurchaseController extends Controller
         $method = "POST";
         $route = route("admin.purchases.store");
         $purchase = null;
+        $coupons = 0;
         $customer_selected = null;
         $customers_name = Customer::orderBy('name')->get();
         $button = 'Aggiungi nuovo acquisto';
-        return view('admin.purchases.create-edit', compact("title", "method", "purchase", "route", "button", "customers_name", "customer_selected"));
+        return view('admin.purchases.create-edit', compact("title", "method", "purchase", "route", "button", "customers_name", "customer_selected", "coupons"));
     }
 
     /**
