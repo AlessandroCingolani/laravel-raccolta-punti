@@ -47,8 +47,8 @@
                     <div class="mb-3">
                         <label for="amount" class="form-label">Pagamento Cliente *</label>
                         <input id="amount" class="form-control @error('amount') is-invalid @enderror" name="amount"
-                            value="{{ old('ampunt', $purchase?->amount) }}" step=0.01 placeholder="€" autocomplete="amount"
-                            type="number">
+                            value="{{ old('ampunt', $purchase?->amount) }}" step=0.01 placeholder="importo €"
+                            autocomplete="amount" type="number">
 
                         @error('amount')
                             <p class="text-danger">{{ $message }}</p>
