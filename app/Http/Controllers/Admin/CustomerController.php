@@ -7,6 +7,7 @@ use App\Http\Requests\CustomerRequest;
 use App\Models\Customer;
 use App\Models\Purchase;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CustomerController extends Controller
 {
@@ -15,7 +16,11 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = Customer::orderBy('id', 'desc')->paginate(10);
+        $customers = Customer::leftJoin('purchases', 'purchases.customer_id', '=', 'customers.id')
+            ->select('customers.*', DB::raw('SUM(purchases.amount) as total_spent'))
+            ->groupBy('customers.id', 'customers.name', 'customers.email', 'customers.phone', 'customers.customer_points', 'customers.created_at', 'customers.updated_at')
+            ->orderBy('total_spent', 'desc')
+            ->paginate(10);
         $direction = 'desc';
         return view("admin.customers.index", compact('customers', 'direction'));
     }
@@ -24,7 +29,11 @@ class CustomerController extends Controller
     public function orderBy($direction, $column)
     {
         $direction = $direction == 'desc' ? 'asc' : 'desc';
-        $customers = Customer::orderBy($column, $direction)->paginate(10);
+        $customers = Customer::leftJoin('purchases', 'purchases.customer_id', '=', 'customers.id')
+            ->select('customers.*', DB::raw('SUM(purchases.amount) as total_spent'))
+            ->groupBy('customers.id', 'customers.name', 'customers.email', 'customers.phone', 'customers.customer_points', 'customers.created_at', 'customers.updated_at')
+            ->orderBy($column, $direction)
+            ->paginate(10);
         return view('admin.customers.index', compact('customers', 'direction'));
     }
 
