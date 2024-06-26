@@ -107,9 +107,14 @@ class PurchaseController extends Controller
         $method = "PUT";
         $route = route("admin.purchases.update", $purchase);
         $customer_selected = null;
+        $coupons = 0;
+        $customer = Customer::find($purchase->customer_id);
+        if ($customer->customer_points >= 10) {
+            $coupons = Helper::discountCoupons($customer->customer_points);
+        }
         $customers_name = Customer::orderBy('name')->get();
         $button = 'Modifica acquisto';
-        return view('admin.purchases.create-edit', compact("title", "method", "purchase", "route", "button", "customers_name", "customer_selected"));
+        return view('admin.purchases.create-edit', compact("title", "method", "purchase", "route", "button", "customers_name", "customer_selected", "coupons"));
     }
 
     /**
