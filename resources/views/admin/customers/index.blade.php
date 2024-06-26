@@ -7,18 +7,32 @@
             <thead class="table-success">
                 <tr>
                     <th scope="col">
-                        ID
+                        <a class="text-decoration-none text-black"
+                            href="{{ route('admin.order-by', ['direction' => $direction, 'column' => 'id']) }}">ID
+                            <i class="fa-solid fa-sort"></i></a>
                     </th>
                     <th scope="col">
                         <a class="text-decoration-none text-black"
                             href="{{ route('admin.order-by', ['direction' => $direction, 'column' => 'name']) }}">Nome
-                            cliente</a>
+                            cliente <i class="fa-solid fa-sort"></i></a>
                     </th>
                     <th scope="col">
                         Email
                     </th>
                     <th scope="col">
                         Telefono
+                    </th>
+                    <th scope="col">
+                        <a class="text-decoration-none text-black"
+                            href="{{ route('admin.order-by', ['direction' => $direction, 'column' => 'customer_points']) }}">Punti
+                            Disponibili <i class="fa-solid fa-sort"></i>
+                        </a>
+                    </th>
+                    <th scope="col">
+                        <a class="text-decoration-none text-black"
+                            href="{{ route('admin.order-by', ['direction' => $direction, 'column' => 'total_spent']) }}">Totale
+                            Spesa <i class="fa-solid fa-sort"></i>
+                        </a>
                     </th>
                     <th scope="col">
                         Azioni
@@ -32,6 +46,8 @@
                         <td><a href="{{ route('admin.customers.show', $customer) }}">{{ $customer->name }}</a></td>
                         <td>{{ $customer->email }}</td>
                         <td>{{ $customer?->phone ?? '-' }}</td>
+                        <td>{{ $customer?->customer_points ?? '-' }}</td>
+                        <td>{{ $customer?->total_spent ?? '0' }} €</td>
                         <td class="text-center">
                             <a href="{{ route('admin.customers.edit', $customer) }}" class="btn btn-warning">
                                 <i class="fa-solid fa-pencil "></i>
