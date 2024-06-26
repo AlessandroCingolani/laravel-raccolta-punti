@@ -16,6 +16,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
+        // default order by expenses customers amount
         $customers = Customer::leftJoin('purchases', 'purchases.customer_id', '=', 'customers.id')
             ->select('customers.*', DB::raw('SUM(purchases.amount) as total_spent'))
             ->groupBy('customers.id', 'customers.name', 'customers.email', 'customers.phone', 'customers.customer_points', 'customers.created_at', 'customers.updated_at')
@@ -25,7 +26,7 @@ class CustomerController extends Controller
         return view("admin.customers.index", compact('customers', 'direction'));
     }
 
-    // Order Customer
+    // Order Customer for col and direction
     public function orderBy($direction, $column)
     {
         $direction = $direction == 'desc' ? 'asc' : 'desc';
