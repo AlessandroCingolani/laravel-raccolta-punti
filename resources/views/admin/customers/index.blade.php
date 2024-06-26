@@ -1,6 +1,9 @@
+<?php
+use App\Functions\Helper;
+?>
 @extends('layouts.admin')
 @section('content')
-    <h2>Customers</h2>
+    <h2>Lista clienti</h2>
     @dump($customers)
     <div class="container p-2">
         <table class="table table-bordered border-success">
@@ -46,7 +49,9 @@
                         <td><a href="{{ route('admin.customers.show', $customer) }}">{{ $customer->name }}</a></td>
                         <td>{{ $customer->email }}</td>
                         <td>{{ $customer?->phone ?? '-' }}</td>
-                        <td>{{ $customer?->customer_points ?? '-' }}</td>
+                        <td>{{ $customer?->customer_points ?? '-' }}
+                            {{ $customer->customer_points >= 10 ? 'Coupon disponibili ' . Helper::discountCoupons($customer->customer_points) : 'Nessun coupon disponibile' }}
+                        </td>
                         <td>{{ $customer?->total_spent ?? '0' }} €</td>
                         <td class="text-center">
                             <a href="{{ route('admin.customers.edit', $customer) }}" class="btn btn-warning">
