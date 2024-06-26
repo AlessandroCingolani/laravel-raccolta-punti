@@ -23,6 +23,7 @@ class CustomerController extends Controller
             ->orderBy('total_spent', 'desc')
             ->paginate(10);
         $direction = 'desc';
+        $coupons = 0;
         return view("admin.customers.index", compact('customers', 'direction'));
     }
 
