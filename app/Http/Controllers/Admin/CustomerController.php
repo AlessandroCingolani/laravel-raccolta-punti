@@ -17,8 +17,8 @@ class CustomerController extends Controller
     public function index()
     {
         // default order by expenses customers amount
-        $customers = Customer::leftJoin('purchases', 'purchases.customer_id', '=', 'customers.id')
-            ->select('customers.*', DB::raw('SUM(purchases.amount) as total_spent'))
+        $customers = Customer::select('customers.*', DB::raw('SUM(purchases.amount) as total_spent'))
+            ->leftJoin('purchases', 'purchases.customer_id', '=', 'customers.id')
             ->groupBy('customers.id', 'customers.name', 'customers.email', 'customers.phone', 'customers.customer_points', 'customers.created_at', 'customers.updated_at')
             ->orderBy('total_spent', 'desc')
             ->paginate(10);
@@ -30,8 +30,8 @@ class CustomerController extends Controller
     public function orderBy($direction, $column)
     {
         $direction = $direction == 'desc' ? 'asc' : 'desc';
-        $customers = Customer::leftJoin('purchases', 'purchases.customer_id', '=', 'customers.id')
-            ->select('customers.*', DB::raw('SUM(purchases.amount) as total_spent'))
+        $customers = Customer::select('customers.*', DB::raw('SUM(purchases.amount) as total_spent'))
+            ->leftJoin('purchases', 'purchases.customer_id', '=', 'customers.id')
             ->groupBy('customers.id', 'customers.name', 'customers.email', 'customers.phone', 'customers.customer_points', 'customers.created_at', 'customers.updated_at')
             ->orderBy($column, $direction)
             ->paginate(10);
