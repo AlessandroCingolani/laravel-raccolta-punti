@@ -96,6 +96,8 @@ class CustomerController extends Controller
     public function update(CustomerRequest $request, Customer $customer)
     {
         $form_data = $request->all();
+        // camel case name from form
+        $form_data['name'] = ucwords($form_data['name']);
         $customer->update($form_data);
 
 
