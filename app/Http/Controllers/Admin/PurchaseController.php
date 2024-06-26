@@ -28,13 +28,17 @@ class PurchaseController extends Controller
     public function clientPurchase($id)
     {
         $customer_selected = Customer::find($id);
+        $coupons = 0;
+        if ($customer_selected->customer_points >= 10) {
+            $coupons = Helper::discountCoupons($customer_selected->customer_points);
+        }
         $title = "Aggiungi acquisto";
         $method = "POST";
         $route = route("admin.purchases.store");
         $purchase = null;
         $customers_name = Customer::orderBy('name')->get();
         $button = 'Aggiungi nuovo acquisto';
-        return view('admin.purchases.create-edit', compact("title", "method", "purchase", "route", "button", "customers_name", "customer_selected"));
+        return view('admin.purchases.create-edit', compact("title", "method", "purchase", "route", "button", "customers_name", "customer_selected", "coupons"));
     }
 
 
@@ -66,7 +70,7 @@ class PurchaseController extends Controller
 
         // take point to add at purchase
         $points_earned = Helper::generatePoints($request['amount']);
-        dump($points_earned);
+
 
         // create purchase
         $form_data = [
