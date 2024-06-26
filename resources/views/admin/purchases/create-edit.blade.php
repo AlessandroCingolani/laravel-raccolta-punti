@@ -15,6 +15,7 @@
         @dump(old('name', $purchase?->customer))
         @dump(old('name', $purchase?->customer_id))
         @dump($customer_selected)
+        @dump($coupons)
         <div class="row">
             <div class="col-4">
                 {{-- TODO: style --}}
