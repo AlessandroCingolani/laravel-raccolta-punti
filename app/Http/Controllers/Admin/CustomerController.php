@@ -59,6 +59,8 @@ class CustomerController extends Controller
     public function store(CustomerRequest $request)
     {
         $form_data = $request->all();
+        // camel case name from form
+        $form_data['name'] = ucwords($form_data['name']);
         $new_customer = Customer::create($form_data);
 
         return redirect()->route('admin.customers.show', $new_customer);
