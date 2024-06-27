@@ -40,7 +40,9 @@ Route::middleware(['auth', 'verified'])
 
         // route custome
         Route::get('customers/{direction}/{column}', [CustomerController::class, 'orderBy'])->name('order-by');
-        Route::get('purchases/create/{id}', [PurchaseController::class, 'clientPurchase'])->name('selected-client');
+
+
+        // Route::get('purchases/create/{id}', [PurchaseController::class, 'clientPurchase'])->name('selected-client');
     });
 
 require __DIR__ . '/auth.php';
