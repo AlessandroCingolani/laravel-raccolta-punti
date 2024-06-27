@@ -103,6 +103,8 @@ class PurchaseController extends Controller
      */
     public function edit(Purchase $purchase)
     {
+
+        // TODO: fix quando editi e cambi la persona che ha fatto l acquisto il saldo totale rimane giusto ma i punti non vengono spostati da il precedente a quello nuovo, quindi se cambi all' edit il cliente di quel pagamento modifica soltanto il totale degli acquisti. Necessita un controllo sull id dell utente se cambia di fare un passaggio di punti con eventuali controlli
         $title = "Modifica acquisto";
         $method = "PUT";
         $route = route("admin.purchases.update", $purchase);
