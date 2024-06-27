@@ -24,35 +24,35 @@ class PurchaseController extends Controller
 
 
 
-    // function custome route from show customer at create new purchase
-    public function clientPurchase($id)
-    {
-        $customer_selected = Customer::find($id);
-        $coupons = 0;
-        if ($customer_selected->customer_points >= 10) {
-            $coupons = Helper::discountCoupons($customer_selected->customer_points);
-        }
-        $title = "Aggiungi acquisto";
-        $method = "POST";
-        $route = route("admin.purchases.store");
-        $purchase = null;
-        $customers_name = Customer::orderBy('name')->get();
-        $button = 'Aggiungi nuovo acquisto';
-        return view('admin.purchases.create-edit', compact("title", "method", "purchase", "route", "button", "customers_name", "customer_selected", "coupons"));
-    }
+    // // function custome route from show customer at create new purchase
+    // public function clientPurchase($id)
+    // {
+    //     $customer_selected = Customer::find($id);
+    //     $coupons = 0;
+    //     if ($customer_selected->customer_points >= 10) {
+    //         $coupons = Helper::discountCoupons($customer_selected->customer_points);
+    //     }
+    //     $title = "Aggiungi acquisto";
+    //     $method = "POST";
+    //     $route = route("admin.purchases.store");
+    //     $purchase = null;
+    //     $customers_name = Customer::orderBy('name')->get();
+    //     $button = 'Aggiungi nuovo acquisto';
+    //     return view('admin.purchases.create-edit', compact("title", "method", "purchase", "route", "button", "customers_name", "customer_selected", "coupons"));
+    // }
 
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
+        $customer_selected = !is_null($request['id']) ? Customer::find($request['id']) : null;
+        $coupons = $customer_selected?->customer_points >= 10 ? Helper::discountCoupons($customer_selected->customer_points) : 0;
         $title = "Aggiungi acquisto";
         $method = "POST";
         $route = route("admin.purchases.store");
         $purchase = null;
-        $coupons = 0;
-        $customer_selected = null;
         $customers_name = Customer::orderBy('name')->get();
         $button = 'Aggiungi nuovo acquisto';
         return view('admin.purchases.create-edit', compact("title", "method", "purchase", "route", "button", "customers_name", "customer_selected", "coupons"));
