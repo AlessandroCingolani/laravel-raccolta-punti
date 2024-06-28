@@ -68,6 +68,7 @@ class PurchaseController extends Controller
         // take id customer
         $customer_id = $request['id'];
 
+        //TODO: when arrive coupon key and value N coupons usage calc to update points
 
         // take point to add at purchase
         $points_earned = Helper::generatePoints($request['amount']);
