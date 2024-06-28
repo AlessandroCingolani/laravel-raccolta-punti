@@ -40,7 +40,7 @@ Route::middleware(['auth', 'verified'])
 
         // route custome
         Route::get('customers/{direction}/{column}', [CustomerController::class, 'orderBy'])->name('order-by');
-
+        Route::get('admin/search-customer', [CustomerController::class, 'searchCustomer'])->name('search-customer');
 
         // Route::get('purchases/create/{id}', [PurchaseController::class, 'clientPurchase'])->name('selected-client');
     });
