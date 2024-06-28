@@ -23,7 +23,7 @@
             <a href="{{ route('admin.customers.create') }}">Aggiungi nuovo cliente
             </a>
         </div>
-        <form action="{{ $route }}" method="POST" enctype="multipart/form-data">
+        <form id="form-purchase" action="{{ $route }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method($method)
             <div class="row justify-content-between">
@@ -58,19 +58,29 @@
                             <p class="text-danger">{{ $message }}</p>
                         @enderror
                     </div>
-
-                    <button type="submit" class="btn btn-primary">{{ $button }}</button>
+                    <button id="btn-submit" type="submit" class="btn btn-primary">{{ $button }}</button>
                     <button type="reset" class="btn btn-secondary">Annulla</button>
                 </div>
                 {{-- TODO: fare uno script che quando selezioni un coupon ti fa vedere lo sconto.
-                     controllare sempre quando cambia utente selezionato dovrei far in modo che si aggiorna la pagina con il nuovo cliente selezionato --}}
-                <div class="col-4">
-                    <h2>{{ $coupons > 0 ? (!is_null($customer_selected?->name) ? $customer_selected->name . ' ha ' . $coupons . ' coupons disponibili' : $purchase?->customer->name . ' ha ' . $coupons . ' coupons disponibili') : 'Il cliente non ha coupon da utilizzare' }}
-                    </h2>
-                    @if ($coupons > 0)
-                        <h3>Utilizza coupon</h3>
-                    @endif
-                </div>
+                     controllare sempre quando cambia utente selezionato dovrei far in modo che si aggiorna la
+                     pagina con il nuovo cliente selezionato --}}
+                @if (!isset($purchase))
+                    <div class="col-4">
+                        <h2>{{ $coupons > 0 ? (!is_null($customer_selected?->name) ? $customer_selected->name . ' ha ' . $coupons . ' coupons disponibili' : $purchase?->customer->name . ' ha ' . $coupons . ' coupons disponibili') : 'Il cliente non ha coupon da utilizzare' }}
+                        </h2>
+                        @if ($coupons > 0)
+                            <h3 id="section-coupon">Utilizza coupon</h3>
+                            <div class="btn btn-success" id="useCoupon">Utilizza buono sconto</div>
+                            <div id="customer-coupons" class="d-none">
+                                <select id="coupon-select" class="form-select" name="coupon" autocomplete="coupon"
+                                    type="text">
+                                </select>
+                                <div id="selected-discount"></div>
+                            </div>
+                        @endif
+                    </div>
+                @endif
+
 
             </div>
         </form>
@@ -78,6 +88,18 @@
 
     {{-- SCRIPT --}}
     <script>
+        // attributes
+        const VALUE_COUPON = 5;
+        let amount = document.getElementById('amount');
+        let customerSelected = document.getElementById('customer-select');
+        let sectionCoupon = document.getElementById('section-coupon');
+        let coustomerBlockCoupon = document.getElementById('selected-discount');
+        let couponsAvailable = @json($coupons);
+        // set initial amount with flag if no sette
+        let initialAmount = 0;
+        let initialAmountSet = false;
+
+
         // function at change select reedirect at route selected client
         document.getElementById('customer-select').addEventListener('change', function() {
             let customerId = this.value;
@@ -89,6 +111,78 @@
                 window.location.href = url;
             }
         });
+
+        // TODO: problem when no see coupon not work other functions edit i not display the coupon block
+        // checkbox to see coupon
+        document.getElementById('useCoupon').addEventListener('click', function() {
+            // retes when click btn use coupon
+            initialAmountSet = false;
+            coustomerBlockCoupon.innerHTML = "";
+            sectionCoupon.innerHTML = "";
+            // set initial value if no setted
+            if (!initialAmountSet) {
+                initialAmount = amount.value;
+                initialAmountSet = true;
+            }
+
+            if (amount.value > VALUE_COUPON) {
+                let coupons = document.getElementById('customer-coupons');
+                let selectCoupon = document.getElementById('coupon-select');
+                coupons.classList.toggle('d-none');
+                selectCoupon.innerHTML = "";
+                // if you select and toggle again reset the selection option
+                if (coupons.classList.contains('d-none')) {
+                    document.getElementById('coupon-select').selectedIndex = 0;
+                    // TODO: fix when toggle clean innerhtml values
+                }
+                amount.disabled = !amount.disabled;
+
+                selectCoupon.innerHTML += `<option value="">Quantità coupon utilizzabili</option>`
+                for (let i = 1; i <= getMaxCoupons(); i++) {
+                    selectCoupon.innerHTML += `<option value="${i}">${i} Coupon</option>`
+                }
+            } else {
+                sectionCoupon.innerHTML =
+                    `<p class="text-danger">Devi inserire un'importo maggiore di ${VALUE_COUPON}€</p>`
+            }
+
+        });
+
+        // click select coupon
+        document.getElementById('coupon-select').addEventListener('change', function() {
+            coustomerBlockCoupon.innerHTML = "";
+            let selectedCoupon = this.value;
+            coustomerBlockCoupon.innerHTML +=
+                `<div class="card">Lo sconto selezionato è di : ${ selectedCoupon * VALUE_COUPON }€</div>`;
+            amount.value = initialAmount - (selectedCoupon * VALUE_COUPON);
+        });
+
+        // TODO: custome btn reset
+
+
+        // submit btn prevent and take off
+        document.getElementById('btn-submit').addEventListener('click', (event) => {
+            event.preventDefault();
+            console.log(customerSelected);
+            customerSelected.disabled = false;
+            amount.disabled = false;
+            document.getElementById('form-purchase').submit();
+        });
+
+
+
+        // function to calculate de max utilizable coupons
+        function getMaxCoupons() {
+            let price = parseFloat(amount.value);
+            let discountMax = price / 2;
+
+
+            // take max coupon for the max discount value
+            let maxCoupons = Math.floor(discountMax / VALUE_COUPON);
+
+
+            return Math.min(maxCoupons, couponsAvailable);
+        }
     </script>
 
 
