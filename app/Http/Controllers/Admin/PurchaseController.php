@@ -68,7 +68,6 @@ class PurchaseController extends Controller
         // take id customer
         $customer_id = $request['id'];
 
-        //TODO: when arrive coupon key and value N coupons usage calc to update points
 
         // take point to add at purchase
         $points_earned = Helper::generatePoints($request['amount']);
@@ -84,10 +83,18 @@ class PurchaseController extends Controller
         $customer = Customer::find($customer_id);
         $new_purchase = Purchase::create($form_data);
 
+
+
         // update column customer points if point earned > 0
         if ($points_earned > 0) {
             $customer->update(array('customer_points' => ($customer->customer_points + $points_earned)));
         }
+
+        //TODO: when arrive coupon key and value N coupons usage calc to update points
+        if (isset($request['coupon'])) {
+            $customer->update(array('customer_points' => ($customer->customer_points - Helper::couponToPoints($request['coupon']))));
+        }
+
         return redirect()->route('admin.customers.show', $customer_id);
     }
 
