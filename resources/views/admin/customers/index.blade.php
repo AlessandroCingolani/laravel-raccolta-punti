@@ -49,7 +49,7 @@ use App\Functions\Helper;
                             <td><a href="{{ route('admin.customers.show', $customer) }}">{{ $customer->name }}</a></td>
                             <td>{{ $customer->email }}</td>
                             <td>{{ $customer?->phone ?? '-' }}</td>
-                            <td>{{ $customer?->customer_points ?? '-' }}
+                            <td>Punti :{{ $customer?->customer_points ?? '-' }} -
                                 {{ $customer->customer_points >= 10 ? 'Coupon disponibili: ' . Helper::discountCoupons($customer->customer_points) : 'Nessun coupon disponibile' }}
                             </td>
                             <td>{{ $customer?->total_spent ?? '0' }} €</td>
