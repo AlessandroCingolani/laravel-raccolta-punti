@@ -48,7 +48,7 @@ class CustomerController extends Controller
             ->leftJoin('purchases', 'purchases.customer_id', '=', 'customers.id')
             ->groupBy('customers.id', 'customers.name', 'customers.email', 'customers.phone', 'customers.customer_points', 'customers.created_at', 'customers.updated_at')
             ->where('name', 'LIKE', '%' . $request['tosearch'] . '%')
-            ->paginate(10);
+            ->paginate(50); // TODO: need fix when search the link paginator refresh the results and broke the research
         return view('admin.customers.index', compact('customers', 'direction'));
     }
 
