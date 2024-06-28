@@ -12,10 +12,8 @@
 
             </div>
         @endif
-        @dump(old('name', $purchase?->customer))
-        @dump(old('name', $purchase?->customer_id))
 
-        @dump($customers_name)
+
         @dump($customer_selected)
         @dump($coupons)
         {{-- TODO: style --}}
