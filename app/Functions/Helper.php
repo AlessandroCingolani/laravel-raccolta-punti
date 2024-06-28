@@ -14,6 +14,12 @@ class Helper
         return floor($price / self::MONEY_FOR_POINT);
     }
 
+    // convert coupon into point
+    public static function couponToPoints($coupons)
+    {
+        return $coupons * self::MONEY_FOR_POINT;
+    }
+
     // take create at and formatted italian display d/m/y
     public static function formatDate($date)
     {
