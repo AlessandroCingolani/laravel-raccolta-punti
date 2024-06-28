@@ -13,7 +13,6 @@
             </div>
         @endif
 
-
         @dump($customer_selected)
         @dump($coupons)
         {{-- TODO: style --}}
@@ -59,12 +58,10 @@
                     <button id="btn-submit" type="submit" class="btn btn-primary">{{ $button }}</button>
                     <button type="reset" class="btn btn-secondary">Annulla</button>
                 </div>
-                {{-- TODO: fare uno script che quando selezioni un coupon ti fa vedere lo sconto.
-                     controllare sempre quando cambia utente selezionato dovrei far in modo che si aggiorna la
-                     pagina con il nuovo cliente selezionato --}}
+
                 @if (!isset($purchase))
                     <div class="col-4">
-                        <h2>{{ $coupons > 0 ? (!is_null($customer_selected?->name) ? $customer_selected->name . ' ha ' . $coupons . ' coupons disponibili' : $purchase?->customer->name . ' ha ' . $coupons . ' coupons disponibili') : 'Il cliente non ha coupon da utilizzare' }}
+                        <h2>{{ !is_null($customer_selected?->name) ? ($coupons > 0 ? $customer_selected->name . ' ha ' . $coupons . ' coupons disponibili' : $customer_selected->name . ' non ha coupon') : '' }}
                         </h2>
                         @if ($coupons > 0)
                             <h3 id="section-coupon">Utilizza coupon</h3>
