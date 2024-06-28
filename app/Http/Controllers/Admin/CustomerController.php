@@ -39,6 +39,19 @@ class CustomerController extends Controller
         return view('admin.customers.index', compact('customers', 'direction'));
     }
 
+    // Customers research input header
+
+    public function searchCustomer(Request $request)
+    {
+        $direction = 'desc';
+        $customers = Customer::select('customers.*', DB::raw('SUM(purchases.amount) as total_spent'))
+            ->leftJoin('purchases', 'purchases.customer_id', '=', 'customers.id')
+            ->groupBy('customers.id', 'customers.name', 'customers.email', 'customers.phone', 'customers.customer_points', 'customers.created_at', 'customers.updated_at')
+            ->where('name', 'LIKE', '%' . $request['tosearch'] . '%')
+            ->paginate(10);
+        return view('admin.customers.index', compact('customers', 'direction'));
+    }
+
 
     /**
      * Show the form for creating a new resource.

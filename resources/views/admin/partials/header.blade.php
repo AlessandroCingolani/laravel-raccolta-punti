@@ -19,6 +19,18 @@
                     </li>
                 </ul>
 
+
+
+                {{-- search client bar --}}
+                <form method="GET" action="{{ route('admin.search-customer') }}" class="input-group">
+                    <input type="text" class="form-control" placeholder="Ricerca cliente"
+                        aria-label="Ricerca cliente" aria-describedby="button-addon2" name="tosearch" id="tosearch">
+                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Button</button>
+                </form>
+
+
+
+
                 <!-- Right Side Of Navbar -->
                 <ul class="navbar-nav ml-auto">
                     <!-- Authentication Links -->
@@ -57,5 +69,6 @@
             </div>
         </div>
     </nav>
+
 
 </header>
