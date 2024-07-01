@@ -47,8 +47,11 @@ class PurchaseController extends Controller
      */
     public function create(Request $request)
     {
+        // take if is not null customer from the request else null
         $customer_selected = !is_null($request['id']) ? Customer::find($request['id']) : null;
+        // take coupoms if 10 points use helper to generate how many coupons else 0 coupons
         $coupons = $customer_selected?->customer_points >= 10 ? Helper::discountCoupons($customer_selected->customer_points) : 0;
+
         $title = "Aggiungi acquisto";
         $method = "POST";
         $route = route("admin.purchases.store");
