@@ -56,7 +56,7 @@
                         @enderror
                     </div>
                     <button id="btn-submit" type="submit" class="btn btn-primary">{{ $button }}</button>
-                    <button type="reset" class="btn btn-secondary">Annulla</button>
+                    <button id="btn-reset" type="reset" class="btn btn-secondary">Annulla</button>
                 </div>
 
                 @if (!isset($purchase))
@@ -89,7 +89,12 @@
         let customerSelected = document.getElementById('customer-select');
         let sectionCoupon = document.getElementById('section-coupon');
         let coustomerBlockCoupon = document.getElementById('selected-discount');
+        let coupons = document.getElementById('customer-coupons');
         let couponsAvailable = @json($coupons);
+
+        // if exist coupon attribute or take value null
+        const USE_COUPON = document.getElementById('useCoupon');
+
         // set initial amount with flag if no sette
         let initialAmount = 0;
         let initialAmountSet = false;
@@ -107,53 +112,60 @@
             }
         });
 
-        // TODO: problem when no see coupon not work other functions edit i not display the coupon block
-        // checkbox to see coupon
-        document.getElementById('useCoupon').addEventListener('click', function() {
-            // retes when click btn use coupon
-            initialAmountSet = false;
-            coustomerBlockCoupon.innerHTML = "";
-            sectionCoupon.innerHTML = "";
-            // set initial value if no setted
-            if (!initialAmountSet) {
-                initialAmount = amount.value;
-                initialAmountSet = true;
-            }
-
-            if (amount.value >= VALUE_COUPON * 2) {
-                let coupons = document.getElementById('customer-coupons');
-                let selectCoupon = document.getElementById('coupon-select');
-                coupons.classList.toggle('d-none');
-                selectCoupon.innerHTML = "";
-                // if you select and toggle again reset the selection option
-                if (coupons.classList.contains('d-none')) {
-                    document.getElementById('coupon-select').selectedIndex = 0;
-                    // TODO: fix when toggle clean innerhtml values
+        // if USE_COUPON is setted add functions to use coupons
+        // btn to see coupon
+        if (USE_COUPON) {
+            USE_COUPON.addEventListener('click', function() {
+                // retes when click btn use coupon
+                initialAmountSet = false;
+                coustomerBlockCoupon.innerHTML = "";
+                sectionCoupon.innerHTML = "";
+                // set initial value if no setted
+                if (!initialAmountSet) {
+                    initialAmount = amount.value;
+                    initialAmountSet = true;
                 }
-                amount.disabled = !amount.disabled;
 
-                selectCoupon.innerHTML += `<option value="">Quantità coupon utilizzabili</option>`
-                for (let i = 1; i <= getMaxCoupons(); i++) {
-                    selectCoupon.innerHTML += `<option value="${i}">${i} Coupon</option>`
+                if (amount.value >= VALUE_COUPON * 2) {
+                    let selectCoupon = document.getElementById('coupon-select');
+                    coupons.classList.toggle('d-none');
+                    selectCoupon.innerHTML = "";
+                    // if you select and toggle again reset the selection option
+                    if (coupons.classList.contains('d-none')) {
+                        document.getElementById('coupon-select').selectedIndex = 0;
+                        // TODO: fix when toggle clean innerhtml values
+                    }
+                    amount.disabled = !amount.disabled;
+
+                    selectCoupon.innerHTML += `<option value="">Quantità coupon utilizzabili</option>`
+                    for (let i = 1; i <= getMaxCoupons(); i++) {
+                        selectCoupon.innerHTML += `<option value="${i}">${i} Coupon</option>`
+                    }
+                } else {
+                    sectionCoupon.innerHTML =
+                        `<p class="text-danger"> È necessario inserire un importo di almeno<br> ${VALUE_COUPON * 2}€</p>`
                 }
-            } else {
-                sectionCoupon.innerHTML =
-                    `<p class="text-danger"> È necessario inserire un importo di almeno<br> ${VALUE_COUPON * 2}€</p>`
-            }
 
+            });
+            // click select coupon
+            document.getElementById('coupon-select').addEventListener('change', function() {
+                coustomerBlockCoupon.innerHTML = "";
+                let selectedCoupon = this.value;
+                coustomerBlockCoupon.innerHTML +=
+                    `<div class="card">Lo sconto selezionato è di : ${ selectedCoupon * VALUE_COUPON }€</div>`;
+                amount.value = initialAmount - (selectedCoupon * VALUE_COUPON);
+            });
+
+        }
+
+
+        // custome btn reset
+        document.getElementById('btn-reset').addEventListener('click', (event) => {
+            event.preventDefault();
+            amount.disabled = false;
+            amount.value = "";
+            coupons.classList.add('d-none');
         });
-
-        // click select coupon
-        document.getElementById('coupon-select').addEventListener('change', function() {
-            coustomerBlockCoupon.innerHTML = "";
-            let selectedCoupon = this.value;
-            coustomerBlockCoupon.innerHTML +=
-                `<div class="card">Lo sconto selezionato è di : ${ selectedCoupon * VALUE_COUPON }€</div>`;
-            amount.value = initialAmount - (selectedCoupon * VALUE_COUPON);
-        });
-
-        // TODO: custome btn reset
-
 
         // submit btn prevent and take off
         document.getElementById('btn-submit').addEventListener('click', (event) => {
