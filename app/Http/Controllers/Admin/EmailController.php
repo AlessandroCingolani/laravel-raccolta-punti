@@ -43,7 +43,7 @@ class EmailController extends Controller
         // Create Lead and fill with datas from input
         $new_lead = new Lead();
         $new_lead->name = $data['name'];
-        $new_lead->name = $data['email'];
+        $new_lead->email = $data['email'];
         $new_lead->customer_points = Helper::discountCoupons($data['customer_points']) > 0 ? Helper::discountCoupons($data['customer_points']) : 0;
 
 
