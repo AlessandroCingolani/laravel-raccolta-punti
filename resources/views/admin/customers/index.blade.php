@@ -4,6 +4,21 @@ use App\Functions\Helper;
 @extends('layouts.admin')
 @section('content')
     <div class="container-fluid p-5">
+        @if (session('success'))
+            <div class="alert alert-success mt-3" role="alert">
+                {{ session('success') }}
+            </div>
+        @endif
+        @if ($errors->any())
+            <div class="alert alert-danger" role="alert">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+
+            </div>
+        @endif
         @if (count($customers) > 0)
             <h2>Lista clienti</h2>
             <table class="table table-bordered border-success">
@@ -65,6 +80,15 @@ use App\Functions\Helper;
                                     <button type="submit" class="btn btn-danger">
                                         <i class="fa-regular fa-trash-can"></i>
                                     </button>
+                                </form>
+                                {{-- Send email form with hidden values --}}
+                                <form id="emailForm" action="{{ route('admin.send-email') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" id="name" name="name" value="{{ $customer->name }}">
+                                    <input type="hidden" id="email" name="email" value="{{ $customer->email }}">
+                                    <input type="hidden" id="customer_points" name="customer_points"
+                                        value="{{ $customer->customer_points }}">
+                                    <button type="submit" class="btn btn-primary">Invia Email</button>
                                 </form>
                             </td>
                         </tr>
