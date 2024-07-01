@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\EmailController;
 use App\Http\Controllers\Admin\PurchaseController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -41,6 +42,8 @@ Route::middleware(['auth', 'verified'])
         // route custome
         Route::get('customers/{direction}/{column}', [CustomerController::class, 'orderBy'])->name('order-by');
         Route::get('admin/search-customer', [CustomerController::class, 'searchCustomer'])->name('search-customer');
+        // send email route
+        Route::post('/send-email', [EmailController::class, 'send'])->name('send-email');
 
         // Route::get('purchases/create/{id}', [PurchaseController::class, 'clientPurchase'])->name('selected-client');
     });
