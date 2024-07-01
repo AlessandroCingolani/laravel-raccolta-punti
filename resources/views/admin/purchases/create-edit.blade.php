@@ -65,7 +65,7 @@
                         </h2>
                         @if ($coupons > 0)
                             <h3 id="section-coupon">Utilizza coupon</h3>
-                            <div class="btn btn-success" id="useCoupon">Utilizza buono sconto</div>
+                            <div class="btn btn-success" id="useCoupon">Seleziona buono sconto</div>
                             <div id="customer-coupons" class="d-none">
                                 <select id="coupon-select" class="form-select" name="coupon" autocomplete="coupon"
                                     type="text">
@@ -120,7 +120,7 @@
                 initialAmountSet = true;
             }
 
-            if (amount.value > VALUE_COUPON) {
+            if (amount.value >= VALUE_COUPON * 2) {
                 let coupons = document.getElementById('customer-coupons');
                 let selectCoupon = document.getElementById('coupon-select');
                 coupons.classList.toggle('d-none');
@@ -138,7 +138,7 @@
                 }
             } else {
                 sectionCoupon.innerHTML =
-                    `<p class="text-danger">Devi inserire un'importo maggiore di ${VALUE_COUPON}€</p>`
+                    `<p class="text-danger"> È necessario inserire un importo di almeno<br> ${VALUE_COUPON * 2}€</p>`
             }
 
         });
