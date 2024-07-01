@@ -9,7 +9,7 @@ use App\Models\Purchase;
 use Illuminate\Http\Request;
 use Illuminate\Mail\Mailables\Content;
 use App\Functions\Helper;
-
+use Carbon\Carbon;
 
 class PurchaseController extends Controller
 {
@@ -18,28 +18,30 @@ class PurchaseController extends Controller
      */
     public function index()
     {
-        $purchases = Purchase::orderBy('id', 'desc')->paginate(20);
+        // Today
+        $today = Carbon::now();
+
+        // Calc period of interest
+        if ($today->day >= 12) {
+            // From 12 november of this year
+            $startDate = Carbon::create($today->year, 11, 12, 0, 0, 0);
+            // At 11 november of next year
+            $endDate = Carbon::create($today->year + 1, 11, 11, 23, 59, 59);
+        } else {
+            // From 12 november of last year
+            $startDate = Carbon::create($today->year - 1, 11, 12, 0, 0, 0);
+            // At 11 november of this year
+            $endDate = Carbon::create($today->year, 11, 11, 23, 59, 59);
+        }
+
+        $purchases = Purchase::with('customer')
+            ->orderBy('id', 'desc')
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->paginate(5);
         return view('admin.purchases.index', compact('purchases'));
     }
 
 
-
-    // // function custome route from show customer at create new purchase
-    // public function clientPurchase($id)
-    // {
-    //     $customer_selected = Customer::find($id);
-    //     $coupons = 0;
-    //     if ($customer_selected->customer_points >= 10) {
-    //         $coupons = Helper::discountCoupons($customer_selected->customer_points);
-    //     }
-    //     $title = "Aggiungi acquisto";
-    //     $method = "POST";
-    //     $route = route("admin.purchases.store");
-    //     $purchase = null;
-    //     $customers_name = Customer::orderBy('name')->get();
-    //     $button = 'Aggiungi nuovo acquisto';
-    //     return view('admin.purchases.create-edit', compact("title", "method", "purchase", "route", "button", "customers_name", "customer_selected", "coupons"));
-    // }
 
 
     /**
@@ -162,6 +164,7 @@ class PurchaseController extends Controller
     public function destroy(Purchase $purchase)
     {
         $customer = Customer::find($purchase->customer_id);
+        // TODO: quando cancelli un pagamento e hai usato i punti ti toglie
         $customer->update(array('customer_points' => ($customer->customer_points - $purchase->points_earned)));
         $purchase->delete();
         return redirect()->route('admin.purchases.index')->with('success', 'Acquisto eliminato con successo');
