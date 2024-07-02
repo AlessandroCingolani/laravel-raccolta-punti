@@ -23,7 +23,7 @@ class CustomerRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'min:2', 'max:50'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255']
+            'email' => ['required', 'unique:customers,email', 'string', 'lowercase', 'email', 'max:255']
         ];
     }
 
@@ -34,6 +34,7 @@ class CustomerRequest extends FormRequest
             "name.max" => "Il nome deve essere massimo :max caratteri",
             "name.min" => "Il nome deve avere minimo :min caratteri",
             "email.required" => "L'email è un campo obbligatorio.",
+            "email.unique" => "L'email è già stata utilizzata.",
             "email.max" => "L'email deve essere massimo :max caratteri",
             "email.email" => "L'email deve essere valida!",
         ];
