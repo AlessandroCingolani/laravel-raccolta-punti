@@ -36,8 +36,7 @@ class EmailController extends Controller
         );
         if ($validator->fails()) {
             $errors = $validator->errors();
-            dd($errors);
-            return redirect()->route('admin.customers.index')->with($errors);
+            return redirect()->route('admin.customers.index')->withErrors($errors);
         }
 
         // Create Lead and fill with datas from input
