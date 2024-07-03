@@ -7,6 +7,7 @@ use App\Http\Requests\CustomerRequest;
 use App\Models\Customer;
 use App\Models\Purchase;
 use Illuminate\Http\Request;
+use App\Functions\Helper;
 use Illuminate\Support\Facades\DB;
 
 class CustomerController extends Controller
@@ -85,8 +86,9 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer)
     {
-        $amount = Purchase::where('customer_id', $customer->id)->sum('amount');
-        $purchases = Purchase::where('customer_id', $customer->id)->orderBy('id', 'desc')->get();
+
+        $amount = Purchase::where('customer_id', $customer->id)->whereBetween('created_at', Helper::getReferencePeriod())->sum('amount');
+        $purchases = Purchase::where('customer_id', $customer->id)->orderBy('id', 'desc')->whereBetween('created_at', Helper::getReferencePeriod())->get();
         return view('admin.customers.show', compact('customer', 'purchases', 'amount'));
     }
 
