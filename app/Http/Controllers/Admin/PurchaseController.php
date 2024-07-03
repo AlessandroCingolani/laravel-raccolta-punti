@@ -18,25 +18,10 @@ class PurchaseController extends Controller
      */
     public function index()
     {
-        // Today
-        $today = Carbon::now();
-
-        // Calc period of interest
-        if ($today->day >= 12) {
-            // From 12 november of this year
-            $startDate = Carbon::create($today->year, 11, 12, 0, 0, 0);
-            // At 11 november of next year
-            $endDate = Carbon::create($today->year + 1, 11, 11, 23, 59, 59);
-        } else {
-            // From 12 november of last year
-            $startDate = Carbon::create($today->year - 1, 11, 12, 0, 0, 0);
-            // At 11 november of this year
-            $endDate = Carbon::create($today->year, 11, 11, 23, 59, 59);
-        }
 
         $purchases = Purchase::with('customer')
             ->orderBy('id', 'desc')
-            ->whereBetween('created_at', [$startDate, $endDate])
+            ->whereBetween('created_at', Helper::getReferencePeriod())
             ->paginate(5);
         return view('admin.purchases.index', compact('purchases'));
     }
