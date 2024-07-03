@@ -1,22 +1,26 @@
 @import '~bootstrap/scss/bootstrap';
 
 // Sass variables
-$height-nav-bar: 60px;
+$height-header: 60px;
 $width-aside:200px;
+$width-small-aside :60px;
 $color-aside:pink;
 $color-link-aside:white;
 $active-route-color:yellow;
 $color-main:rgba($color-aside,0.3);
 
 
-nav {
-    height: $height-nav-bar;
+header {
+    height: $height-header;
+    nav {
+        height: 100%;
+    }
 }
 
 aside {
     background-color:$color-aside ;
     width : $width-aside;
-    height: calc(100vh - $height-nav-bar);
+    height: calc(100vh - $height-header);
     ul {
         list-style: none;
         .active {
@@ -28,10 +32,13 @@ aside {
             color: $color-link-aside;
         }
     }
+    @media screen and (max-width: 767px) {
+        width: $width-small-aside;
+    }
 }
 
 main {
-    height: calc(100vh -  $height-nav-bar);
+    height: calc(100vh -  $height-header);
     background-color:$color-main ;
     table {
         tr {
