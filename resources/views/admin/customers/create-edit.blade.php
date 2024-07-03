@@ -16,7 +16,7 @@
             </div>
         @endif
         <div class="row">
-            <div class="col-4">
+            <div class="col-md-8 col-lg-4">
                 <form action="{{ $route }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method($method)
