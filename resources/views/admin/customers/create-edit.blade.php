@@ -42,9 +42,11 @@
 
                     <div class="mb-3">
                         <label for="phone" class="form-label">Telefono Cliente </label>
-                        <input id="phone" class="form-control" name= "phone"
+                        <input id="phone" class="form-control @error('phone') is-invalid @enderror" name= "phone"
                             value="{{ old('phone', $customer?->phone) }}" autocomplete="phone" type="text">
-
+                        @error('phone')
+                            <p class="text-danger">{{ $message }}</p>
+                        @enderror
                     </div>
 
 
