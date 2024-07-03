@@ -21,9 +21,12 @@ class CustomerRequest extends FormRequest
      */
     public function rules(): array
     {
+        // pass customer id to validate only unique different id if exist customer take id else null with ternary
+        $customerId = $this->route('customer') ? $this->route('customer')->id : null;
         return [
             'name' => ['required', 'string', 'min:2', 'max:50'],
-            'email' => ['required', 'unique:customers,email', 'string', 'lowercase', 'email', 'max:255']
+            'email' => ['required', 'unique:customers,email,' . $customerId, 'string', 'lowercase', 'email', 'max:255'],
+            'phone' => ['unique:customers,phone,' . $customerId, 'nullable', 'max:255'],
         ];
     }
 
@@ -37,6 +40,8 @@ class CustomerRequest extends FormRequest
             "email.unique" => "L'email è già stata utilizzata.",
             "email.max" => "L'email deve essere massimo :max caratteri",
             "email.email" => "L'email deve essere valida!",
+            "phone.unique" => "Il numero di telefono è già stato utilizzato.",
+
         ];
     }
 }
