@@ -92,6 +92,7 @@
         let coupons = document.getElementById('customer-coupons');
         let couponsAvailable = @json($coupons);
 
+
         // if exist coupon attribute or take value null
         const USE_COUPON = document.getElementById('useCoupon');
 
@@ -165,6 +166,7 @@
             amount.disabled = false;
             amount.value = "";
             coupons.classList.add('d-none');
+            coustomerBlockCoupon.innerHTML = "";
         });
 
         // submit btn prevent and take off
