@@ -15,8 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('name', 50);
             $table->string('email')->unique();
-            $table->string('phone', 20)->nullable();
+            $table->string('phone', 20)->unique()->nullable();
             $table->integer('customer_points')->default(0);
+            $table->string('address')->nullable();
+            $table->string('city')->nullable();
             $table->timestamps();
         });
     }
