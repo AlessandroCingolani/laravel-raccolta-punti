@@ -2,6 +2,8 @@
 use App\Functions\Helper;
 ?>
 @extends('layouts.admin')
+{{-- TODO: total spent only solar year --}}
+
 @section('content')
     <div class="container-fluid p-5">
         @if (session('success'))
@@ -62,7 +64,7 @@ use App\Functions\Helper;
                         <tr>
                             <td>{{ $customer->id }}</td>
                             <td><a href="{{ route('admin.customers.show', $customer) }}">{{ $customer->name }}</a></td>
-                            <td>{{ $customer->email }}</td>
+                            <td>{{ $customer?->email ?? '-' }}</td>
                             <td>{{ $customer?->phone ?? '-' }}</td>
                             <td>Punti :{{ $customer?->customer_points ?? '-' }} -
                                 {{ $customer->customer_points >= 10 ? 'Coupon disponibili: ' . Helper::discountCoupons($customer->customer_points) : 'Nessun coupon disponibile' }}
