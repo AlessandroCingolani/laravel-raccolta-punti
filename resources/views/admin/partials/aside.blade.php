@@ -24,7 +24,7 @@
 
     </ul>
 
-    <ul id="link-menu-sm" class="text-start py-3 px-4 d-md-none">
+    <ul id="link-menu-sm" class="text-center py-3 px-2 d-md-none">
         <li class="my-3">
             <a href="{{ route('dashboard') }}" @class(['active' => Route::is('dashboard')])>
                 <i class="fa-solid fa-house"></i></a>
