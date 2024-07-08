@@ -13,7 +13,7 @@ use App\Functions\Helper;
             <div class="card-body">
                 <div class="row mb-3">
 
-                    <div class="col-md-8">
+                    <div class="col-md-6">
                         <h4>Cliente: <span class="fs-3">{{ $customer->name }}</span></h4>
                         <p><strong>Email:</strong> {{ $customer?->email ?? 'Non disponibile' }}</p>
                         <p><strong>Telefono:</strong> {{ $customer->phone ?? 'Non disponibile' }}</p>
@@ -26,15 +26,44 @@ use App\Functions\Helper;
                                 €</span>
                         </p>
                     </div>
+                    @if (count($purchases) > 0)
+                        <div class="col-md-6">
+                            <h3>{{ count($purchases) === 1 ? 'Ultimo acquisto:' : 'Ultimi ' . count($purchases) . ' aquisti:' }}
+                            </h3>
+                            <ul>
+                                @foreach ($purchases as $purchase)
+                                    <li class="mb-2">ID: {{ $purchase->id }}
+                                        Data: {{ Helper::formatDate($purchase->created_at) }}
+                                        Importo: €{{ $purchase->amount }}
+                                        <a href="{{ route('admin.purchases.edit', $purchase) }}" class="btn btn-warning">
+                                            <i class="fa-solid fa-pencil "></i>
+                                        </a>
+                                        <form class="d-inline-block"
+                                            action="{{ route('admin.purchases.destroy', $purchase) }}" method="POST"
+                                            onsubmit=" return confirm('Sei sicuro di voler cancellare questo acquisto?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger">
+                                                <i class="fa-regular fa-trash-can"></i>
+                                            </button>
+                                        </form>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                 </div>
 
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <h3>Informazioni Aggiuntive</h3>
                         <p><strong>Città:</strong> {{ $customer->city ?? 'Non disponibile' }}</p>
                         <p><strong>Indirizzo:</strong> {{ $customer->address ?? 'Non disponibile' }}</p>
                         <p><strong>Data di Registrazione:</strong> {{ Helper::formatDate($customer->created_at) }}</p>
 
+                    </div>
+                    <div class="col-md-6">
+                        <h4>Stampa coupon cartaceo</h4>
                     </div>
                 </div>
 
@@ -56,15 +85,9 @@ use App\Functions\Helper;
                         </form>
                     </div>
                 </div>
+
             </div>
         </div>
-        {{--
-        <ul>
-            @forelse ($purchases as $purchase)
-                <li>ID:{{ $purchase->id }} Amount: €{{ $purchase->amount }}</li>
-            @empty
-                <li>Nessun acquisto</li>
-            @endforelse
-        </ul> --}}
+
     </div>
 @endsection

@@ -91,7 +91,7 @@ class CustomerController extends Controller
     {
 
         $amount = Purchase::where('customer_id', $customer->id)->whereBetween('created_at', Helper::getReferencePeriod())->sum('amount');
-        $purchases = Purchase::where('customer_id', $customer->id)->orderBy('id', 'desc')->whereBetween('created_at', Helper::getReferencePeriod())->get();
+        $purchases = Purchase::where('customer_id', $customer->id)->orderBy('id', 'desc')->whereBetween('created_at', Helper::getReferencePeriod())->take(3)->get();
         return view('admin.customers.show', compact('customer', 'purchases', 'amount'));
     }
 
