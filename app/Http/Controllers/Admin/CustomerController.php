@@ -20,6 +20,7 @@ class CustomerController extends Controller
         // default order by expenses customers amount
         $customers = Customer::select('customers.*', DB::raw('SUM(purchases.amount) as total_spent'))
             ->leftJoin('purchases', 'purchases.customer_id', '=', 'customers.id')
+            ->whereBetween('purchases.created_at', Helper::getReferencePeriod())
             ->groupBy('customers.id', 'customers.name', 'customers.email', 'customers.phone', 'customers.customer_points', 'customers.created_at', 'customers.updated_at')
             ->orderBy('total_spent', 'desc')
             ->paginate(10);
@@ -34,6 +35,7 @@ class CustomerController extends Controller
         $direction = $direction == 'desc' ? 'asc' : 'desc';
         $customers = Customer::select('customers.*', DB::raw('SUM(purchases.amount) as total_spent'))
             ->leftJoin('purchases', 'purchases.customer_id', '=', 'customers.id')
+            ->whereBetween('purchases.created_at', Helper::getReferencePeriod())
             ->groupBy('customers.id', 'customers.name', 'customers.email', 'customers.phone', 'customers.customer_points', 'customers.created_at', 'customers.updated_at')
             ->orderBy($column, $direction)
             ->paginate(10);
@@ -47,6 +49,7 @@ class CustomerController extends Controller
         $direction = 'desc';
         $customers = Customer::select('customers.*', DB::raw('SUM(purchases.amount) as total_spent'))
             ->leftJoin('purchases', 'purchases.customer_id', '=', 'customers.id')
+            ->whereBetween('purchases.created_at', Helper::getReferencePeriod())
             ->groupBy('customers.id', 'customers.name', 'customers.email', 'customers.phone', 'customers.customer_points', 'customers.created_at', 'customers.updated_at')
             ->where('name', 'LIKE', '%' . $request['tosearch'] . '%')
             ->paginate(50); // TODO: need fix when search the link paginator refresh the results and broke the research
