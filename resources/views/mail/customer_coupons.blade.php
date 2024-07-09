@@ -97,7 +97,7 @@
     <div class="container-fluid">
         <div class="card shadow-sm">
             <div class="card-body">
-                <h3 class="card-title text-primary">Ciao {{ $lead->name }}</h3>
+                <h3 class="card-title text-primary">Ciao {{ $lead->recipient }}</h3>
                 <h5 class="card-subtitle mb-2 text-muted">Hai un totale di:</h5>
                 <p class="card-text display-4 text-center text-danger">{{ $lead->customer_points }} coupons</p>
                 <hr>

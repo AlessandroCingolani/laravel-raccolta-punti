@@ -10,8 +10,9 @@ class Lead extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
+        'recipient',
         'email',
+        'type',
         'customer_points'
     ];
 }

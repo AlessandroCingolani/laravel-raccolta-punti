@@ -60,11 +60,28 @@ use App\Functions\Helper;
                         <p><strong>Città:</strong> {{ $customer->city ?? 'Non disponibile' }}</p>
                         <p><strong>Indirizzo:</strong> {{ $customer->address ?? 'Non disponibile' }}</p>
                         <p><strong>Data di Registrazione:</strong> {{ Helper::formatDate($customer->created_at) }}</p>
+                        <p><strong>Invia email:</strong>
+                            {{-- Send email form with hidden values --}}
+                        <form class="d-inline-block" id="emailForm" action="{{ route('admin.send-email') }}"
+                            method="POST">
+                            @csrf
+                            <input type="hidden" id="recipient" name="recipient" value="{{ $customer->name }}">
+                            <input type="hidden" id="email" name="email" value="{{ $customer->email }}">
+                            <input type="hidden" id="type" name="type" value="coupon">
+                            <input type="hidden" id="customer_points" name="customer_points"
+                                value="{{ $customer->customer_points }}">
+                            <button type="submit" class="btn btn-primary"><i
+                                    class="fa-solid fa-envelope me-2"></i>Coupons</button>
+                        </form>
+                        </p>
+
 
                     </div>
-                    <div class="col-md-6">
-                        <h4>Stampa coupon cartaceo</h4>
-                    </div>
+                    @if ($customer->customer_points >= 10)
+                        <div class="col-md-6">
+                            <h4>Stampa coupon cartaceo</h4>
+                        </div>
+                    @endif
                 </div>
 
                 <div class="row mt-4">
@@ -74,14 +91,16 @@ use App\Functions\Helper;
                         </a>
                     </div>
                     <div class="col-md-4  mb-3">
-                        <a href="{{ route('admin.customers.edit', $customer->id) }}" class="btn btn-primary">Modifica</a>
+                        <a href="{{ route('admin.customers.edit', $customer->id) }}" class="btn btn-primary">Modifica
+                            cliente</a>
                     </div>
                     <div class="col-md-4  mb-3 text-right">
                         <form action="{{ route('admin.customers.destroy', $customer->id) }}" method="POST">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger"
-                                onclick="return confirm('Sei sicuro di voler eliminare questo cliente?')">Elimina</button>
+                                onclick="return confirm('Sei sicuro di voler eliminare questo cliente?')">Elimina
+                                cliente</button>
                         </form>
                     </div>
                 </div>

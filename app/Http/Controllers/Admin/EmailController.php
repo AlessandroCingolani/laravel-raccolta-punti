@@ -19,17 +19,19 @@ class EmailController extends Controller
         $validator = Validator::make(
             $data,
             [
-                'name' => 'required|string|min:2| max:50',
+                'recipient' => 'required|string|min:2| max:50',
                 'email' => 'required|email',
+                'type' => 'required|string',
                 'customer_points' => 'required|int'
 
             ],
             [
-                'name.required' => 'Il nome è richiesto',
-                'name.string' => 'Il nome deve essere una stringa',
-                'name.min' => 'Il nome deve avere almeno 2 caratteri',
-                'name.max' => 'Il nome non può avere più di 50 caratteri',
+                'recipient.required' => 'Il nome è richiesto',
+                'recipient.string' => 'Il nome deve essere una stringa',
+                'recipient.min' => 'Il nome deve avere almeno 2 caratteri',
+                'recipient.max' => 'Il nome non può avere più di 50 caratteri',
                 'email.required' => 'Email is required',
+                'type.required' => 'Type is required',
                 'customer_points.required' => 'Coupons are required',
                 'customer_points.int' => 'Coupons must be int'
             ]
@@ -39,13 +41,16 @@ class EmailController extends Controller
             return redirect()->route('admin.customers.index')->withErrors($errors);
         }
 
+
         // Create Lead and fill with datas from input
         $new_lead = new Lead();
-        $new_lead->name = $data['name'];
+        $new_lead->recipient = $data['recipient'];
         $new_lead->email = $data['email'];
+        $new_lead->type = $data['type'];
+        $new_lead->save();
         $new_lead->customer_points = Helper::discountCoupons($data['customer_points']) > 0 ? Helper::discountCoupons($data['customer_points']) : 0;
 
-
+        // TODO: invio differenti email in base a tipo che mi arriva dal pulsante
         // Invia l'email
         Mail::to($data['email'])->send(new CouponsAvailable($new_lead));
         return redirect()->route('admin.customers.index')->with('success', 'Email inviata  con successo');

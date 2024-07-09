@@ -2,10 +2,9 @@
 use App\Functions\Helper;
 ?>
 @extends('layouts.admin')
-{{-- TODO: total spent only solar year --}}
 
 @section('content')
-    <div class="container-fluid p-5">
+    <div class="container-fluid p-3">
         @if (session('success'))
             <div class="alert alert-success mt-3" role="alert">
                 {{ session('success') }}
@@ -22,7 +21,7 @@ use App\Functions\Helper;
             </div>
         @endif
         @if (count($customers) > 0)
-            <h2>Lista clienti</h2>
+            <h2 class="mb-3">Lista clienti</h2>
             <table class="table table-bordered border-success">
                 <thead class="table-success">
                     <tr>
@@ -39,10 +38,10 @@ use App\Functions\Helper;
                         <th scope="col">
                             Email
                         </th>
-                        <th scope="col">
+                        <th class="d-none d-lg-table-cell" scope="col">
                             Telefono
                         </th>
-                        <th scope="col">
+                        <th class="d-none d-lg-table-cell" scope="col">
                             <a class="text-decoration-none text-black"
                                 href="{{ route('admin.order-by', ['direction' => $direction, 'column' => 'customer_points']) }}">Punti
                                 Disponibili <i class="fa-solid fa-sort"></i>
@@ -65,8 +64,8 @@ use App\Functions\Helper;
                             <td>{{ $customer->id }}</td>
                             <td><a href="{{ route('admin.customers.show', $customer) }}">{{ $customer->name }}</a></td>
                             <td>{{ $customer?->email ?? '-' }}</td>
-                            <td>{{ $customer?->phone ?? '-' }}</td>
-                            <td>Punti :{{ $customer?->customer_points ?? '-' }} -
+                            <td class="d-none d-lg-table-cell">{{ $customer?->phone ?? '-' }}</td>
+                            <td class="d-none d-lg-table-cell">Punti :{{ $customer?->customer_points ?? '-' }} -
                                 {{ $customer->customer_points >= 10 ? 'Coupon disponibili: ' . Helper::discountCoupons($customer->customer_points) : 'Nessun coupon disponibile' }}
                             </td>
                             <td>{{ $customer?->total_spent ?? '0' }} €</td>
@@ -87,8 +86,9 @@ use App\Functions\Helper;
                                 <form class="d-inline-block" id="emailForm" action="{{ route('admin.send-email') }}"
                                     method="POST">
                                     @csrf
-                                    <input type="hidden" id="name" name="name" value="{{ $customer->name }}">
+                                    <input type="hidden" id="recipient" name="recipient" value="{{ $customer->name }}">
                                     <input type="hidden" id="email" name="email" value="{{ $customer->email }}">
+                                    <input type="hidden" id="type" name="type" value="coupon">
                                     <input type="hidden" id="customer_points" name="customer_points"
                                         value="{{ $customer->customer_points }}">
                                     <button type="submit" class="btn btn-primary"><i
