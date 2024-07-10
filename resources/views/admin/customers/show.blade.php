@@ -6,6 +6,18 @@ use App\Functions\Helper;
 @extends('layouts.admin')
 @section('content')
     <div class="container-fluid">
+        {{-- print success --}}
+        @if (session('success'))
+            <div class="alert alert-success mt-3" role="alert">
+                {{ session('success') }}
+            </div>
+        @endif
+        {{-- session fail error  --}}
+        @if (session('fail'))
+            <div class="alert alert-danger mt-3" role="alert">
+                {{ session('fail') }}
+            </div>
+        @endif
         <div class="card">
             <div class="card-header">
                 <h2>Dettagli Cliente</h2>
@@ -22,7 +34,8 @@ use App\Functions\Helper;
                         <p><strong>Coupons:</strong><span
                                 class="badge bg-secondary ms-2 fs-5">{{ Helper::discountCoupons($customer->customer_points) }}</span>
                         </p>
-                        <p><strong>Importo totale speso:</strong><span class="badge bg-primary ms-2 fs-5">{{ $amount }}
+                        <p><strong>Importo totale speso:</strong><span
+                                class="badge bg-primary ms-2 fs-5">{{ $amount }}
                                 €</span>
                         </p>
                     </div>
@@ -78,8 +91,23 @@ use App\Functions\Helper;
 
                     </div>
                     @if ($customer->customer_points >= 10)
-                        <div class="col-md-6">
+                        <div class="col-md-2">
                             <h4>Stampa coupon cartaceo</h4>
+                            <form id="form-coupon-print" action="{{ route('admin.print-coupon') }}" method="POST"
+                                enctype="multipart/form-data">
+                                @csrf
+
+                                <select id="coupon-select" class="form-select" name="coupon" autocomplete="coupon"
+                                    type="text">
+                                </select>
+                                <div class="my-3" id="selected-discount"></div>
+                                {{-- pass hidden input id customer --}}
+                                <input type="hidden" id="customer" name="customer" value="{{ $customer->id }}">
+                                <button id="submit-print" type="submit" class="btn btn-success mt-2">Stampa
+                                    Coupon
+                                </button>
+                            </form>
+
                         </div>
                     @endif
                 </div>
@@ -109,4 +137,31 @@ use App\Functions\Helper;
         </div>
 
     </div>
+
+    <script>
+        const VALUE_COUPON = 5;
+        let selectCoupon = document.getElementById('coupon-select');
+        let couponsAvailable = @json($coupons);
+        let coustomerBlockCoupon = document.getElementById('selected-discount');
+
+
+        selectCoupon.innerHTML += `<option value="">Quantità coupon utilizzabili</option>`
+        for (let i = 1; i <= couponsAvailable; i++) {
+            selectCoupon.innerHTML += `<option value="${i}">${i} Coupon</option>`
+        }
+
+
+        document.getElementById('coupon-select').addEventListener('change', function() {
+            coustomerBlockCoupon.innerHTML = "";
+            let selectedCoupon = this.value;
+            coustomerBlockCoupon.innerHTML +=
+                `<div class="card">Lo sconto selezionato è di : ${ selectedCoupon * VALUE_COUPON }€</div>`;
+        });
+
+        // submit btn prevent
+        document.getElementById('submit-print').addEventListener('click', (event) => {
+            event.preventDefault();
+            document.getElementById('form-coupon-print').submit();
+        });
+    </script>
 @endsection
