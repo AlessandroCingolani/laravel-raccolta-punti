@@ -6,6 +6,7 @@ use App\Functions\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\Lead;
+use App\Models\Purchase;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -20,13 +21,17 @@ class DashboardController extends Controller
         // use helper function to take emails sends this month
         $monthlyEmailsSent = Helper::getMonthlyValues(Lead::class);
 
+        $monthlyPurchases = Helper::getMonthlyValues(Purchase::class);
+        // total amount this solar yearS
+        $amount = Purchase::all()->whereBetween('created_at', Helper::getReferencePeriod())->sum('amount');
+
         $total_customer = Customer::count();
         $total_email_sent = Lead::count();
         $coupon_email_sent = Lead::where('type', 'coupon')->count();
 
         // bar data chart
         $data_bar = [
-            'labels' => ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+            'labels' => ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'],
             'data' => array_values($monthlySubscriptions),
         ];
 
@@ -40,6 +45,14 @@ class DashboardController extends Controller
             'data' => [$monthlyEmailsSent, $maxEmails - $monthlyEmailsSent],
         ];
 
-        return view("dashboard", compact("total_email_sent", "coupon_email_sent", "total_customer", "data_bar", "data_donut", "current_month"));
+
+
+        // bar data chart
+        $data_line = [
+            'labels' => ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'],
+            'data' => array_values($monthlyPurchases),
+        ];
+
+        return view("dashboard", compact("total_email_sent", "coupon_email_sent", "total_customer", "data_bar", "data_donut", "current_month", "amount", "data_line"));
     }
 }
