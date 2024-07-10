@@ -69,6 +69,20 @@ class CustomerController extends Controller
         return view('admin.customers.index', compact('customers', 'direction'));
     }
 
+    // PRINT COUPON
+
+    public function printCoupon(Request $request)
+    {
+        $form_data = $request->all();
+        $customer = Customer::find($form_data['customer']);
+        // check if is null coupon or send coupons major then actual customer points
+        if (is_null($form_data['coupon']) || $customer->customer_points < Helper::couponToPoints($form_data['coupon'])) {
+            return redirect()->route('admin.customers.show', $customer)->with('fail', 'Errore stampa non riuscita!');
+        }
+
+        $customer->update(array('customer_points' => ($customer->customer_points - Helper::couponToPoints($form_data['coupon']))));
+        return redirect()->route('admin.customers.show', $customer)->with('success', 'Coupon Stampato con successo');
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -104,8 +118,11 @@ class CustomerController extends Controller
     {
 
         $amount = Purchase::where('customer_id', $customer->id)->whereBetween('created_at', Helper::getReferencePeriod())->sum('amount');
+
         $purchases = Purchase::where('customer_id', $customer->id)->orderBy('id', 'desc')->whereBetween('created_at', Helper::getReferencePeriod())->take(3)->get();
-        return view('admin.customers.show', compact('customer', 'purchases', 'amount'));
+
+        $coupons = $customer?->customer_points >= 10 ? Helper::discountCoupons($customer->customer_points) : 0;
+        return view('admin.customers.show', compact('customer', 'purchases', 'amount', 'coupons'));
     }
 
     /**
