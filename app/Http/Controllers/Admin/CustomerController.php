@@ -18,27 +18,37 @@ class CustomerController extends Controller
     public function index()
     {
         // default order by expenses customers amount
-        $customers = Customer::select('customers.*', DB::raw('SUM(purchases.amount) as total_spent'))
-            ->leftJoin('purchases', 'purchases.customer_id', '=', 'customers.id')
-            ->whereBetween('purchases.created_at', Helper::getReferencePeriod())
+        $customers = Customer::select('customers.*', DB::raw('COALESCE(SUM(purchases.amount), 0) as total_spent'))
+            ->leftJoin('purchases', function ($join) {
+                $join->on('purchases.customer_id', '=', 'customers.id')
+                    ->whereBetween('purchases.created_at', Helper::getReferencePeriod());
+            })
             ->groupBy('customers.id', 'customers.name', 'customers.email', 'customers.phone', 'customers.customer_points', 'customers.created_at', 'customers.updated_at')
             ->orderBy('total_spent', 'desc')
             ->paginate(10);
+
         $direction = 'desc';
         $coupons = 0;
+
         return view("admin.customers.index", compact('customers', 'direction'));
     }
 
     // Order Customer for col and direction
     public function orderBy($direction, $column)
     {
-        $direction = $direction == 'desc' ? 'asc' : 'desc';
-        $customers = Customer::select('customers.*', DB::raw('SUM(purchases.amount) as total_spent'))
-            ->leftJoin('purchases', 'purchases.customer_id', '=', 'customers.id')
-            ->whereBetween('purchases.created_at', Helper::getReferencePeriod())
+        $direction = ($direction == 'desc') ? 'asc' : 'desc';
+
+
+        $customers = Customer::select('customers.*', DB::raw('COALESCE(SUM(purchases.amount), 0) as total_spent'))
+            ->leftJoin('purchases', function ($join) {
+                $join->on('purchases.customer_id', '=', 'customers.id')
+                    ->whereBetween('purchases.created_at', Helper::getReferencePeriod());
+            })
             ->groupBy('customers.id', 'customers.name', 'customers.email', 'customers.phone', 'customers.customer_points', 'customers.created_at', 'customers.updated_at')
             ->orderBy($column, $direction)
             ->paginate(10);
+
+
         return view('admin.customers.index', compact('customers', 'direction'));
     }
 
@@ -47,9 +57,12 @@ class CustomerController extends Controller
     public function searchCustomer(Request $request)
     {
         $direction = 'desc';
-        $customers = Customer::select('customers.*', DB::raw('SUM(purchases.amount) as total_spent'))
-            ->leftJoin('purchases', 'purchases.customer_id', '=', 'customers.id')
-            ->whereBetween('purchases.created_at', Helper::getReferencePeriod())
+        $customers = Customer::select('customers.*', DB::raw('COALESCE(SUM(purchases.amount), 0) as total_spent'))
+            ->leftJoin('purchases', function ($join) {
+                $join->on('purchases.customer_id', '=', 'customers.id')
+                    ->whereBetween('purchases.created_at', Helper::getReferencePeriod());
+            })
+
             ->groupBy('customers.id', 'customers.name', 'customers.email', 'customers.phone', 'customers.customer_points', 'customers.created_at', 'customers.updated_at')
             ->where('name', 'LIKE', '%' . $request['tosearch'] . '%')
             ->paginate(50); // TODO: need fix when search the link paginator refresh the results and broke the research
