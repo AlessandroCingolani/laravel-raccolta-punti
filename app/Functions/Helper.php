@@ -4,6 +4,7 @@ namespace App\Functions;
 
 use App\Models\Customer;
 use App\Models\Lead;
+use App\Models\Purchase;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -71,9 +72,10 @@ class Helper
         // this month
         $currentMonth = Carbon::now()->month;
 
+        // take iscription monthly this year bar chart
         if ($model  === Customer::class) {
             // Query for take iscription
-            $subscriptions = $model::select(DB::raw('MONTH(created_at) as month'), DB::raw('count(*) as count'))
+            $subscriptions = Customer::select(DB::raw('MONTH(created_at) as month'), DB::raw('count(*) as count'))
                 ->whereYear('created_at', $currentYear)
                 ->groupBy(DB::raw('MONTH(created_at)'))
                 ->pluck('count', 'month');
@@ -85,6 +87,9 @@ class Helper
             }
             return $monthlySubscriptions;
         }
+
+
+        // sended email this month donut chart
         if ($model === Lead::class) {
             $emailsSentThisMonth = DB::table('leads')
                 ->whereYear('created_at', $currentYear)
@@ -92,6 +97,21 @@ class Helper
                 ->count();
 
             return $emailsSentThisMonth;
+        }
+
+        // take sum monthly line chart
+        if ($model === Purchase::class) {
+            $purchases = Purchase::select(DB::raw('MONTH(created_at) as month'), DB::raw('SUM(amount) as sum'))
+                ->whereYear('created_at', $currentYear)
+                ->groupBy(DB::raw('MONTH(created_at)'))
+                ->pluck('sum', 'month');
+
+            // array with month and count if month no found value put at 0
+            $monthlyPurchases = array_fill(1, 12, 0);
+            foreach ($purchases as $month => $sum) {
+                $monthlyPurchases[$month] = $sum;
+            }
+            return $monthlyPurchases;
         }
     }
 }
