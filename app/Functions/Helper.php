@@ -2,7 +2,10 @@
 
 namespace App\Functions;
 
+use App\Models\Customer;
+use App\Models\Lead;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class Helper
 {
@@ -54,5 +57,41 @@ class Helper
             $endDate = Carbon::create($today->year, 11, 11, 23, 59, 59);
         }
         return [$startDate, $endDate];
+    }
+
+
+    /**
+     *
+     */
+
+    public static function getMonthlyValues($model)
+    {
+        // this year
+        $currentYear = Carbon::now()->year;
+        // this month
+        $currentMonth = Carbon::now()->month;
+
+        if ($model  === Customer::class) {
+            // Query for take iscription
+            $subscriptions = $model::select(DB::raw('MONTH(created_at) as month'), DB::raw('count(*) as count'))
+                ->whereYear('created_at', $currentYear)
+                ->groupBy(DB::raw('MONTH(created_at)'))
+                ->pluck('count', 'month');
+
+            // array with month and count if month no found value put at 0
+            $monthlySubscriptions = array_fill(1, 12, 0);
+            foreach ($subscriptions as $month => $count) {
+                $monthlySubscriptions[$month] = $count;
+            }
+            return $monthlySubscriptions;
+        }
+        if ($model === Lead::class) {
+            $emailsSentThisMonth = DB::table('leads')
+                ->whereYear('created_at', $currentYear)
+                ->whereMonth('created_at', $currentMonth)
+                ->count();
+
+            return $emailsSentThisMonth;
+        }
     }
 }
