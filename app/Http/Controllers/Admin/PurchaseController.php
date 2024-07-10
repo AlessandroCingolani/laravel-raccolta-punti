@@ -150,6 +150,7 @@ class PurchaseController extends Controller
     {
         $customer = Customer::find($purchase->customer_id);
         // TODO: quando cancelli un pagamento e hai usato i punti ti toglie
+
         $customer->update(array('customer_points' => ($customer->customer_points - $purchase->points_earned)));
         $purchase->delete();
         return redirect()->route('admin.purchases.index')->with('success', 'Acquisto eliminato con successo');
