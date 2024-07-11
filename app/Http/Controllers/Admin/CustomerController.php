@@ -66,7 +66,9 @@ class CustomerController extends Controller
             ->groupBy('customers.id', 'customers.name', 'customers.surname', 'customers.email', 'customers.phone', 'customers.customer_points', 'customers.created_at', 'customers.updated_at')
             ->where('name', 'LIKE', '%' . $request['tosearch'] . '%')
             ->orWhere('surname', 'LIKE', '%' . $request['tosearch'] . '%')
-            ->paginate(50); // TODO: need fix when search the link paginator refresh the results and broke the research
+            ->paginate(10)
+            // appends fix the problem paginate concat tosearch at page
+            ->appends(['tosearch' => $request['tosearch']]);
         return view('admin.customers.index', compact('customers', 'direction'));
     }
 
