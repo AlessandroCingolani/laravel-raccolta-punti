@@ -77,7 +77,7 @@ class Helper
             // Query for take iscription
             $subscriptions = Customer::select(DB::raw('MONTH(created_at) as month'), DB::raw('count(*) as count'))
                 ->whereYear('created_at', $currentYear)
-                ->groupBy(DB::raw('MONTH(created_at)'))
+                ->groupBy('month')
                 ->pluck('count', 'month');
 
             // array with month and count if month no found value put at 0
@@ -103,9 +103,8 @@ class Helper
         if ($model === Purchase::class) {
             $purchases = Purchase::select(DB::raw('MONTH(created_at) as month'), DB::raw('SUM(amount) as sum'))
                 ->whereYear('created_at', $currentYear)
-                ->groupBy(DB::raw('MONTH(created_at)'))
+                ->groupBy('month')
                 ->pluck('sum', 'month');
-
             // array with month and count if month no found value put at 0
             $monthlyPurchases = array_fill(1, 12, 0);
             foreach ($purchases as $month => $sum) {
