@@ -23,7 +23,7 @@ class CustomerController extends Controller
                 $join->on('purchases.customer_id', '=', 'customers.id')
                     ->whereBetween('purchases.created_at', Helper::getReferencePeriod());
             })
-            ->groupBy('customers.id', 'customers.name', 'customers.email', 'customers.phone', 'customers.customer_points', 'customers.created_at', 'customers.updated_at')
+            ->groupBy('customers.id', 'customers.name', 'customers.surname', 'customers.email', 'customers.phone', 'customers.customer_points', 'customers.created_at', 'customers.updated_at')
             ->orderBy('total_spent', 'desc')
             ->paginate(10);
 
@@ -44,7 +44,7 @@ class CustomerController extends Controller
                 $join->on('purchases.customer_id', '=', 'customers.id')
                     ->whereBetween('purchases.created_at', Helper::getReferencePeriod());
             })
-            ->groupBy('customers.id', 'customers.name', 'customers.email', 'customers.phone', 'customers.customer_points', 'customers.created_at', 'customers.updated_at')
+            ->groupBy('customers.id', 'customers.name', 'customers.surname', 'customers.email', 'customers.phone', 'customers.customer_points', 'customers.created_at', 'customers.updated_at')
             ->orderBy($column, $direction)
             ->paginate(10);
 
@@ -63,8 +63,8 @@ class CustomerController extends Controller
                     ->whereBetween('purchases.created_at', Helper::getReferencePeriod());
             })
 
-            ->groupBy('customers.id', 'customers.name', 'customers.email', 'customers.phone', 'customers.customer_points', 'customers.created_at', 'customers.updated_at')
-            ->where('name', 'LIKE', '%' . $request['tosearch'] . '%')
+            ->groupBy('customers.id', 'customers.name', 'customers.surname', 'customers.email', 'customers.phone', 'customers.customer_points', 'customers.created_at', 'customers.updated_at')
+            ->where('name', 'LIKE', '%' . $request['tosearch'] . '%') // TODO: adesso ho campo surname devo fare ricerca per entrambi
             ->paginate(50); // TODO: need fix when search the link paginator refresh the results and broke the research
         return view('admin.customers.index', compact('customers', 'direction'));
     }
@@ -77,11 +77,11 @@ class CustomerController extends Controller
         $customer = Customer::find($form_data['customer']);
         // check if is null coupon or send coupons major then actual customer points
         if (is_null($form_data['coupon']) || $customer->customer_points < Helper::couponToPoints($form_data['coupon'])) {
-            return redirect()->route('admin.customers.show', $customer)->with('fail', 'Errore stampa non riuscita!');
+            return back()->with('fail', 'Errore stampa non riuscita!');
         }
 
         $customer->update(array('customer_points' => ($customer->customer_points - Helper::couponToPoints($form_data['coupon']))));
-        return redirect()->route('admin.customers.show', $customer)->with('success', 'Coupon Stampato con successo');
+        return back()->with('success', 'Coupon Stampato con successo');
     }
 
     /**
@@ -104,8 +104,9 @@ class CustomerController extends Controller
     public function store(CustomerRequest $request)
     {
         $form_data = $request->all();
-        // camel case name from form
+        // camel case name and from form
         $form_data['name'] = ucwords($form_data['name']);
+        $form_data['surname'] = ucwords($form_data['surname']);
         $new_customer = Customer::create($form_data);
 
         return redirect()->route('admin.customers.show', $new_customer);
@@ -146,6 +147,7 @@ class CustomerController extends Controller
         $form_data = $request->all();
         // camel case name from form
         $form_data['name'] = ucwords($form_data['name']);
+        $form_data['surname'] = ucwords($form_data['surname']);
         $customer->update($form_data);
 
 

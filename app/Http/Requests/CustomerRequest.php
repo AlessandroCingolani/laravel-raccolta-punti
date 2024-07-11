@@ -25,6 +25,7 @@ class CustomerRequest extends FormRequest
         $customerId = $this->route('customer') ? $this->route('customer')->id : null;
         return [
             'name' => ['required', 'string', 'min:2', 'max:50'],
+            'surname' => ['required', 'string', 'min:2', 'max:50'],
             'email' => ['required', 'unique:customers,email,' . $customerId, 'string', 'lowercase', 'email', 'max:255'],
             'phone' => ['unique:customers,phone,' . $customerId, 'nullable', 'max:255'],
         ];
@@ -36,6 +37,9 @@ class CustomerRequest extends FormRequest
             "name.required" => "Il nome è un campo obbligatorio.",
             "name.max" => "Il nome deve essere massimo :max caratteri",
             "name.min" => "Il nome deve avere minimo :min caratteri",
+            "surname.required" => "Il cognome è un campo obbligatorio.",
+            "surname.max" => "Il cognome deve essere massimo :max caratteri",
+            "surname.min" => "Il cognome deve avere minimo :min caratteri",
             "email.required" => "L'email è un campo obbligatorio.",
             "email.unique" => "L'email è già stata utilizzata.",
             "email.max" => "L'email deve essere massimo :max caratteri",
