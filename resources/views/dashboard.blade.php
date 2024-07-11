@@ -36,7 +36,7 @@
                 </div>
             </div>
         </div>
-        <div class="row m-0">
+        <div class="row mx-0 mb-5">
             <div class="col-md-6">
                 <div class="card h-100 text-center">
                     <div class="card-header bg-white">Iscrizione clienti per mese</div>
