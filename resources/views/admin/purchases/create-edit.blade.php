@@ -15,6 +15,7 @@
 
         @dump($customer_selected)
         @dump($coupons)
+        @dump($customers_name)
         {{-- TODO: style --}}
         <div class="mb-3">
             <a href="{{ route('admin.customers.create') }}">Aggiungi nuovo cliente
@@ -34,7 +35,7 @@
                             @forelse ($customers_name as $name)
                                 <option
                                     {{ $customer_selected?->id === $name->id || old('id', $purchase?->customer_id) === $name->id ? 'selected' : '' }}
-                                    value="{{ $name->id }}">{{ $name->name }} </option>
+                                    value="{{ $name->id }}">{{ $name->name . ' ' . $name->surname }} </option>
                             @empty
                                 <option value="">Nessun cliente</option>
                             @endforelse
@@ -61,7 +62,7 @@
 
                 @if (!isset($purchase))
                     <div class="col-4">
-                        <h2>{{ !is_null($customer_selected?->name) ? ($coupons > 0 ? $customer_selected->name . ' ha ' . $coupons . ' coupons disponibili' : $customer_selected->name . ' non ha coupon') : '' }}
+                        <h2>{{ !is_null($customer_selected?->name) ? ($coupons > 0 ? $customer_selected->name . ' ' . $customer_selected->surname . ' ha ' . $coupons . ' coupons disponibili' : $customer_selected->name . ' ' . $customer_selected->surname . ' non ha coupon') : '' }}
                         </h2>
                         @if ($coupons > 0)
                             <h3 id="section-coupon">Utilizza coupon</h3>

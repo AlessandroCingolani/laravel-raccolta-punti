@@ -26,7 +26,7 @@ use App\Functions\Helper;
                 <div class="row mb-3">
 
                     <div class="col-md-6">
-                        <h4>Cliente: <span class="fs-3">{{ $customer->name }}</span></h4>
+                        <h4>Cliente: <span class="fs-3">{{ $customer->name . ' ' . $customer->surname }}</span></h4>
                         <p><strong>Email:</strong> {{ $customer?->email ?? 'Non disponibile' }}</p>
                         <p><strong>Telefono:</strong> {{ $customer->phone ?? 'Non disponibile' }}</p>
                         <p><strong>Punti Totali:</strong> <span
@@ -78,7 +78,9 @@ use App\Functions\Helper;
                         <form class="d-inline-block" id="emailForm" action="{{ route('admin.send-email') }}"
                             onsubmit=" return confirm('Sei sicuro di voler inviare email coupons?')" method="POST">
                             @csrf
-                            <input type="hidden" id="recipient" name="recipient" value="{{ $customer->name }}">
+                            <input type="hidden" id="recipient_name" name="recipient_name" value="{{ $customer->name }}">
+                            <input type="hidden" id="recipient_surname" name="recipient_surname"
+                                value="{{ $customer->surname }}">
                             <input type="hidden" id="email" name="email" value="{{ $customer->email }}">
                             <input type="hidden" id="type" name="type" value="coupon">
                             <input type="hidden" id="customer_points" name="customer_points"

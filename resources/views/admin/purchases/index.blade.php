@@ -37,7 +37,7 @@ use App\Functions\Helper;
                     <tr>
                         <td class="d-none d-lg-table-cell">{{ $purchase->id }}</td>
                         <td><a
-                                href="{{ route('admin.customers.show', $purchase->customer) }}">{{ $purchase->customer?->name }}</a>
+                                href="{{ route('admin.customers.show', $purchase->customer) }}">{{ $purchase->customer?->name . ' ' . $purchase->customer?->surname }}</a>
                         </td>
                         <td>{{ Helper::formatDate($purchase->created_at) }}</td>
                         <td>€{{ $purchase->amount }}</td>

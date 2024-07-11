@@ -22,10 +22,18 @@
                     @method($method)
 
                     <div class="mb-3">
-                        <label for="name" class="form-label">Nome e Cognome *</label>
+                        <label for="name" class="form-label">Nome *</label>
                         <input id="name" class="form-control @error('name') is-invalid @enderror" name="name"
                             value="{{ old('name', $customer?->name) }}" autocomplete="name" type="text">
                         @error('name')
+                            <p class="text-danger">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label for="surname" class="form-label">Cognome *</label>
+                        <input id="surname" class="form-control @error('surname') is-invalid @enderror" name="surname"
+                            value="{{ old('surname', $customer?->surname) }}" autocomplete="surname" type="text">
+                        @error('surname')
                             <p class="text-danger">{{ $message }}</p>
                         @enderror
                     </div>
