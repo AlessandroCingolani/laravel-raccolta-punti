@@ -32,8 +32,8 @@ use App\Functions\Helper;
                         </th>
                         <th scope="col">
                             <a class="text-decoration-none text-black"
-                                href="{{ route('admin.order-by', ['direction' => $direction, 'column' => 'name']) }}">Nome
-                                cliente <i class="fa-solid fa-sort"></i></a>
+                                href="{{ route('admin.order-by', ['direction' => $direction, 'column' => 'name']) }}">Cliente
+                                <i class="fa-solid fa-sort"></i></a>
                         </th>
                         <th scope="col">
                             Email
