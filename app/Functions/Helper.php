@@ -12,6 +12,11 @@ class Helper
 {
     // value discount
     const MONEY_FOR_POINT = 10;
+
+    // Solar year reference month and day
+    const START_SOLAR_MONTH = 11;
+    const START_SOLAR_DAY = 12;
+
     // point generator
     public static function generatePoints($price)
     {
@@ -39,23 +44,42 @@ class Helper
     }
 
 
-    // take start and end date to take solar year payment and other
+    /**
+     * Get the reference period for solar year payments.
+     *
+     * This method calculates the start and end dates of a solar year period based on
+     * the current date. The reference period is defined by two constants:
+     * - `START_SOLAR_MONTH`: The month when the solar year begins (November).
+     * - `START_SOLAR_DAY`: The day when the solar year begins (12th).
+     *
+     * The calculation is as follows:
+     * - If today's date is on or after the start date of the current year,
+     *   the period starts from the defined start date of the current year
+     *   and ends the day before the same date in the next year.
+     * - If today's date is before the start date of the current year,
+     *   the period starts from the defined start date of the previous year
+     *   and ends the day before the same date in the current year.
+     *
+     * @return array An array containing two Carbon instances:
+     *               the start date and the end date of the solar year period.
+     */
     public static function getReferencePeriod()
     {
         // Today
         $today = Carbon::now();
 
+
         // Calc period of interest
-        if ($today->month >= 11 && $today->day >= 12) {
-            // From 12 november of this year
-            $startDate = Carbon::create($today->year, 11, 12, 0, 0, 0);
-            // At 11 november of next year
-            $endDate = Carbon::create($today->year + 1, 11, 11, 23, 59, 59);
+        if ($today->month >= self::START_SOLAR_MONTH && $today->day >= self::START_SOLAR_DAY) {
+            // From  of this year
+            $startDate = Carbon::create($today->year, self::START_SOLAR_MONTH, self::START_SOLAR_DAY, 0, 0, 0);
+
+            $endDate = Carbon::create($today->year + 1, self::START_SOLAR_MONTH, self::START_SOLAR_DAY - 1, 23, 59, 59);
         } else {
-            // From 12 november of last year
-            $startDate = Carbon::create($today->year - 1, 11, 12, 0, 0, 0);
-            // At 11 november of this year
-            $endDate = Carbon::create($today->year, 11, 11, 23, 59, 59);
+
+            $startDate = Carbon::create($today->year - 1, self::START_SOLAR_MONTH, self::START_SOLAR_DAY, 0, 0, 0);
+
+            $endDate = Carbon::create($today->year, self::START_SOLAR_MONTH, self::START_SOLAR_DAY - 1, 23, 59, 59);
         }
 
         return [$startDate, $endDate];
