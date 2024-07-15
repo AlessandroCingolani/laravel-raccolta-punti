@@ -85,7 +85,7 @@ class PurchaseController extends Controller
             $customer->update(array('customer_points' => ($customer->customer_points - Helper::couponToPoints($request['coupon']))));
         }
 
-        return redirect()->route('admin.customers.show', $customer_id);
+        return redirect()->route('admin.customers.show', $customer_id)->with('success', 'Acquisto aggiunto con successo!');
     }
 
     /**
