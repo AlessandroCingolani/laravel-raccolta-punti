@@ -88,6 +88,19 @@ use App\Functions\Helper;
                             <button type="submit" class="btn btn-primary"><i
                                     class="fa-solid fa-envelope me-2"></i>Coupons</button>
                         </form>
+                        <form class="d-inline-block" id="emailForm" action="{{ route('admin.send-email') }}"
+                            onsubmit=" return confirm('Sei sicuro di voler inviare email discount?')" method="POST">
+                            @csrf
+                            <input type="hidden" id="recipient_name" name="recipient_name" value="{{ $customer->name }}">
+                            <input type="hidden" id="recipient_surname" name="recipient_surname"
+                                value="{{ $customer->surname }}">
+                            <input type="hidden" id="email" name="email" value="{{ $customer->email }}">
+                            <input type="hidden" id="type" name="type" value="discount">
+                            <input type="hidden" id="customer_points" name="customer_points"
+                                value="{{ $customer->customer_points }}">
+                            <button type="submit" class="btn btn-primary"><i
+                                    class="fa-solid fa-envelope me-2"></i>Discount</button>
+                        </form>
                         </p>
 
 
@@ -116,7 +129,8 @@ use App\Functions\Helper;
 
                 <div class="row mt-4">
                     <div class="col-md-4 mb-3">
-                        <a href="{{ route('admin.purchases.create', ['id' => $customer]) }}" class="btn btn-success">Nuovo
+                        <a href="{{ route('admin.purchases.create', ['id' => $customer]) }}"
+                            class="btn btn-success">Nuovo
                             acquisto
                         </a>
                     </div>

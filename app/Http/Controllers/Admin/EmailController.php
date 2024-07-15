@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Functions\Helper;
+use App\Mail\SendDiscount;
 
 class EmailController extends Controller
 {
@@ -54,11 +55,16 @@ class EmailController extends Controller
         $new_lead->email = $data['email'];
         $new_lead->type = $data['type'];
         $new_lead->save();
-        $new_lead->customer_points = Helper::discountCoupons($data['customer_points']) > 0 ? Helper::discountCoupons($data['customer_points']) : 0;
+        if ($new_lead->type === 'coupon') {
+            $new_lead->customer_points = Helper::discountCoupons($data['customer_points']) > 0 ? Helper::discountCoupons($data['customer_points']) : 0;
+            // send coupon email
+            Mail::to($data['email'])->send(new CouponsAvailable($new_lead));
+        } elseif ($new_lead->type === 'discount') {
+            Mail::to($data['email'])->send(new SendDiscount($new_lead));
+        } else {
+            return redirect()->route('admin.customers.index')->with('fail', 'Qualcosa è andato storto riprova!');
+        }
 
-        // TODO: invio differenti email in base a tipo che mi arriva dal pulsante
-        // Invia l'email
-        Mail::to($data['email'])->send(new CouponsAvailable($new_lead));
         return redirect()->route('admin.customers.index')->with('success', 'Email inviata  con successo');
     }
 }
