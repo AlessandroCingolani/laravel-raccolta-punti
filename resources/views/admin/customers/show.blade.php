@@ -5,7 +5,7 @@ use App\Functions\Helper;
 
 @extends('layouts.admin')
 @section('content')
-    <div class="container-fluid">
+    <div class="container-fluid mt-3">
         {{-- print success --}}
         @if (session('success'))
             <div class="alert alert-success mt-3" role="alert">
