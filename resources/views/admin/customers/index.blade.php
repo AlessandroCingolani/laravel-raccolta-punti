@@ -85,20 +85,7 @@ use App\Functions\Helper;
                                     </button>
                                 </form>
                                 {{-- Send email form with hidden values --}}
-                                <form class="d-inline-block" id="emailForm" action="{{ route('admin.send-email') }}"
-                                    onsubmit=" return confirm('Sei sicuro di voler inviare email coupons?')" method="POST">
-                                    @csrf
-                                    <input type="hidden" id="recipient_name" name="recipient_name"
-                                        value="{{ $customer->name }}">
-                                    <input type="hidden" id="recipient_surname" name="recipient_surname"
-                                        value="{{ $customer->surname }}">
-                                    <input type="hidden" id="email" name="email" value="{{ $customer->email }}">
-                                    <input type="hidden" id="type" name="type" value="coupon">
-                                    <input type="hidden" id="customer_points" name="customer_points"
-                                        value="{{ $customer->customer_points }}">
-                                    <button type="submit" class="btn btn-primary"><i
-                                            class="fa-solid fa-envelope"></i></button>
-                                </form>
+
                             </td>
                         </tr>
                     @endforeach
