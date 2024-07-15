@@ -46,7 +46,7 @@ class Helper
         $today = Carbon::now();
 
         // Calc period of interest
-        if ($today->day >= 12) {
+        if ($today->month >= 11 && $today->day >= 12) {
             // From 12 november of this year
             $startDate = Carbon::create($today->year, 11, 12, 0, 0, 0);
             // At 11 november of next year
@@ -57,6 +57,7 @@ class Helper
             // At 11 november of this year
             $endDate = Carbon::create($today->year, 11, 11, 23, 59, 59);
         }
+
         return [$startDate, $endDate];
     }
 
