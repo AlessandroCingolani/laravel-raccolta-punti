@@ -11,11 +11,13 @@ use Illuminate\Support\Facades\Mail;
 use App\Functions\Helper;
 use App\Mail\SendDiscount;
 
+
 class EmailController extends Controller
 {
     public function send(Request $request)
     {
         $data = $request->all();
+
 
         $validator = Validator::make(
             $data,
@@ -44,7 +46,7 @@ class EmailController extends Controller
         );
         if ($validator->fails()) {
             $errors = $validator->errors();
-            return redirect()->route('admin.customers.index')->withErrors($errors);
+            return back()->withErrors($errors);
         }
 
 
@@ -60,11 +62,12 @@ class EmailController extends Controller
             // send coupon email
             Mail::to($data['email'])->send(new CouponsAvailable($new_lead));
         } elseif ($new_lead->type === 'discount') {
+            // send discount email
             Mail::to($data['email'])->send(new SendDiscount($new_lead));
         } else {
-            return redirect()->route('admin.customers.index')->with('fail', 'Qualcosa è andato storto riprova!');
+            return back()->with('fail', 'Qualcosa è andato storto riprova!');
         }
 
-        return redirect()->route('admin.customers.index')->with('success', 'Email inviata  con successo');
+        return  back()->with('success', 'Email inviata  con successo');
     }
 }
