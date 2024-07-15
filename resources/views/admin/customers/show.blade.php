@@ -18,6 +18,16 @@ use App\Functions\Helper;
                 {{ session('fail') }}
             </div>
         @endif
+        @if ($errors->any())
+            <div class="alert alert-danger" role="alert">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+
+            </div>
+        @endif
         <div class="card">
             <div class="card-header">
                 <h2>Dettagli Cliente</h2>
@@ -161,23 +171,25 @@ use App\Functions\Helper;
         let coustomerBlockCoupon = document.getElementById('selected-discount');
 
 
-        selectCoupon.innerHTML += `<option value="">Quantità coupon utilizzabili</option>`
-        for (let i = 1; i <= couponsAvailable; i++) {
-            selectCoupon.innerHTML += `<option value="${i}">${i} Coupon</option>`
+        if (couponsAvailable > 0) {
+            selectCoupon.innerHTML += `<option value="">Quantità coupon utilizzabili</option>`
+            for (let i = 1; i <= couponsAvailable; i++) {
+                selectCoupon.innerHTML += `<option value="${i}">${i} Coupon</option>`
+            }
+
+
+            document.getElementById('coupon-select').addEventListener('change', function() {
+                coustomerBlockCoupon.innerHTML = "";
+                let selectedCoupon = this.value;
+                coustomerBlockCoupon.innerHTML +=
+                    `<div class="card">Lo sconto selezionato è di : ${ selectedCoupon * VALUE_COUPON }€</div>`;
+            });
+
+            // submit btn prevent
+            document.getElementById('submit-print').addEventListener('click', (event) => {
+                event.preventDefault();
+                document.getElementById('form-coupon-print').submit();
+            });
         }
-
-
-        document.getElementById('coupon-select').addEventListener('change', function() {
-            coustomerBlockCoupon.innerHTML = "";
-            let selectedCoupon = this.value;
-            coustomerBlockCoupon.innerHTML +=
-                `<div class="card">Lo sconto selezionato è di : ${ selectedCoupon * VALUE_COUPON }€</div>`;
-        });
-
-        // submit btn prevent
-        document.getElementById('submit-print').addEventListener('click', (event) => {
-            event.preventDefault();
-            document.getElementById('form-coupon-print').submit();
-        });
     </script>
 @endsection
