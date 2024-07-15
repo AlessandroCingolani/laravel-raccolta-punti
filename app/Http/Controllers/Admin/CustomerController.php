@@ -154,7 +154,7 @@ class CustomerController extends Controller
         $customer->update($form_data);
 
 
-        return redirect()->route('admin.customers.show', $customer);
+        return redirect()->route('admin.customers.show', $customer)->with('success', 'Cliente modificato con successo!');
     }
 
     /**
