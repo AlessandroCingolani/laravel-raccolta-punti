@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('content')
-    <div class="container-fluid">
+    <div class="container-fluid m-3">
         <h2>{{ $title }}</h2>
         @if ($errors->any())
             <div class="alert alert-danger" role="alert">
@@ -13,19 +13,16 @@
             </div>
         @endif
 
-        @dump($customer_selected)
-        @dump($coupons)
-        @dump($customers_name)
         {{-- TODO: style --}}
         <div class="mb-3">
-            <a href="{{ route('admin.customers.create') }}">Aggiungi nuovo cliente
+            <a class="btn btn-primary" href="{{ route('admin.customers.create') }}">Aggiungi nuovo cliente
             </a>
         </div>
         <form id="form-purchase" action="{{ $route }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method($method)
             <div class="row justify-content-between">
-                <div class="col-4">
+                <div class="col-md-4 mb-4">
                     <div class="mb-3">
                         <label for="id" class="control-label">Nome Cliente *</label>
                         <select {{ isset($purchase) ? 'disabled' : '' }} id="customer-select"
@@ -61,13 +58,13 @@
                 </div>
 
                 @if (!isset($purchase))
-                    <div class="col-4">
+                    <div class="col-md-4">
                         <h2>{{ !is_null($customer_selected?->name) ? ($coupons > 0 ? $customer_selected->name . ' ' . $customer_selected->surname . ' ha ' . $coupons . ' coupons disponibili' : $customer_selected->name . ' ' . $customer_selected->surname . ' non ha coupon') : '' }}
                         </h2>
                         @if ($coupons > 0)
                             <h3 id="section-coupon">Utilizza coupon</h3>
-                            <div class="btn btn-success" id="useCoupon">Seleziona buono sconto</div>
-                            <div id="customer-coupons" class="d-none">
+                            <div class="btn btn-warning mb-3" id="useCoupon">Seleziona buono sconto</div>
+                            <div id="customer-coupons" class="d-none w-75">
                                 <select id="coupon-select" class="form-select" name="coupon" autocomplete="coupon"
                                     type="text">
                                 </select>
@@ -154,7 +151,12 @@
                 coustomerBlockCoupon.innerHTML = "";
                 let selectedCoupon = this.value;
                 coustomerBlockCoupon.innerHTML +=
-                    `<div class="card">Lo sconto selezionato è di : ${ selectedCoupon * VALUE_COUPON }€</div>`;
+                    `<div class="card w-75 mt-3  shadow">
+                         <div class="card-body text-center">
+                            <h5 class="card-title">Sconto Applicato</h5>
+                            <p class="card-text">Lo sconto selezionato è di: <strong class="fs-4 text-success">${ selectedCoupon * VALUE_COUPON }€</strong></p>
+                        </div>
+                    </div>`;
                 amount.value = initialAmount - (selectedCoupon * VALUE_COUPON);
             });
 

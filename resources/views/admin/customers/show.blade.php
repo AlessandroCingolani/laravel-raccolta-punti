@@ -77,7 +77,7 @@ use App\Functions\Helper;
                     @endif
                 </div>
 
-                <div class="row">
+                <div class="row pb-5 border-bottom">
                     <div class="col-md-6">
                         <h3>Informazioni Aggiuntive</h3>
                         <p><strong>Città:</strong> {{ $customer->city ?? 'Non disponibile' }}</p>
@@ -116,7 +116,7 @@ use App\Functions\Helper;
 
                     </div>
                     @if ($customer->customer_points >= 10)
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <h4>Stampa coupon cartaceo</h4>
                             <form id="form-coupon-print" action="{{ route('admin.print-coupon') }}" method="POST"
                                 enctype="multipart/form-data">
@@ -128,7 +128,7 @@ use App\Functions\Helper;
                                 <div class="my-3" id="selected-discount"></div>
                                 {{-- pass hidden input id customer --}}
                                 <input type="hidden" id="customer" name="customer" value="{{ $customer->id }}">
-                                <button id="submit-print" type="submit" class="btn btn-success mt-2">Stampa
+                                <button id="submit-print" type="submit" class="btn btn-warning mt-2">Stampa
                                     Coupon
                                 </button>
                             </form>
@@ -182,7 +182,12 @@ use App\Functions\Helper;
                 coustomerBlockCoupon.innerHTML = "";
                 let selectedCoupon = this.value;
                 coustomerBlockCoupon.innerHTML +=
-                    `<div class="card">Lo sconto selezionato è di : ${ selectedCoupon * VALUE_COUPON }€</div>`;
+                    `<div class="card w-75 mt-3  shadow">
+                         <div class="card-body text-center">
+                            <h5 class="card-title">Coupon da stampare</h5>
+                            <p class="card-text">Il coupon selezionato è di: <strong class="fs-4 text-success">${ selectedCoupon * VALUE_COUPON }€</strong></p>
+                        </div>
+                    </div>`;
             });
 
             // submit btn prevent
