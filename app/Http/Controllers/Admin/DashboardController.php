@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
+
+    // attibutes
+    const MAX_EMAIL = 500;
+
     public function index()
     {
         // use helper function to take monthly subs
@@ -39,10 +43,10 @@ class DashboardController extends Controller
         // donut chart
         $current_month = Carbon::now()->translatedFormat('F');
         // max email you can send
-        $maxEmails = 500;
+
         $data_donut = [
             'labels' => ['Email Inviate', 'Email Rimanenti'],
-            'data' => [$monthlyEmailsSent, $maxEmails - $monthlyEmailsSent],
+            'data' => [$monthlyEmailsSent, self::MAX_EMAIL - $monthlyEmailsSent],
         ];
 
 
