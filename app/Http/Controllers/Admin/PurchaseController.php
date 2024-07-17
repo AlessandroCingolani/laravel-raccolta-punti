@@ -55,6 +55,7 @@ class PurchaseController extends Controller
     {
         $form_data = $request->all();
 
+
         // take id customer
         $customer_id = $request['id'];
 
@@ -80,7 +81,7 @@ class PurchaseController extends Controller
             $customer->update(array('customer_points' => ($customer->customer_points + $points_earned)));
         }
 
-        //TODO: when arrive coupon key and value N coupons usage calc to update points
+
         if (isset($request['coupon'])) {
             $customer->update(array('customer_points' => ($customer->customer_points - Helper::couponToPoints($request['coupon']))));
         }
