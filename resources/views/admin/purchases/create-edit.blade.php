@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('content')
-    <div class="container-fluid m-3">
+    <div class="container-fluid p-3">
         <h2>{{ $title }}</h2>
         @if ($errors->any())
             <div class="alert alert-danger" role="alert">
@@ -88,6 +88,7 @@
         let sectionCoupon = document.getElementById('section-coupon');
         let coustomerBlockCoupon = document.getElementById('selected-discount');
         let coupons = document.getElementById('customer-coupons');
+        let selectCoupon = document.getElementById('coupon-select');
         let couponsAvailable = @json($coupons);
 
 
@@ -126,7 +127,7 @@
                 }
 
                 if (amount.value >= VALUE_COUPON * 2) {
-                    let selectCoupon = document.getElementById('coupon-select');
+
                     coupons.classList.toggle('d-none');
                     selectCoupon.innerHTML = "";
                     // if you select and toggle again reset the selection option
@@ -169,7 +170,10 @@
             amount.disabled = false;
             amount.value = "";
             coupons.classList.add('d-none');
+            document.getElementById('coupon-select').selectedIndex = "";
+            selectCoupon.innerHTML = "";
             coustomerBlockCoupon.innerHTML = "";
+
         });
 
         // submit btn prevent and take off
