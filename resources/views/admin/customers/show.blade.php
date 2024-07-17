@@ -53,12 +53,13 @@ use App\Functions\Helper;
                         <div class="col-md-6">
                             <h3>{{ count($purchases) === 1 ? 'Ultimo acquisto:' : 'Ultimi ' . count($purchases) . ' aquisti:' }}
                             </h3>
-                            <ul>
+                            <ul class="p-0 list-unstyled">
                                 @foreach ($purchases as $purchase)
                                     <li class="mb-2">ID: {{ $purchase->id }}
                                         Data: {{ Helper::formatDate($purchase->created_at) }}
                                         Importo: €{{ $purchase->amount }}
-                                        <a href="{{ route('admin.purchases.edit', $purchase) }}" class="btn btn-warning">
+                                        <a href="{{ route('admin.purchases.edit', $purchase) }}"
+                                            class="btn btn-warning mx-1">
                                             <i class="fa-solid fa-pencil "></i>
                                         </a>
                                         <form class="d-inline-block"
@@ -77,7 +78,7 @@ use App\Functions\Helper;
                     @endif
                 </div>
 
-                <div class="row pb-5 border-bottom">
+                <div class="row py-5 border-top border-bottom">
                     <div class="col-md-6">
                         <h3>Informazioni Aggiuntive</h3>
                         <p><strong>Città:</strong> {{ $customer->city ?? 'Non disponibile' }}</p>
