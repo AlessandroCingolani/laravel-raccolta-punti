@@ -69,6 +69,7 @@ class PurchaseController extends Controller
             'customer_id' => $customer_id,
             'amount' => $request['amount'],
             'points_earned' => $points_earned,
+            'coupons_used' => isset($request['coupon']) ? $request['coupon'] : 0
         ];
         // take customer from id
         $customer = Customer::find($customer_id);
