@@ -28,6 +28,18 @@ class PurchaseController extends Controller
 
 
 
+    public function couponsUsed()
+    {
+        $purchases = Purchase::with('customer')
+            ->orderBy('id', 'desc')
+            ->where('coupons_used', '>', 0)
+            ->whereBetween('created_at', Helper::getReferencePeriod())
+            ->paginate(5);
+
+        return view('admin.purchases.coupons-used', compact('purchases'));
+    }
+
+
 
     /**
      * Show the form for creating a new resource.
