@@ -18,6 +18,10 @@
             </a>
         </li>
         <li class="my-3">
+            <a href="{{ route('admin.coupons-used') }}" @class(['active' => Route::is('admin.coupons-used')])>Visualizza acquisti con coupon
+            </a>
+        </li>
+        <li class="my-3">
             <a href="{{ route('admin.purchases.create') }}" @class(['active' => Route::is('admin.purchases.create')])>Aggiungi acquisto
             </a>
         </li>
@@ -42,6 +46,11 @@
         <li class="my-3">
             <a href="{{ route('admin.purchases.index') }}" @class(['active' => Route::is('admin.purchases.index')])><i
                     class="fa-solid fa-cart-shopping"></i>
+            </a>
+        </li>
+        <li class="my-3">
+            <a href="{{ route('admin.coupons-used') }}" @class(['active' => Route::is('admin.coupons-used')])><i
+                    class="fa-solid fa-ticket"></i>
             </a>
         </li>
         <li class="my-3">
