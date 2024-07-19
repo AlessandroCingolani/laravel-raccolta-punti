@@ -43,12 +43,12 @@ Route::middleware(['auth', 'verified'])
 
         // route custome
         Route::get('customers/{direction}/{column}', [CustomerController::class, 'orderBy'])->name('order-by');
-        Route::get('admin/search-customer', [CustomerController::class, 'searchCustomer'])->name('search-customer');
-        Route::post('admin/print-coupon', [CustomerController::class, 'printCoupon'])->name('print-coupon');
+        Route::get('/search-customer', [CustomerController::class, 'searchCustomer'])->name('search-customer');
+        Route::post('/print-coupon', [CustomerController::class, 'printCoupon'])->name('print-coupon');
         // send email route
         Route::post('/send-email', [EmailController::class, 'send'])->name('send-email');
-
-        // Route::get('purchases/create/{id}', [PurchaseController::class, 'clientPurchase'])->name('selected-client');
+        // route to take who used coupons
+        Route::get('coupons-used', [PurchaseController::class, 'couponsUsed'])->name('coupons-used');
     });
 
 require __DIR__ . '/auth.php';
