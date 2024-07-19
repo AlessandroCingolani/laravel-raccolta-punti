@@ -10,8 +10,11 @@ use Illuminate\Support\Facades\DB;
 
 class Helper
 {
-    // value discount
+    // value discount ten € for 1 points
     const MONEY_FOR_POINT = 10;
+
+    // value single coupon in €
+    const VALUE_SINGLE_COUPON = 5;
 
     // Solar year reference month and day
     const START_SOLAR_MONTH = 11;
@@ -137,5 +140,12 @@ class Helper
             }
             return $monthlyPurchases;
         }
+    }
+
+
+    public static function oldPriceWithoutCoupon($price, $n_coupon)
+    {
+        // formatted data 2 is number after the dot
+        return number_format(($price + ($n_coupon * self::VALUE_SINGLE_COUPON)), 2, '.', '');
     }
 }
