@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->decimal('amount', 10, 2);
             $table->integer('points_earned');
+            $table->integer('coupons_used')->default(0);
             $table->timestamps();
         });
     }
