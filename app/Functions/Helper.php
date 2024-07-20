@@ -145,7 +145,7 @@ class Helper
 
     public static function oldPriceWithoutCoupon($price, $n_coupon)
     {
-        // formatted data 2 is number after the dot
+        // formatted data into string, 2 is number after the dot
         return number_format(($price + ($n_coupon * self::VALUE_SINGLE_COUPON)), 2, '.', '');
     }
 }
