@@ -125,8 +125,10 @@ class CustomerController extends Controller
 
         $purchases = Purchase::where('customer_id', $customer->id)->orderBy('id', 'desc')->whereBetween('created_at', Helper::getReferencePeriod())->take(3)->get();
 
+        $coupons_used = Purchase::where('customer_id', $customer->id)->whereBetween('created_at', Helper::getReferencePeriod())->sum('coupons_used');
+
         $coupons = $customer?->customer_points >= 10 ? Helper::discountCoupons($customer->customer_points) : 0;
-        return view('admin.customers.show', compact('customer', 'purchases', 'amount', 'coupons'));
+        return view('admin.customers.show', compact('customer', 'purchases', 'amount', 'coupons', 'coupons_used'));
     }
 
     /**
