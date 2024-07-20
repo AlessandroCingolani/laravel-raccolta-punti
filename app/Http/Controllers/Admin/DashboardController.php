@@ -25,7 +25,9 @@ class DashboardController extends Controller
         // use helper function to take emails sends this month
         $monthlyEmailsSent = Helper::getMonthlyValues(Lead::class);
 
+        // helper take monthly value purchases
         $monthlyPurchases = Helper::getMonthlyValues(Purchase::class);
+
         // total amount this solar yearS
         $amount = Purchase::all()->whereBetween('created_at', Helper::getReferencePeriod())->sum('amount');
 
