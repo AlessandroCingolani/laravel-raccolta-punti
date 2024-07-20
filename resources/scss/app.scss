@@ -4,14 +4,15 @@
 $height-header: 60px;
 $width-aside:200px;
 $width-small-aside :60px;
-$color-aside:pink;
+$color-aside: #007BFF;
 $color-link-aside:white;
-$active-route-color:yellow;
-$color-main:rgba($color-aside,0.3);
+$active-route-color:#FFC107;
+$color-main:#F8F9FA;
 
 
 header {
     height: $height-header;
+
     nav {
         height: 100%;
     }
