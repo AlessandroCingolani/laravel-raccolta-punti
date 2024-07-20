@@ -12,8 +12,8 @@ use App\Functions\Helper;
     <div class="container-fluid p-3">
         <h2 class="mb-3">{{ count($purchases) > 0 ? 'Tutti gli aquisti ' : 'Nessun acquisto da visualizzare' }}</h2>
         @if (count($purchases) > 0)
-            <table class="table table-bordered border-success">
-                <thead class="table-success">
+            <table class="table table-bordered border-info">
+                <thead class="table-info">
                     <tr>
                         <th class="d-none d-lg-table-cell" scope="col">
                             ID Acquisto
