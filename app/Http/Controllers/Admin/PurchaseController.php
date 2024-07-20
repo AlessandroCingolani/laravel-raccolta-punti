@@ -22,7 +22,7 @@ class PurchaseController extends Controller
         $purchases = Purchase::with('customer')
             ->orderBy('id', 'desc')
             ->whereBetween('created_at', Helper::getReferencePeriod())
-            ->paginate(5);
+            ->paginate(10);
         return view('admin.purchases.index', compact('purchases'));
     }
 
@@ -34,7 +34,7 @@ class PurchaseController extends Controller
             ->orderBy('id', 'desc')
             ->where('coupons_used', '>', 0)
             ->whereBetween('created_at', Helper::getReferencePeriod())
-            ->paginate(5);
+            ->paginate(10);
 
         return view('admin.purchases.coupons-used', compact('purchases'));
     }
@@ -81,7 +81,7 @@ class PurchaseController extends Controller
             'customer_id' => $customer_id,
             'amount' => $request['amount'],
             'points_earned' => $points_earned,
-            'coupons_used' => isset($request['coupon']) ? $request['coupon'] : 0
+            'coupons_used' => isset($request['coupon']) && !is_null($request['coupon']) ? $request['coupon'] : 0
         ];
         // take customer from id
         $customer = Customer::find($customer_id);
