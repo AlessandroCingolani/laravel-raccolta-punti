@@ -2,7 +2,6 @@
 use App\Functions\Helper;
 ?>
 
-
 @extends('layouts.admin')
 @section('content')
     <div class="container-fluid mt-3">
@@ -48,6 +47,12 @@ use App\Functions\Helper;
                                 class="badge bg-primary ms-2 fs-5">{{ $amount }}
                                 €</span>
                         </p>
+                        @if ($coupons_used > 0)
+                            <p><strong>Numero coupons utilizzati:</strong><span
+                                    class="badge bg-warning ms-2 fs-5">{{ $coupons_used }}
+                                </span>
+                            </p>
+                        @endif
                     </div>
                     @if (count($purchases) > 0)
                         <div class="col-md-6">
@@ -55,9 +60,12 @@ use App\Functions\Helper;
                             </h3>
                             <ul class="p-0 list-unstyled">
                                 @foreach ($purchases as $purchase)
-                                    <li class="mb-2">ID: {{ $purchase->id }}
+                                    <li class="mb-2">
+                                        ID: {{ $purchase->id }}
                                         Data: {{ Helper::formatDate($purchase->created_at) }}
-                                        Importo: €{{ $purchase->amount }}
+                                        Importo:
+                                        {{-- TODO: style --}}
+                                        €{{ $purchase->coupons_used > 0 ? Helper::oldPriceWithoutCoupon($purchase->amount, $purchase->coupons_used) . ' Prezzo scontato: ' . $purchase->amount : $purchase->amount }}
                                         <a href="{{ route('admin.purchases.edit', $purchase) }}"
                                             class="btn btn-warning mx-1">
                                             <i class="fa-solid fa-pencil "></i>
