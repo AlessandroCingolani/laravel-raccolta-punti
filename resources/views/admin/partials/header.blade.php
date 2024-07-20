@@ -24,7 +24,7 @@
                         <input type="text" class="form-control" placeholder="Ricerca cliente"
                             aria-label="Ricerca cliente" aria-describedby="button-addon2" name="tosearch"
                             id="tosearch">
-                        <button class="btn btn-outline-primary" type="submit" id="button-addon2">Button</button>
+                        <button class="btn btn-outline-primary" type="submit" id="button-addon2">Cerca</button>
                     </form>
                 </div>
 
