@@ -14,7 +14,7 @@
 
             </div>
         @endif
-        <h2 class="mt-3">{{ $title }}</h2>
+        <h2 class="my-3">{{ $title }}</h2>
         <div class="row">
             <div class="col-md-8">
                 <form action="{{ $route }}" method="POST" enctype="multipart/form-data">
