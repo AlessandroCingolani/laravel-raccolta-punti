@@ -31,6 +31,9 @@ use App\Functions\Helper;
                         <th scope="col">
                             Importo scontato
                         </th>
+                        <th scope="col">
+                            Coupons utilizzati
+                        </th>
 
                     </tr>
                 </thead>
@@ -44,6 +47,7 @@ use App\Functions\Helper;
                             <td>{{ Helper::formatDate($purchase->created_at) }}</td>
                             <td>€{{ Helper::oldPriceWithoutCoupon($purchase->amount, $purchase->coupons_used) }}</td>
                             <td>€{{ $purchase->amount }}</td>
+                            <td>{{ $purchase->coupons_used }}</td>
 
                         </tr>
                     @empty
