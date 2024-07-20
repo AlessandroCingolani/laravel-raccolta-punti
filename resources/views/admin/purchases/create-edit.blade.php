@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('content')
     <div class="container-fluid p-3">
-        <h2>{{ $title }}</h2>
+        <h2 class="mb-3">{{ $title }}</h2>
         @if ($errors->any())
             <div class="alert alert-danger" role="alert">
                 <ul>
@@ -14,8 +14,8 @@
         @endif
 
         {{-- TODO: style --}}
-        <div class="mb-3">
-            <a class="btn btn-primary" href="{{ route('admin.customers.create') }}">Aggiungi nuovo cliente
+        <div class="mb-4">
+            <a class="btn btn-info" href="{{ route('admin.customers.create') }}">Aggiungi nuovo cliente
             </a>
         </div>
         <form id="form-purchase" action="{{ $route }}" method="POST" enctype="multipart/form-data">
@@ -45,6 +45,9 @@
 
                     <div class="mb-3">
                         <label for="amount" class="form-label">Pagamento Cliente *</label>
+                        <div id="operation-discount" class="d-none">
+
+                        </div>
                         <input id="amount" class="form-control @error('amount') is-invalid @enderror" name="amount"
                             value="{{ old('ampunt', $purchase?->amount) }}" step=0.01 placeholder="importo €"
                             autocomplete="amount" type="number">
@@ -89,6 +92,7 @@
         let coustomerBlockCoupon = document.getElementById('selected-discount');
         let coupons = document.getElementById('customer-coupons');
         let selectCoupon = document.getElementById('coupon-select');
+        let operationDiscount = document.getElementById('operation-discount');
         let couponsAvailable = @json($coupons);
 
 
@@ -133,7 +137,7 @@
                     // if you select and toggle again reset the selection option
                     if (coupons.classList.contains('d-none')) {
                         document.getElementById('coupon-select').selectedIndex = 0;
-                        // TODO: fix when toggle clean innerhtml values
+
                     }
                     amount.disabled = !amount.disabled;
 
@@ -141,6 +145,7 @@
                     for (let i = 1; i <= getMaxCoupons(); i++) {
                         selectCoupon.innerHTML += `<option value="${i}">${i} Coupon</option>`
                     }
+
                 } else {
                     sectionCoupon.innerHTML =
                         `<p class="text-danger"> È necessario inserire un importo di almeno<br> ${VALUE_COUPON * 2}€</p>`
@@ -159,6 +164,16 @@
                         </div>
                     </div>`;
                 amount.value = initialAmount - (selectedCoupon * VALUE_COUPON);
+                operationDiscount.classList.remove('d-none');
+                operationDiscount.innerHTML = "";
+
+                operationDiscount.innerHTML += `<div class="card w-50   shadow">
+                         <div class="card-body text-center">
+                            <h5 class="card-title">Importo Totale: <span class="text-danger">${initialAmount}€</span></h5>
+                            <p class="card-text">Scontato: <strong class="fs-4 text-success">${ amount.value }€</strong></p>
+                        </div>
+                    </div>`;
+                amount.hidden = true;
             });
 
         }
@@ -173,6 +188,9 @@
             document.getElementById('coupon-select').selectedIndex = "";
             selectCoupon.innerHTML = "";
             coustomerBlockCoupon.innerHTML = "";
+            operationDiscount.classList.add('d-none');
+            operationDiscount.innerHTML = "";
+            amount.hidden = false;
 
         });
 
