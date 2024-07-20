@@ -22,10 +22,10 @@ use App\Functions\Helper;
         @endif
         @if (count($customers) > 0)
             <h2 class="mb-3">Lista clienti</h2>
-            <table class="table table-bordered border-success">
-                <thead class="table-success">
+            <table class="table table-bordered border-info">
+                <thead class="table-info">
                     <tr>
-                        <th scope="col">
+                        <th class="d-none d-lg-table-cell" scope="col">
                             <a class="text-decoration-none text-black"
                                 href="{{ route('admin.order-by', ['direction' => $direction, 'column' => 'id']) }}">ID
                                 <i class="fa-solid fa-sort"></i></a>
@@ -47,6 +47,9 @@ use App\Functions\Helper;
                                 Disponibili <i class="fa-solid fa-sort"></i>
                             </a>
                         </th>
+                        <th class="d-none d-lg-table-cell" scope="col">
+                            Coupons
+                        </th>
                         <th scope="col">
                             <a class="text-decoration-none text-black"
                                 href="{{ route('admin.order-by', ['direction' => $direction, 'column' => 'total_spent']) }}">Totale
@@ -61,13 +64,15 @@ use App\Functions\Helper;
                 <tbody>
                     @foreach ($customers as $customer)
                         <tr>
-                            <td>{{ $customer->id }}</td>
+                            <td class="d-none d-lg-table-cell">{{ $customer->id }}</td>
                             <td><a
                                     href="{{ route('admin.customers.show', $customer) }}">{{ $customer->name . ' ' . $customer->surname }}</a>
                             </td>
                             <td>{{ $customer?->email ?? '-' }}</td>
                             <td class="d-none d-lg-table-cell">{{ $customer?->phone ?? '-' }}</td>
-                            <td class="d-none d-lg-table-cell">Punti :{{ $customer?->customer_points ?? '-' }} -
+                            <td class="d-none d-lg-table-cell">Punti :{{ $customer?->customer_points ?? '-' }}
+                            </td>
+                            <td class="d-none d-lg-table-cell">
                                 {{ $customer->customer_points >= 10 ? 'Coupon disponibili: ' . Helper::discountCoupons($customer->customer_points) : 'Nessun coupon disponibile' }}
                             </td>
                             <td>{{ $customer?->total_spent ?? '0' }} €</td>
