@@ -148,7 +148,7 @@
                 datasets: [{
                     label: 'Andamento Mensile degli Acquisti',
                     data: dataLine.data,
-                    fill: false,
+                    fill: true,
                     borderColor: 'rgb(75, 192, 192)',
                     tension: 0.1
                 }]
