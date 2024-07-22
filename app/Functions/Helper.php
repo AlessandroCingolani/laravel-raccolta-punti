@@ -11,14 +11,15 @@ use Illuminate\Support\Facades\DB;
 class Helper
 {
     // value discount ten € for 1 points
-    const MONEY_FOR_POINT = 10;
+    private const MONEY_FOR_POINT = 10;
 
     // value single coupon in €
-    const VALUE_SINGLE_COUPON = 5;
+    private const VALUE_SINGLE_COUPON = 5;
 
     // Solar year reference month and day
-    const START_SOLAR_MONTH = 11;
-    const START_SOLAR_DAY = 12;
+    private const START_SOLAR_MONTH = 11;
+
+    private const START_SOLAR_DAY = 12;
 
     // point generator
     public static function generatePoints($price)
