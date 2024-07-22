@@ -12,6 +12,15 @@ use App\Functions\Helper;
     <div class="container-fluid p-3">
         <h2 class="mb-3">
             {{ count($purchases) > 0 ? 'Acquisti con coupon ' : 'Nessun acquisto con coupon da visualizzare' }}</h2>
+        {{-- search client bar --}}
+        <div class="w-50 m-auto my-4">
+            <form method="GET" action="{{ route('admin.coupons-used') }}" class="input-group">
+                <input type="text" class="form-control" placeholder="Cerca cliente per coupons utilizzati"
+                    aria-label="Ricerca cliente" aria-describedby="button-addon2" name="tosearch" id="tosearch">
+                <button class="btn btn-info" type="submit" id="button-addon2">Cerca</button>
+            </form>
+        </div>
+
         @if (count($purchases) > 0)
             <table class="table table-bordered border-info">
                 <thead class="table-info">

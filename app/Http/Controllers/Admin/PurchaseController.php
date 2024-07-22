@@ -28,13 +28,27 @@ class PurchaseController extends Controller
 
 
 
-    public function couponsUsed()
+    public function couponsUsed(Request $request)
     {
         $purchases = Purchase::with('customer')
             ->orderBy('id', 'desc')
             ->where('coupons_used', '>', 0)
-            ->whereBetween('created_at', Helper::getReferencePeriod())
-            ->paginate(10);
+            ->whereBetween('created_at', Helper::getReferencePeriod());
+
+
+        // if request has tosearch input
+        if ($request->has('tosearch')) {
+            $search = $request->input('tosearch');
+
+            // add at purchases wherehas customer who have name and surname tosearch
+            $purchases->whereHas('customer', function ($query) use ($search) {
+                $query->where('name', 'LIKE', '%' . $search . '%')
+                    ->orWhere('surname', 'LIKE', '%' . $search . '%');
+            });
+        }
+
+        $purchases = $request->has('tosearch') ? $purchases->paginate(10)->appends(['tosearch' => $request['tosearch']]) : $purchases->paginate(10);
+
 
         return view('admin.purchases.coupons-used', compact('purchases'));
     }
