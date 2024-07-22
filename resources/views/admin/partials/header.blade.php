@@ -17,8 +17,38 @@
                 </div>
 
 
+                {{-- mobile  search bar  --}}
+                <div class="col-3 d-md-none d-flex justify-content-center">
+                    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasTop" aria-controls="offcanvasTop"><i
+                            class="fa-solid fa-bars"></i></button>
 
-                <div class="col-3">
+                    <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop"
+                        aria-labelledby="offcanvasTopLabel">
+                        <div class="offcanvas-header">
+                            <h5 class="offcanvas-title" id="offcanvasTopLabel">Menu mobile</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                            <div class="row">
+                                <div class="col-6">
+                                    <form method="GET" action="{{ route('admin.search-customer') }}"
+                                        class="input-group">
+                                        <input type="text" class="form-control" placeholder="Ricerca cliente"
+                                            aria-label="Ricerca cliente" aria-describedby="button-addon2"
+                                            name="tosearch" id="tosearch">
+                                        <button class="btn btn-primary" type="submit" id="button-addon2">Cerca</button>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-3 text-center">
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav">
                         <!-- Authentication Links -->
@@ -55,7 +85,6 @@
                         @endguest
                     </ul>
                 </div>
-
             </div>
         </div>
     </nav>
