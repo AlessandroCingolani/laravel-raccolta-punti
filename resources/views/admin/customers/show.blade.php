@@ -40,7 +40,7 @@ use App\Functions\Helper;
                         <p><strong>Telefono:</strong> {{ $customer->phone ?? 'Non disponibile' }}</p>
                         <p><strong>Punti Totali:</strong> <span
                                 class="badge bg-secondary ms-2 fs-5">{{ $customer->customer_points }}</span></p>
-                        <p><strong>Coupons:</strong><span
+                        <p><strong>Coupons disponibili:</strong><span
                                 class="badge bg-secondary ms-2 fs-5">{{ Helper::discountCoupons($customer->customer_points) }}</span>
                         </p>
                         <p><strong>Importo totale speso:</strong><span
