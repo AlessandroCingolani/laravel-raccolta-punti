@@ -1,36 +1,24 @@
 <header>
-    <nav class="navbar navbar-expand-md  shadow-sm">
-        <div class="container">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="row collapse navbar-collapse " id="navbarSupportedContent">
-                <!-- Left Side Of Navbar -->
-                <div class="left-nav col-md-3">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/') }}">{{ __('Home') }}</a>
-                        </li>
-                    </ul>
+    <nav class="shadow-sm h-100">
+        <div class="container h-100">
+            <div class="row w-100 h-100 align-items-center justify-content-between">
+                {{-- Logo --}}
+                <div class="col-3">
+                    <a href="{{ url('/') }}">LOGO CLIENTE</a>
                 </div>
-
-
-
                 {{-- search client bar --}}
-                <div class="center-nav col-md-6">
+                <div class="d-none d-md-block col-md-6">
                     <form method="GET" action="{{ route('admin.search-customer') }}" class="input-group">
                         <input type="text" class="form-control" placeholder="Ricerca cliente"
                             aria-label="Ricerca cliente" aria-describedby="button-addon2" name="tosearch"
                             id="tosearch">
-                        <button class="btn btn-outline-primary" type="submit" id="button-addon2">Cerca</button>
+                        <button class="btn btn-primary" type="submit" id="button-addon2">Cerca</button>
                     </form>
                 </div>
 
 
 
-                <div class="right-nav col-md-3">
+                <div class="col-3">
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav">
                         <!-- Authentication Links -->
