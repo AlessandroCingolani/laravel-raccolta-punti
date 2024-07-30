@@ -22,7 +22,7 @@
             @csrf
             @method($method)
             <div class="row justify-content-between">
-                <div class="col-md-4 mb-4">
+                <div class="col-md-6 col-lg-4 mb-4">
                     <div class="mb-3">
                         <label for="id" class="control-label">Nome Cliente *</label>
                         <select {{ isset($purchase) ? 'disabled' : '' }} id="customer-select"
@@ -56,7 +56,7 @@
                             <p class="text-danger">{{ $message }}</p>
                         @enderror
                     </div>
-                    <button id="btn-submit" type="submit" class="btn btn-primary">{{ $button }}</button>
+                    <button id="btn-submit" type="submit" class="btn btn-primary my-2">{{ $button }}</button>
                     <button id="btn-reset" type="reset" class="btn btn-secondary">Annulla</button>
                 </div>
 
@@ -170,7 +170,7 @@
                 operationDiscount.innerHTML += `<div class="card w-50   shadow">
                          <div class="card-body text-center">
                             <h5 class="card-title">Importo Totale: <span class="text-danger">${initialAmount}€</span></h5>
-                            <p class="card-text">Scontato: <strong class="fs-4 text-success">${ amount.value }€</strong></p>
+                            <p class="card-text">Importo Scontato: <strong class="fs-4 text-success">${ amount.value }€</strong></p>
                         </div>
                     </div>`;
                 amount.hidden = true;
@@ -205,7 +205,7 @@
 
 
 
-        // function to calculate de max utilizable coupons
+        // function to calculate  max utilizable coupons
         function getMaxCoupons() {
             let price = parseFloat(amount.value);
             let discountMax = price / 2;

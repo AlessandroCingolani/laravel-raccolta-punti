@@ -9,6 +9,20 @@ $color-link-aside:white;
 $active-route-color:#FFC107;
 $color-main:#F8F9FA;
 
+// font google
+h1,h2,h3 {
+    font-family: "Pacifico", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
+
+// card header
+.card-header {
+    font-size: larger;
+    font-weight: 600;
+}
+
+
 
 header {
     height: $height-header;
@@ -58,3 +72,5 @@ main {
     height: 500px;
     margin: auto;
   }
+
+

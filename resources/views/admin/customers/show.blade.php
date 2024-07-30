@@ -61,11 +61,10 @@ use App\Functions\Helper;
                             <ul class="p-0 list-unstyled">
                                 @foreach ($purchases as $purchase)
                                     <li class="mb-2">
-                                        ID: {{ $purchase->id }}
                                         Data: {{ Helper::formatDate($purchase->created_at) }}
                                         Importo:
                                         {{-- TODO: style --}}
-                                        €{{ $purchase->coupons_used > 0 ? Helper::oldPriceWithoutCoupon($purchase->amount, $purchase->coupons_used) . ' Prezzo scontato: ' . $purchase->amount : $purchase->amount }}
+                                        €{{ $purchase->coupons_used > 0 ? Helper::oldPriceWithoutCoupon($purchase->amount, $purchase->coupons_used) . ' Prezzo scontato: ' . $purchase->amount . '€' : $purchase->amount }}
                                         <a href="{{ route('admin.purchases.edit', $purchase) }}"
                                             class="btn btn-warning mx-1">
                                             <i class="fa-solid fa-pencil "></i>
@@ -126,7 +125,7 @@ use App\Functions\Helper;
                     </div>
                     @if ($customer->customer_points >= 10)
                         <div class="col-md-3">
-                            <h4>Stampa coupon cartaceo</h4>
+                            <h3 class="mb-3">Stampa coupon cartaceo</h3>
                             <form id="form-coupon-print" action="{{ route('admin.print-coupon') }}" method="POST"
                                 enctype="multipart/form-data">
                                 @csrf
