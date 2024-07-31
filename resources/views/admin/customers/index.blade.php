@@ -21,7 +21,13 @@ use App\Functions\Helper;
             </div>
         @endif
         @if (count($customers) > 0)
-            <h2 class="mb-3">Lista clienti</h2>
+            <div class="d-flex justify-content-between">
+                <h2 class="mb-3">Lista clienti</h2>
+                @include('admin.partials.filters', [
+                    'route' => route('admin.filtered-customers'),
+                ])
+
+            </div>
             <table class="table table-bordered border-info">
                 <thead class="table-info">
                     <tr>
