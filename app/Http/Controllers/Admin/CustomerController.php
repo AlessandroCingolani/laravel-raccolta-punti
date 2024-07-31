@@ -79,7 +79,6 @@ class CustomerController extends Controller
         $purchaseRange = $request->input('purchaseRange', 0);
         $withCoupons = $request->input('coupons');
 
-
         //TODO: when false withCoupons take all customers if true take only customers with coupons
         $direction = 'desc';
         $customers = Customer::select('customers.*', DB::raw('COALESCE(SUM(purchases.amount), 0) as total_spent'))
@@ -91,14 +90,16 @@ class CustomerController extends Controller
             ->groupBy('customers.id', 'customers.name', 'customers.surname', 'customers.email', 'customers.phone', 'customers.customer_points', 'customers.created_at', 'customers.updated_at')
             ->having(DB::raw('total_spent'), '>=', $purchaseRange)
 
-            ->orderBy('total_spent', $direction)
-            ->paginate(10)
-            // appends fix the problem paginate concat tosearch at page
-            ->appends([
-                'purchaseRange' => $purchaseRange,
-                'coupons' => $withCoupons
-            ]);
-        return view('admin.customers.index', compact('customers', 'direction'));
+            ->orderBy('total_spent', $direction);
+        if ($withCoupons === "true") {
+            // customers points 10 are 1 coupon
+            $customers->having(DB::raw('customer_points'), '>=', 10);
+        }
+        $customers =  $customers->paginate(10)->appends([
+            'purchaseRange' => $purchaseRange,
+            'coupons' => $withCoupons
+        ]);
+        return view('admin.customers.index', compact('customers', 'direction', 'withCoupons', 'purchaseRange'));
     }
 
     // PRINT COUPON

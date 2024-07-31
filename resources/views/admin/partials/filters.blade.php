@@ -17,8 +17,9 @@
             <div class="fw-bold my-2 w-100">
                 <label for="purchaseRange">Seleziona l'importo minimo da cercare:</label>
                 <input type="range" id="purchaseRange" name="purchaseRange" min="0" max="5000"
-                    step="100" value="0" oninput="updateValue(this.value)">
-                <span id="rangeValue">0</span> €
+                    step="100" value="{{ isset($purchaseRange) ? $purchaseRange : '0' }}"
+                    oninput="updateValue(this.value)">
+                <span id="rangeValue">{{ isset($purchaseRange) ? $purchaseRange : '0' }}</span> €
             </div>
             <div class="fw-bold my-2 w-100">
                 <div class="mb-2">
@@ -27,7 +28,8 @@
                 <label class="checkbox-wrapper">
                     {{-- hidden input to send at route --}}
                     <input type="hidden" id="checkboxHiddenValue" name="coupons" value="false">
-                    <input type="checkbox" class="checkbox-input" id="customCheckbox" />
+                    <input @if (isset($withCoupons) && $withCoupons === 'true') checked @endif type="checkbox" class="checkbox-input"
+                        id="customCheckbox" />
                     <span class="checkbox-tile">
                         <span class="checkbox-icon">
                             <i class="fa-solid fa-ticket"></i>
@@ -49,11 +51,10 @@
     }
 
     function submitForm() {
-
+        // take value if is checked custome checkbox
         let isChecked = document.getElementById('customCheckbox').checked;
-
-
-        document.getElementById('checkboxHiddenValue').value = isChecked ? "true" : "false";
+        // take value if checked is true else false
+        document.getElementById('checkboxHiddenValue').value = isChecked ? true : false;
 
         document.getElementById('form-filter').submit();
     }
