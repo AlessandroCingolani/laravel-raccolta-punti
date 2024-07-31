@@ -37,7 +37,7 @@ class DashboardController extends Controller
 
         // bar data chart
         $data_bar = [
-            'labels' => ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'],
+            'labels' => ['Novembre', 'Dicembre', 'Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre'],
             'data' => array_values($monthlySubscriptions),
         ];
 
@@ -55,7 +55,7 @@ class DashboardController extends Controller
 
         // bar data chart
         $data_line = [
-            'labels' => ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'],
+            'labels' => ['Novembre', 'Dicembre', 'Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre'],
             'data' => array_values($monthlyPurchases),
         ];
 

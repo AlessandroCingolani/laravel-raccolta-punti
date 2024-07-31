@@ -96,8 +96,7 @@ class Helper
 
     public static function getMonthlyValues($model)
     {
-        // this year
-        $currentYear = Carbon::now()->year;
+
         // this month
         $currentMonth = Carbon::now()->month;
 
@@ -105,12 +104,16 @@ class Helper
         if ($model  === Customer::class) {
             // Query for take iscription
             $subscriptions = Customer::select(DB::raw('MONTH(created_at) as month'), DB::raw('count(*) as count'))
-                ->whereYear('created_at', $currentYear)
+                ->whereBetween('created_at', self::getReferencePeriod())
                 ->groupBy('month')
                 ->pluck('count', 'month');
 
             // array with month and count if month no found value put at 0
-            $monthlySubscriptions = array_fill(1, 12, 0);
+            $monthlySubscriptions = [
+                11 => 0, 12 => 0, 1 => 0, 2 => 0,
+                3 => 0, 4 => 0, 5 => 0, 6 => 0,
+                7 => 0, 8 => 0, 9 => 0, 10 => 0
+            ];
             foreach ($subscriptions as $month => $count) {
                 $monthlySubscriptions[$month] = $count;
             }
@@ -121,7 +124,7 @@ class Helper
         // sended email this month donut chart
         if ($model === Lead::class) {
             $emailsSentThisMonth = DB::table('leads')
-                ->whereYear('created_at', $currentYear)
+                ->whereBetween('created_at', self::getReferencePeriod())
                 ->whereMonth('created_at', $currentMonth)
                 ->count();
 
@@ -131,14 +134,19 @@ class Helper
         // take sum monthly line chart
         if ($model === Purchase::class) {
             $purchases = Purchase::select(DB::raw('MONTH(created_at) as month'), DB::raw('SUM(amount) as sum'))
-                ->whereYear('created_at', $currentYear)
+                ->whereBetween('created_at', self::getReferencePeriod())
                 ->groupBy('month')
                 ->pluck('sum', 'month');
             // array with month and count if month no found value put at 0
-            $monthlyPurchases = array_fill(1, 12, 0);
+            $monthlyPurchases = [
+                11 => 0, 12 => 0, 1 => 0, 2 => 0,
+                3 => 0, 4 => 0, 5 => 0, 6 => 0,
+                7 => 0, 8 => 0, 9 => 0, 10 => 0
+            ];
             foreach ($purchases as $month => $sum) {
                 $monthlyPurchases[$month] = $sum;
             }
+
             return $monthlyPurchases;
         }
     }
