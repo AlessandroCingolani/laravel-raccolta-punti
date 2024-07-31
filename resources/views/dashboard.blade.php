@@ -9,7 +9,7 @@
                     <div class="card-body">
                         <h5 class="card-title"><i class="fa-solid fa-users"></i></h5>
                         <h2 class="card-text">{{ $total_customer }}</h2>
-                        <p class="card-text">Totale Clienti</p>
+                        <p class="card-text dashboard-card">Totale Clienti</p>
                     </div>
                 </div>
             </div>
@@ -18,7 +18,7 @@
                     <div class="card-body">
                         <h5 class="card-title"><i class="fa-solid fa-sack-dollar"></i></h5>
                         <h2 class="card-text">{{ $amount }} €</h2>
-                        <p class="card-text">Incasso totale</p>
+                        <p class="card-text dashboard-card">Incasso totale</p>
                     </div>
                 </div>
             </div>
