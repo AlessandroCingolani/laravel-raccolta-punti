@@ -44,6 +44,7 @@ Route::middleware(['auth', 'verified'])
         // route custome
         Route::get('customers/{direction}/{column}', [CustomerController::class, 'orderBy'])->name('order-by');
         Route::get('/search-customer', [CustomerController::class, 'searchCustomer'])->name('search-customer');
+        Route::get('/filtered-customers', [CustomerController::class, 'filterCustomer'])->name('filtered-customers');
         Route::post('/print-coupon', [CustomerController::class, 'printCoupon'])->name('print-coupon');
         // send email route
         Route::post('/send-email', [EmailController::class, 'send'])->name('send-email');
