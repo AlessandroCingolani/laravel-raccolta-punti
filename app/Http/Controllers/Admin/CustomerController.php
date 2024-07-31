@@ -72,6 +72,35 @@ class CustomerController extends Controller
         return view('admin.customers.index', compact('customers', 'direction'));
     }
 
+    // Filter customer
+    public function filterCustomer(Request $request)
+    {
+
+        $purchaseRange = $request->input('purchaseRange', 0);
+        $withCoupons = $request->input('coupons');
+
+
+        //TODO: when false withCoupons take all customers if true take only customers with coupons
+        $direction = 'desc';
+        $customers = Customer::select('customers.*', DB::raw('COALESCE(SUM(purchases.amount), 0) as total_spent'))
+            ->leftJoin('purchases', function ($join) {
+                $join->on('purchases.customer_id', '=', 'customers.id')
+                    ->whereBetween('purchases.created_at', Helper::getReferencePeriod());
+            })
+
+            ->groupBy('customers.id', 'customers.name', 'customers.surname', 'customers.email', 'customers.phone', 'customers.customer_points', 'customers.created_at', 'customers.updated_at')
+            ->having(DB::raw('total_spent'), '>=', $purchaseRange)
+
+            ->orderBy('total_spent', $direction)
+            ->paginate(10)
+            // appends fix the problem paginate concat tosearch at page
+            ->appends([
+                'purchaseRange' => $purchaseRange,
+                'coupons' => $withCoupons
+            ]);
+        return view('admin.customers.index', compact('customers', 'direction'));
+    }
+
     // PRINT COUPON
 
     public function printCoupon(Request $request)
@@ -110,6 +139,9 @@ class CustomerController extends Controller
         // camel case name and from form
         $form_data['name'] = ucwords($form_data['name']);
         $form_data['surname'] = ucwords($form_data['surname']);
+        $form_data['address'] = $form_data['address'] ? ucwords($form_data['address']) : null;
+        $form_data['city'] = $form_data['city'] ? ucwords($form_data['city']) : null;
+
         $new_customer = Customer::create($form_data);
 
         return redirect()->route('admin.customers.show', $new_customer);
@@ -153,6 +185,8 @@ class CustomerController extends Controller
         // camel case name from form
         $form_data['name'] = ucwords($form_data['name']);
         $form_data['surname'] = ucwords($form_data['surname']);
+        $form_data['address'] = $form_data['address'] ? ucwords($form_data['address']) : null;
+        $form_data['city'] = $form_data['city'] ? ucwords($form_data['city']) : null;
         $customer->update($form_data);
 
 
