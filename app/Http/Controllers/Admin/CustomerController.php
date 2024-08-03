@@ -56,6 +56,12 @@ class CustomerController extends Controller
 
     public function searchCustomer(Request $request)
     {
+
+        $searchValue = $request->input('tosearch');
+
+        $fullName = explode(' ', $searchValue);
+
+
         $direction = 'desc';
         $customers = Customer::select('customers.*', DB::raw('COALESCE(SUM(purchases.amount), 0) as total_spent'))
             ->leftJoin('purchases', function ($join) {
@@ -63,10 +69,18 @@ class CustomerController extends Controller
                     ->whereBetween('purchases.created_at', Helper::getReferencePeriod());
             })
 
-            ->groupBy('customers.id', 'customers.name', 'customers.surname', 'customers.email', 'customers.phone', 'customers.customer_points', 'customers.created_at', 'customers.updated_at')
-            ->where('name', 'LIKE', '%' . $request['tosearch'] . '%')
-            ->orWhere('surname', 'LIKE', '%' . $request['tosearch'] . '%')
-            ->paginate(10)
+            ->groupBy('customers.id', 'customers.name', 'customers.surname', 'customers.email', 'customers.phone', 'customers.customer_points', 'customers.created_at', 'customers.updated_at');
+        if (count($fullName) === 2) {
+            $firstName = $fullName[0];
+            $lastName = $fullName[1];
+            $customers->where('name', 'LIKE', '%' . $firstName . '%')
+                ->orWhere('surname', 'LIKE', '%' . $lastName . '%');
+        } else {
+            $customers->where('name', 'LIKE', '%' . $searchValue . '%')
+                ->orWhere('surname', 'LIKE', '%' . $searchValue . '%');
+        };
+
+        $customers = $customers->paginate(10)
             // appends fix the problem paginate concat tosearch at page
             ->appends(['tosearch' => $request['tosearch']]);
         return view('admin.customers.index', compact('customers', 'direction'));
