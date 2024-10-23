@@ -49,7 +49,7 @@
 
                         </div>
                         <input id="amount" class="form-control @error('amount') is-invalid @enderror" name="amount"
-                            value="{{ old('ampunt', $purchase?->amount) }}" step=0.01 placeholder="importo €"
+                            value="{{ old('amount', $purchase?->amount) }}" step=0.01 placeholder="importo €"
                             autocomplete="amount" type="number">
 
                         @error('amount')
