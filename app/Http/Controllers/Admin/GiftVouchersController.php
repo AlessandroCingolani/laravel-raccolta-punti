@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
 
 class GiftVouchersController extends Controller
 {
-
+    // Durata validità del coupon
     const MONTH_VOUCHER_VALIDATION = 2;
 
     /**
@@ -67,9 +67,13 @@ class GiftVouchersController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(GiftVoucher $gift_voucher)
     {
-        //
+        $title = "Modifica buono regalo";
+        $method = 'PUT';
+        $route = route('admin.gift_vouchers.update', $gift_voucher);
+        $button = 'Modifica buono regalo';
+        return view('admin.gift_vouchers.create-edit', compact('title', 'method', 'route', 'button', 'gift_voucher'));
     }
 
     /**
