@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EmailController;
 use App\Http\Controllers\Admin\PurchaseController;
+use App\Http\Controllers\Admin\GiftVouchersController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -39,6 +40,7 @@ Route::middleware(['auth', 'verified'])
     ->group(function () {
         Route::resource('customers', CustomerController::class);
         Route::resource('purchases', PurchaseController::class);
+        Route::resource('gift_vouchers', GiftVouchersController::class);
 
 
         // route custome
