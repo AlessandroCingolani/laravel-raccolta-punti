@@ -110,9 +110,18 @@ class Helper
 
             // array with month and count if month no found value put at 0
             $monthlySubscriptions = [
-                11 => 0, 12 => 0, 1 => 0, 2 => 0,
-                3 => 0, 4 => 0, 5 => 0, 6 => 0,
-                7 => 0, 8 => 0, 9 => 0, 10 => 0
+                11 => 0,
+                12 => 0,
+                1 => 0,
+                2 => 0,
+                3 => 0,
+                4 => 0,
+                5 => 0,
+                6 => 0,
+                7 => 0,
+                8 => 0,
+                9 => 0,
+                10 => 0
             ];
             foreach ($subscriptions as $month => $count) {
                 $monthlySubscriptions[$month] = $count;
@@ -139,9 +148,18 @@ class Helper
                 ->pluck('sum', 'month');
             // array with month and count if month no found value put at 0
             $monthlyPurchases = [
-                11 => 0, 12 => 0, 1 => 0, 2 => 0,
-                3 => 0, 4 => 0, 5 => 0, 6 => 0,
-                7 => 0, 8 => 0, 9 => 0, 10 => 0
+                11 => 0,
+                12 => 0,
+                1 => 0,
+                2 => 0,
+                3 => 0,
+                4 => 0,
+                5 => 0,
+                6 => 0,
+                7 => 0,
+                8 => 0,
+                9 => 0,
+                10 => 0
             ];
             foreach ($purchases as $month => $sum) {
                 $monthlyPurchases[$month] = $sum;
