@@ -27,7 +27,7 @@
                                 class="form-control @error('recipient_first_name') is-invalid @enderror"
                                 name="recipient_first_name"
                                 value="{{ old('recipient_first_name', $gift_voucher?->recipient_first_name) }}"
-                                autocomplete="recipient_first_name" type="text">
+                                autocomplete="recipient_first_name" type="text" placeholder="Nome">
                             @error('recipient_first_name')
                                 <p class="text-danger">{{ $message }}</p>
                             @enderror
@@ -38,7 +38,7 @@
                                 class="form-control @error('recipient_last_name') is-invalid @enderror"
                                 name="recipient_last_name"
                                 value="{{ old('recipient_last_name', $gift_voucher?->recipient_last_name) }}"
-                                autocomplete="recipient_last_name" type="text">
+                                autocomplete="recipient_last_name" type="text" placeholder="Cognome">
                             @error('recipient_last_name')
                                 <p class="text-danger">{{ $message }}</p>
                             @enderror
