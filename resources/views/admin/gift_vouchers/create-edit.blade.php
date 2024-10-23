@@ -57,6 +57,9 @@
                                 <p class="text-danger">{{ $message }}</p>
                             @enderror
                         </div>
+                        <!-- Campo nascosto per il codice voucher -->
+                        <input type="hidden" name="code" value="{{ old('code', $voucher->code ?? '') }}">
+
                     </div>
 
 
