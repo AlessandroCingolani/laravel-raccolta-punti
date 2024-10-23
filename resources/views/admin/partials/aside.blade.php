@@ -6,7 +6,11 @@
                 Home</a>
         </li>
         <li class="my-3">
-            <a href="{{ route('admin.customers.index') }}" @class(['active' => Route::is('admin.customers.index')])>I Tuoi Clienti
+            <a href="{{ route('admin.customers.index') }}" @class([
+                'active' =>
+                    Route::is('admin.customers.index') ||
+                    Route::is('admin.search-customer'),
+            ])>I Tuoi Clienti
             </a>
         </li>
         <li class="my-3">
@@ -25,7 +29,15 @@
             <a href="{{ route('admin.purchases.create') }}" @class(['active' => Route::is('admin.purchases.create')])>Aggiungi acquisto
             </a>
         </li>
-
+        <li class="my-3">
+            <a href="{{ route('admin.gift_vouchers.create') }}" @class(['active' => Route::is('admin.gift_vouchers.create')])>Aggiungi buono regalo
+            </a>
+        </li>
+        <li class="my-3">
+            <a href="{{ route('admin.gift_vouchers.index') }}" @class(['active' => Route::is('admin.gift_vouchers.index')])>Visualizza buoni
+                regalo
+            </a>
+        </li>
     </ul>
 
     <ul id="link-menu-sm" class="text-center py-3 px-2 d-md-none">
@@ -58,7 +70,16 @@
                     class="fa-solid fa-cart-plus"></i>
             </a>
         </li>
-
+        <li class="my-3">
+            <a href="{{ route('admin.gift_vouchers.create') }}" @class(['active' => Route::is('admin.gift_vouchers.create')])>
+                <i class="fa-solid fa-gift"></i><i class="fa-solid fa-plus fs-6"></i>
+            </a>
+        </li>
+        <li class="my-3">
+            <a href="{{ route('admin.gift_vouchers.index') }}" @class(['active' => Route::is('admin.gift_vouchers.index')])>
+                <i class="fa-solid fa-gift"></i>
+            </a>
+        </li>
     </ul>
 
 </aside>
