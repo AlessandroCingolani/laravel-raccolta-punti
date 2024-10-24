@@ -52,6 +52,10 @@ Route::middleware(['auth', 'verified'])
         Route::post('/send-email', [EmailController::class, 'send'])->name('send-email');
         // route to take who used coupons
         Route::get('coupons-used', [PurchaseController::class, 'couponsUsed'])->name('coupons-used');
+        // route to take used Gift Vouchers
+        Route::get('gift-used', [GiftVouchersController::class, 'usedGift'])->name('gift-used');
+        // route to take expired Gift Vouchers
+        Route::get('gift-expired', [GiftVouchersController::class, 'expiredGift'])->name('gift-expired');
     });
 
 require __DIR__ . '/auth.php';

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\GiftVoucher;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
+use Symfony\Component\Finder\Gitignore;
 
 class GiftVouchersController extends Controller
 {
@@ -19,9 +20,30 @@ class GiftVouchersController extends Controller
      */
     public function index()
     {
-        $vouchers = GiftVoucher::paginate(10);
-        return view('admin.gift_vouchers.index', compact('vouchers'));
+        $title = "Lista buoni regalo attivi";
+        $vouchers = GiftVoucher::where("status", "valid")->paginate(10);
+        return view('admin.gift_vouchers.index', compact('vouchers', 'title'));
     }
+
+
+    //  Display used Gift voucher
+    public function usedGift()
+    {
+        $title = "Lista buoni regalo utilizzati";
+        $vouchers = GiftVoucher::where("status", "used")->paginate(10);
+        return view('admin.gift_vouchers.index', compact('vouchers', 'title'));
+    }
+
+    //  Display expired Gift voucher
+    public function expiredGift()
+    {
+        $title = "Lista buoni regalo scaduti";
+        $vouchers = GiftVoucher::where("status", "expired")->paginate(10);
+        return view('admin.gift_vouchers.index', compact('vouchers', 'title'));
+    }
+
+
+
 
     /**
      * Show the form for creating a new resource.
