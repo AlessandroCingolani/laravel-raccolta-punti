@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
 
 class GiftVouchersController extends Controller
 {
-    // Durata validità del coupon
+    // Duration coupon
     const MONTH_VOUCHER_VALIDATION = 2;
 
     /**
@@ -43,6 +43,9 @@ class GiftVouchersController extends Controller
     public function store(GiftVoucherRequest $request)
     {
         $form_data = $request->all();
+
+        $form_data['recipient_first_name'] = ucwords($form_data['recipient_first_name']);
+        $form_data['recipient_last_name'] = ucwords($form_data['recipient_last_name']);
 
         $uniqueCode = $this->generateUniqueCode();
         $form_data['code'] = $uniqueCode;
@@ -79,9 +82,17 @@ class GiftVouchersController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(GiftVoucherRequest $request, GiftVoucher $gift_voucher)
     {
-        //
+        // TODO: Controlla che il valore del codice rimane uguale dopo l update ho impostato un campo invisibile per portare il vecchio codice se esiste
+        $form_data = $request->all();
+
+        $form_data['recipient_first_name'] = ucwords($form_data['recipient_first_name']);
+        $form_data['recipient_last_name'] = ucwords($form_data['recipient_last_name']);
+
+        $gift_voucher->update($form_data);
+
+        return redirect()->route('admin.gift_vouchers.show', $gift_voucher)->with('success', 'Buono regalo modificato con successo!');
     }
 
     /**
@@ -93,7 +104,7 @@ class GiftVouchersController extends Controller
     }
 
     /**
-     * Genera un codice unico per il buono regalo
+     * Generate unique code
      *
      * @return string
      */
