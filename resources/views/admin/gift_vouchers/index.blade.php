@@ -73,7 +73,7 @@ use App\Functions\Helper;
                                 </a>
                                 <form class="d-inline-block" action="{{ route('admin.gift_vouchers.destroy', $voucher) }}"
                                     method="POST"
-                                    onsubmit="return confirm('Sei sicuro di voler cancellare questo voucher?')">
+                                    onsubmit="return confirm('Sei sicuro di voler cancellare questo buono?')">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger">
