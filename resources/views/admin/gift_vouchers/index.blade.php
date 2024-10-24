@@ -1,3 +1,7 @@
+<?php
+use App\Functions\Helper;
+?>
+
 @extends('layouts.admin')
 
 
@@ -55,7 +59,7 @@
                             <td>{{ $voucher->recipient_first_name . ' ' . $voucher->recipient_last_name }}</td>
                             <td>{{ $voucher->code }}</td>
                             <td>{{ $voucher->amount }} €</td>
-                            <td>{{ $voucher->expiration_date }}</td>
+                            <td>{{ Helper::formatDate($voucher->expiration_date) }}</td>
                             <td>
                                 @if ($voucher->used_at)
                                     Usato il {{ $voucher->used_at }}
