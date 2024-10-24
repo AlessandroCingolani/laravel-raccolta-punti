@@ -13,7 +13,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        // comand to set expired at voucher with valid date < actual date
+        $schedule->command('gift_vouchers:expired')->daily()->timezone('Europe/Rome');
 
 
         $schedule->command('customers:reset-points')
