@@ -98,9 +98,10 @@ class GiftVouchersController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(GiftVoucher $gift_voucher)
     {
-        //
+        $gift_voucher->delete();
+        return redirect()->route('admin.gift_vouchers.index')->with('success', 'Buono regalo eliminato con successo');
     }
 
     /**
