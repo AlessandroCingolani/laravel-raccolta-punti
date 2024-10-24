@@ -23,8 +23,15 @@ use App\Functions\Helper;
         @endif
 
         @if (count($vouchers) > 0)
+            {{-- TODO: Imposta grafica per bottoni rotta gift usati e scaduti --}}
+            <a href="{{ route('admin.gift-used') }}" class="btn btn-warning">
+                <i class="fa-solid fa-pencil"></i>
+            </a>
+            <a href="{{ route('admin.gift-expired') }}" class="btn btn-danger">
+                <i class="fa-solid fa-pencil"></i>
+            </a>
             <div class="d-flex justify-content-between">
-                <h2 class="mb-3">Lista buoni regalo</h2>
+                <h2 class="mb-3">{{ $title }}</h2>
             </div>
             <table class="table table-bordered border-info">
                 <thead class="table-info">

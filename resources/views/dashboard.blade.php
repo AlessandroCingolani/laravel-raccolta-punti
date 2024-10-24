@@ -27,7 +27,7 @@
                     <div class="card-body">
                         <h5 class="card-title"><i class="fa-solid fa-receipt"></i></h5>
                         <h2 class="card-text">{{ $gift_voucher_active }}</h2>
-                        <p class="card-text dashboard-card">Buoni attivi</p>
+                        <p class="card-text dashboard-card">Buoni regalo attivi</p>
                     </div>
                 </div>
             </div>
