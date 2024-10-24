@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Functions\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
+use App\Models\GiftVoucher;
 use App\Models\Lead;
 use App\Models\Purchase;
 use Carbon\Carbon;
@@ -34,6 +35,7 @@ class DashboardController extends Controller
         $total_customer = Customer::count();
         $total_email_sent = Lead::count();
         $coupon_email_sent = Lead::where('type', 'coupon')->count();
+        $gift_voucher_active = GiftVoucher::where('status', 'valid')->count();
 
         // bar data chart
         $data_bar = [
@@ -59,6 +61,6 @@ class DashboardController extends Controller
             'data' => array_values($monthlyPurchases),
         ];
 
-        return view("dashboard", compact("total_email_sent", "coupon_email_sent", "total_customer", "data_bar", "data_donut", "current_month", "amount", "data_line"));
+        return view("dashboard", compact("total_email_sent", "coupon_email_sent", "total_customer", "data_bar", "data_donut", "current_month", "amount", "data_line", "gift_voucher_active"));
     }
 }

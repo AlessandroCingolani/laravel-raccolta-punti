@@ -13,12 +13,21 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 mb-2">
                 <div class="card text-center">
                     <div class="card-body">
                         <h5 class="card-title"><i class="fa-solid fa-sack-dollar"></i></h5>
                         <h2 class="card-text">{{ $amount }} €</h2>
                         <p class="card-text dashboard-card">Incasso totale</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fa-solid fa-receipt"></i></h5>
+                        <h2 class="card-text">{{ $gift_voucher_active }}</h2>
+                        <p class="card-text dashboard-card">Buoni attivi</p>
                     </div>
                 </div>
             </div>
