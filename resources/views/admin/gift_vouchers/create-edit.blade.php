@@ -58,7 +58,7 @@
                             @enderror
                         </div>
                         <!-- Campo nascosto per il codice voucher -->
-                        <input type="hidden" name="code" value="{{ old('code', $voucher->code ?? '') }}">
+                        <input type="hidden" name="code" value="{{ old('code', $gift_voucher->code ?? '') }}">
 
                     </div>
 
