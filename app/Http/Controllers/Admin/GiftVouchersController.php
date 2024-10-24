@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 class GiftVouchersController extends Controller
 {
     // Duration coupon
-    const MONTH_VOUCHER_VALIDATION = 2;
+    const MOUNTH_VOUCHER_VALIDATION = 2;
 
     /**
      * Display a listing of the resource.
@@ -51,7 +51,7 @@ class GiftVouchersController extends Controller
         $form_data['code'] = $uniqueCode;
 
         // expiration time for coupon
-        $expirationDate = Carbon::now()->addMonths(self::MONTH_VOUCHER_VALIDATION);
+        $expirationDate = Carbon::now()->addMonths(self::MOUNTH_VOUCHER_VALIDATION);
         $form_data['expiration_date'] = $expirationDate;
 
         $new_gift_voucher = GiftVoucher::create($form_data);
