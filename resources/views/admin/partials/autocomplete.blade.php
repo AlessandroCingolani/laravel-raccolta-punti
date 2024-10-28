@@ -1,4 +1,4 @@
-{{-- Componente autocomplete con parametri 1: rotta, 2: label, 3: API, 4: id --}}
+{{-- Componente autocomplete con parametri 'idInput''idResults''idError''route''label''api''email''code' --}}
 <form method="GET" action="{{ route($route) }}" class="input-group">
     <input type="text" class="form-control" placeholder="{{ $label ?? 'Ricerca cliente' }}" autocomplete="off"
         aria-label="{{ $label ?? 'Ricerca cliente' }}" aria-describedby="button-addon2" name="tosearch"
@@ -51,13 +51,13 @@
                                         nameSurnameSpan.textContent = result.name +
                                             ' ' + result.surname;
                                         extraSpan.textContent = result
-                                        .email; // Mostra email se `$email` è true
+                                            .email; // Mostra email se `$email` è true
                                     } else if (showCode) {
                                         nameSurnameSpan.textContent = result
                                             .recipient_first_name + ' ' + result
                                             .recipient_last_name;
                                         extraSpan.textContent = result
-                                        .code; // Mostra codice se `$code` è true
+                                            .code; // Mostra codice se `$code` è true
                                     }
 
                                     // Aggiunge gli span al div del risultato
@@ -67,14 +67,14 @@
 
                                     // Gestione del click per selezionare il risultato
                                     resultItem.addEventListener('click',
-                                function() {
-                                        toSearch.value = nameSurnameSpan
-                                            .textContent;
-                                        resultsContainer.innerHTML = '';
-                                        errorContainer.textContent = '';
-                                        resultsContainer.classList.add(
-                                            'd-none');
-                                    });
+                                        function() {
+                                            toSearch.value = nameSurnameSpan
+                                                .textContent;
+                                            resultsContainer.innerHTML = '';
+                                            errorContainer.textContent = '';
+                                            resultsContainer.classList.add(
+                                                'd-none');
+                                        });
                                 });
                                 errorContainer.textContent = '';
                                 errorContainer.classList.add('d-none');
