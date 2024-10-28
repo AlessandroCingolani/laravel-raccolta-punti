@@ -19,4 +19,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// Route customers autocomplete
 Route::get('/auto-complete/{search}', [PageController::class, 'autoComplete']);
+
+// Route Gift autocomplete
+Route::get('/auto-complete-gift/{search}', [PageController::class, 'autoCompleteGift']);
