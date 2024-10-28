@@ -56,6 +56,8 @@ Route::middleware(['auth', 'verified'])
         Route::get('gift-used', [GiftVouchersController::class, 'usedGift'])->name('gift-used');
         // route to take expired Gift Vouchers
         Route::get('gift-expired', [GiftVouchersController::class, 'expiredGift'])->name('gift-expired');
+        // search customers with gift voucher
+        Route::get('/search-gift-customers', [GiftVouchersController::class, 'searchGiftCustomers'])->name('search-gift-customers');
     });
 
 require __DIR__ . '/auth.php';
