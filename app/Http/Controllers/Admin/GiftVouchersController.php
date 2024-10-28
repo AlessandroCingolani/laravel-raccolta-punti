@@ -43,6 +43,31 @@ class GiftVouchersController extends Controller
     }
 
 
+    public function searchGiftCustomers(Request $request)
+    {
+        $searchValue = $request->input('tosearch');
+        $fullName = explode(' ', $searchValue);
+        $title = "Lista buoni regalo";
+
+        // Crea una query di base senza eseguire immediatamente
+        $vouchers = GiftVoucher::query();
+
+        if (count($fullName) === 2) {
+            // Cerca combinando nome e cognome
+            $firstName = $fullName[0];
+            $lastName = $fullName[1];
+            $vouchers->where('recipient_first_name', 'LIKE', '%' . $firstName . '%')
+                ->where('recipient_last_name', 'LIKE', '%' . $lastName . '%');
+        } else {
+            // Cerca parzialmente per nome o cognome
+            $vouchers->where('recipient_first_name', 'LIKE', '%' . $searchValue . '%')
+                ->orWhere('recipient_last_name', 'LIKE', '%' . $searchValue . '%');
+        }
+
+        $vouchers = $vouchers->paginate(10);
+
+        return view('admin.gift_vouchers.index', compact('vouchers', 'title'));
+    }
 
 
     /**
