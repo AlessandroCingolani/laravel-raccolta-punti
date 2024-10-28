@@ -1,22 +1,28 @@
-{{-- Componente autocomplete con parametri 1: rotta, 2: label, 3: API, 4: campo ricerca --}}
+{{-- Componente autocomplete con parametri 1: rotta, 2: label, 3: API, 4: id --}}
 <form method="GET" action="{{ route($route) }}" class="input-group">
     <input type="text" class="form-control" placeholder="{{ $label ?? 'Ricerca cliente' }}" autocomplete="off"
-        aria-label="{{ $label ?? 'Ricerca cliente' }}" aria-describedby="button-addon2" name="tosearch" id="tosearch">
+        aria-label="{{ $label ?? 'Ricerca cliente' }}" aria-describedby="button-addon2" name="tosearch"
+        id="{{ $idInput }}">
     <button class="btn btn-primary" type="submit" id="button-addon2">Cerca</button>
 </form>
-<div id="customers-results" class="w-100 bg-white d-none position-absolute">
-    {{-- autocomplete --}}
+
+<div id="{{ $idResults }}" class="autocomplete-results w-100 bg-white d-none position-absolute">
+    {{-- Risultati dell'autocomplete --}}
 </div>
 
-<div id="customers-error" class="text-danger position-absolute d-none"></div>
+<div id="{{ $idError }}" class="autocomplete-error text-danger position-absolute d-none"></div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        let customersInput = document.getElementById('tosearch');
-        let resultsContainer = document.getElementById('customers-results');
-        let errorContainer = document.getElementById('customers-error');
-        let toSearch = document.getElementById('tosearch');
+        let customersInput = document.getElementById('{{ $idInput }}');
+        let resultsContainer = document.getElementById('{{ $idResults }}');
+        let errorContainer = document.getElementById('{{ $idError }}');
+        let toSearch = customersInput;
         let timeout = null;
+
+        // Convertiamo i valori di Blade in booleani per JS
+        let showEmail = {{ $email ? 'true' : 'false' }};
+        let showCode = {{ $code ? 'true' : 'false' }};
 
         customersInput.addEventListener('input', function() {
             let searchValue = customersInput.value.trim();
@@ -24,7 +30,6 @@
 
             timeout = setTimeout(() => {
                 if (searchValue.length > 0) {
-                    // Utilizza l'URL API dal parametro "api"
                     fetch('{{ $api }}' + searchValue)
                         .then(response => response.json())
                         .then(data => {
@@ -39,25 +44,37 @@
 
                                     let nameSurnameSpan = document.createElement(
                                         'span');
-                                    nameSurnameSpan.textContent = result.name +
-                                        ' ' + result.surname;
+                                    let extraSpan = document.createElement('span');
 
-                                    let emailSpan = document.createElement('span');
-                                    emailSpan.textContent = result.email;
+                                    // Condizionale per visualizzare nome e cognome corretti
+                                    if (showEmail) {
+                                        nameSurnameSpan.textContent = result.name +
+                                            ' ' + result.surname;
+                                        extraSpan.textContent = result
+                                        .email; // Mostra email se `$email` è true
+                                    } else if (showCode) {
+                                        nameSurnameSpan.textContent = result
+                                            .recipient_first_name + ' ' + result
+                                            .recipient_last_name;
+                                        extraSpan.textContent = result
+                                        .code; // Mostra codice se `$code` è true
+                                    }
 
+                                    // Aggiunge gli span al div del risultato
                                     resultItem.appendChild(nameSurnameSpan);
-                                    resultItem.appendChild(emailSpan);
+                                    resultItem.appendChild(extraSpan);
                                     resultsContainer.appendChild(resultItem);
 
+                                    // Gestione del click per selezionare il risultato
                                     resultItem.addEventListener('click',
-                                        function() {
-                                            toSearch.value = nameSurnameSpan
-                                                .textContent;
-                                            resultsContainer.innerHTML = '';
-                                            errorContainer.textContent = '';
-                                            resultsContainer.classList.add(
-                                                'd-none');
-                                        });
+                                function() {
+                                        toSearch.value = nameSurnameSpan
+                                            .textContent;
+                                        resultsContainer.innerHTML = '';
+                                        errorContainer.textContent = '';
+                                        resultsContainer.classList.add(
+                                            'd-none');
+                                    });
                                 });
                                 errorContainer.textContent = '';
                                 errorContainer.classList.add('d-none');
