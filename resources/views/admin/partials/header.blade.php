@@ -7,7 +7,7 @@
                     <a href="{{ url('/') }}">LOGO CLIENTE</a>
                 </div>
                 {{-- search client bar --}}
-                {{-- 1 rotta  2 label --}}
+                {{-- 1 rotta  2 label 3 Api 4 email/codice --}}
                 <div class="d-none d-md-block col-md-6 position-relative">
                     <form method="GET" action="{{ route('admin.search-customer') }}" class="input-group">
                         <input type="text" class="form-control" placeholder="Ricerca cliente" autocomplete="off"
