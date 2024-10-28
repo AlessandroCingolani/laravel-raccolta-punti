@@ -22,6 +22,7 @@ use App\Functions\Helper;
             </div>
         @endif
 
+
         @if (count($vouchers) > 0)
             {{-- TODO: Imposta grafica per bottoni rotta gift usati e scaduti --}}
             <a href="{{ route('admin.gift-used') }}" class="btn btn-warning">
@@ -43,7 +44,7 @@ use App\Functions\Helper;
                             Destinatario
                         </th>
                         <th scope="col">
-                            Codice Voucher
+                            Codice Regalo
                         </th>
                         <th scope="col">
                             Importo
