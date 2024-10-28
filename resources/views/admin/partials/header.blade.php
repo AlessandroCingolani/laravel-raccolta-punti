@@ -9,17 +9,13 @@
                 {{-- search client bar --}}
                 {{-- 1 rotta  2 label 3 Api 4 email/codice --}}
                 <div class="d-none d-md-block col-md-6 position-relative">
-                    <form method="GET" action="{{ route('admin.search-customer') }}" class="input-group">
-                        <input type="text" class="form-control" placeholder="Ricerca cliente" autocomplete="off"
-                            aria-label="Ricerca cliente" aria-describedby="button-addon2" name="tosearch"
-                            id="tosearch">
-                        <button class="btn btn-primary" type="submit" id="button-addon2">Cerca</button>
-                    </form>
-                    <div id="customers-results" class="w-100 bg-white d-none position-absolute">
-                        {{-- autocomplete --}}
-                    </div>
-
-                    <div id="customers-error" class="text-danger position-absolute d-none"></div>
+                    {{-- componente autocomplete qui --}}
+                    @include('admin.partials.autocomplete', [
+                        'route' => 'admin.search-customer',
+                        'label' => 'Ricerca cliente',
+                        'api' => 'http://127.0.0.1:8000/api/auto-complete/',
+                        'email' => true,
+                    ])
                 </div>
 
 
@@ -39,13 +35,12 @@
                         <div class="offcanvas-body">
                             <div class="row">
                                 <div class="col-6">
-                                    <form method="GET" action="{{ route('admin.search-customer') }}"
-                                        class="input-group">
-                                        <input type="text" class="form-control" placeholder="Ricerca cliente"
-                                            aria-label="Ricerca cliente" aria-describedby="button-addon2"
-                                            name="tosearch" id="tosearch">
-                                        <button class="btn btn-primary" type="submit" id="button-addon2">Cerca</button>
-                                    </form>
+                                    @include('admin.partials.autocomplete', [
+                                        'route' => 'admin.search-customer',
+                                        'label' => 'Ricerca cliente',
+                                        'api' => 'http://127.0.0.1:8000/api/auto-complete/',
+                                        'email' => true,
+                                    ])
                                 </div>
 
                             </div>
@@ -95,82 +90,3 @@
         </div>
     </nav>
 </header>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        let customersInput = document.getElementById('tosearch');
-        let resultsContainer = document.getElementById('customers-results');
-        let errorContainer = document.getElementById('customers-error');
-        let toSearch = document.getElementById('tosearch');
-        let timeout = null;
-
-        customersInput.addEventListener('input', function() {
-            let searchValue = customersInput.value.trim();
-            console.log(searchValue);
-            // clear timeout
-            clearTimeout(timeout);
-
-            // do call api only after 600 ms
-            timeout = setTimeout(() => {
-                if (searchValue.length > 0) {
-                    //  AJAX
-                    fetch('http://127.0.0.1:8000/api/auto-complete/' + searchValue)
-                        .then(response => response.json())
-                        .then(data => {
-
-                            resultsContainer.innerHTML = '';
-                            resultsContainer.classList.remove('d-none');
-
-                            if (data && data.length > 0) {
-                                data.forEach(result => {
-                                    let resultItem = document.createElement('div');
-                                    resultItem.classList.add('d-flex',
-                                        'justify-content-between')
-
-                                    let nameSurnameSpan = document.createElement(
-                                        'span');
-                                    nameSurnameSpan.textContent = result.name +
-                                        ' ' + result.surname;
-
-                                    let emailSpan = document.createElement('span');
-                                    emailSpan.textContent = result.email;
-                                    resultItem.appendChild(nameSurnameSpan);
-                                    resultItem.appendChild(emailSpan);
-                                    resultsContainer.appendChild(resultItem);
-                                    resultItem.addEventListener('click',
-                                        function() {
-                                            toSearch.value = nameSurnameSpan
-                                                .textContent;
-                                            resultsContainer.innerHTML = '';
-                                            errorContainer.textContent = '';
-                                            resultsContainer.classList.add(
-                                                'd-none');
-                                        });
-                                });
-                                errorContainer.textContent = '';
-                                errorContainer.classList.add('d-none');
-
-                            } else {
-                                errorContainer.classList.remove('d-none');
-                                errorContainer.textContent = 'Nessun risultato trovato.';
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Errore nella richiesta:', error);
-                            errorContainer.textContent =
-                                'Errore nella ricerca. Riprovare più tardi.';
-                            resultsContainer.classList.add('d-none');
-
-                        });
-                } else {
-                    resultsContainer.innerHTML = '';
-                    errorContainer.textContent = '';
-                    errorContainer.classList.add('d-none');
-                    resultsContainer.classList.add('d-none');
-                }
-            }, 600);
-
-        });
-        //TODO: focusout to close autocomplete
-    });
-</script>
