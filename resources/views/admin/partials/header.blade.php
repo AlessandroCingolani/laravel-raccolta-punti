@@ -11,10 +11,14 @@
                 <div class="d-none d-md-block col-md-6 position-relative">
                     {{-- componente autocomplete qui --}}
                     @include('admin.partials.autocomplete', [
+                        'idInput' => 'searchHeader',
+                        'idResults' => 'resultsHeader',
+                        'idError' => 'errorHeader',
                         'route' => 'admin.search-customer',
                         'label' => 'Ricerca cliente',
                         'api' => 'http://127.0.0.1:8000/api/auto-complete/',
                         'email' => true,
+                        'code' => false,
                     ])
                 </div>
 
@@ -36,10 +40,14 @@
                             <div class="row">
                                 <div class="col-6">
                                     @include('admin.partials.autocomplete', [
+                                        'idInput' => 'searchHeaderMobile',
+                                        'idResults' => 'resultsHeaderMobile',
+                                        'idError' => 'errorHeaderMobile',
                                         'route' => 'admin.search-customer',
                                         'label' => 'Ricerca cliente',
                                         'api' => 'http://127.0.0.1:8000/api/auto-complete/',
                                         'email' => true,
+                                        'code' => false,
                                     ])
                                 </div>
 

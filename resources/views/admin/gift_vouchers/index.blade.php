@@ -34,6 +34,20 @@ use App\Functions\Helper;
             <div class="d-flex justify-content-between">
                 <h2 class="mb-3">{{ $title }}</h2>
             </div>
+            {{-- 1 rotta  2 label 3 Api 4 codice --}}
+            <div class="d-none d-md-block col-md-6 position-relative">
+                {{-- componente autocomplete qui --}}
+                @include('admin.partials.autocomplete', [
+                    'idInput' => 'searchGift',
+                    'idResults' => 'resultsGift',
+                    'idError' => 'errorGift',
+                    'route' => 'admin.search-gift-customers',
+                    'label' => 'Ricerca buono',
+                    'api' => 'http://127.0.0.1:8000/api/auto-complete-gift/',
+                    'email' => false,
+                    'code' => true,
+                ])
+            </div>
             <table class="table table-bordered border-info">
                 <thead class="table-info">
                     <tr>
