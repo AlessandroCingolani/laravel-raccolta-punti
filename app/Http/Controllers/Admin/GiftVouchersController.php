@@ -69,6 +69,21 @@ class GiftVouchersController extends Controller
         return view('admin.gift_vouchers.index', compact('vouchers', 'title'));
     }
 
+    // Funzione per utilizzare i Gift Vouchers
+    public function toggleStatus(GiftVoucher $voucher)
+    {
+        // Cambia lo stato con un ternario se è valid mette used sennò è valid
+        if ($voucher->status != 'expired') {
+            $voucher->status === 'valid' ? $voucher->status = 'used' : $voucher->status = 'valid';
+            $voucher->save();
+            return redirect()->route('admin.gift_vouchers.index')
+                ->with('success', 'Stato del gift voucher aggiornato');
+        }
+        // Manda errore nel caso di modifica del buono scaduto
+        return redirect()->route('admin.gift_vouchers.index')
+            ->withErrors('Non puoi modificare questo buono');
+    }
+
 
     /**
      * Show the form for creating a new resource.
