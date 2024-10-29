@@ -7,9 +7,8 @@
                     <a href="{{ url('/') }}">LOGO CLIENTE</a>
                 </div>
                 {{-- search client bar --}}
-                {{-- 1 rotta  2 label 3 Api 4 email/codice --}}
                 <div class="d-none d-md-block col-md-6 position-relative">
-                    {{-- componente autocomplete qui --}}
+                    {{-- componente autocomplete  --}}
                     @include('admin.partials.autocomplete', [
                         'idInput' => 'searchHeader',
                         'idResults' => 'resultsHeader',
@@ -39,6 +38,7 @@
                         <div class="offcanvas-body">
                             <div class="row">
                                 <div class="col-6">
+                                    {{-- componente autocomplete  --}}
                                     @include('admin.partials.autocomplete', [
                                         'idInput' => 'searchHeaderMobile',
                                         'idResults' => 'resultsHeaderMobile',
