@@ -34,7 +34,11 @@
             </a>
         </li>
         <li class="my-3">
-            <a href="{{ route('admin.gift_vouchers.index') }}" @class(['active' => Route::is('admin.gift_vouchers.index')])>Visualizza buoni
+            <a href="{{ route('admin.gift_vouchers.index') }}" @class([
+                'active' =>
+                    Route::is('admin.gift_vouchers.index') ||
+                    Route::is('admin.search-gift-customers'),
+            ])>Visualizza buoni
                 regalo
             </a>
         </li>
