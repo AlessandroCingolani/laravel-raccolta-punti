@@ -22,15 +22,18 @@ use App\Functions\Helper;
             </div>
         @endif
         {{-- TODO: Imposta grafica per bottoni rotta gift usati e scaduti --}}
-        <a href="{{ route('admin.gift-used') }}" class="btn btn-warning">
-            Buoin regalo Usati
+        <a href="{{ Route::is('admin.gift-used') ? route('admin.gift_vouchers.index') : route('admin.gift-used') }}"
+            class="btn {{ Route::is('admin.gift-used') ? 'btn-primary' : 'btn-warning' }}">
+            {{ Route::is('admin.gift-used') ? 'Buoni regalo Validi' : 'Buoni regalo Usati' }}
         </a>
-        <a href="{{ route('admin.gift-expired') }}" class="btn btn-danger">
-            Buoni regalo Scaduti
+        <a href="{{ Route::is('admin.gift-expired') ? route('admin.gift_vouchers.index') : route('admin.gift-expired') }}"
+            class="btn {{ Route::is('admin.gift-expired') ? 'btn-primary' : 'btn-danger' }}">
+            {{ Route::is('admin.gift-expired') ? 'Buoni regalo Validi' : 'Buoni regalo Scaduti' }}
         </a>
 
         @if (count($vouchers) > 0)
-            <div class="d-flex justify-content-between">
+            <div class="d-flex
+            justify-content-between">
                 <h2 class="mb-3">{{ $title }}</h2>
             </div>
             <div class="d-none d-md-block col-md-4 position-relative mb-3">
@@ -93,7 +96,7 @@ use App\Functions\Helper;
                                 @if ($voucher->status === 'valid' || $voucher->status === 'used')
                                     <form action="{{ route('admin.gift_vouchers.toggleStatus', $voucher) }}" method="POST"
                                         style="display:inline;"
-                                        onsubmit="return confirm('Sei sicuro di usare questo buono?')">
+                                        onsubmit="return confirm('{{ $voucher->status === 'valid' ? 'Sei sicuro di usare questo buono?' : 'Sei sicuro di rendere valido questo buono?' }}')">
                                         @csrf
                                         @method('PATCH')
                                         <button type="submit" class="btn btn-success">
