@@ -21,28 +21,26 @@ use App\Functions\Helper;
                 </ul>
             </div>
         @endif
-
+        {{-- TODO: Imposta grafica per bottoni rotta gift usati e scaduti --}}
+        <a href="{{ route('admin.gift-used') }}" class="btn btn-warning">
+            Buoin regalo Usati
+        </a>
+        <a href="{{ route('admin.gift-expired') }}" class="btn btn-danger">
+            Buoni regalo Scaduti
+        </a>
 
         @if (count($vouchers) > 0)
-            {{-- TODO: Imposta grafica per bottoni rotta gift usati e scaduti --}}
-            <a href="{{ route('admin.gift-used') }}" class="btn btn-warning">
-                <i class="fa-solid fa-pencil"></i>
-            </a>
-            <a href="{{ route('admin.gift-expired') }}" class="btn btn-danger">
-                <i class="fa-solid fa-pencil"></i>
-            </a>
             <div class="d-flex justify-content-between">
                 <h2 class="mb-3">{{ $title }}</h2>
             </div>
-            {{-- 1 rotta  2 label 3 Api 4 codice --}}
-            <div class="d-none d-md-block col-md-6 position-relative">
-                {{-- componente autocomplete qui --}}
+            <div class="d-none d-md-block col-md-4 position-relative mb-3">
+                {{-- componente autocomplete  --}}
                 @include('admin.partials.autocomplete', [
                     'idInput' => 'searchGift',
                     'idResults' => 'resultsGift',
                     'idError' => 'errorGift',
                     'route' => 'admin.search-gift-customers',
-                    'label' => 'Ricerca buono',
+                    'label' => 'Ricerca buoni regalo',
                     'api' => 'http://127.0.0.1:8000/api/auto-complete-gift/',
                     'email' => false,
                     'code' => true,
@@ -78,7 +76,9 @@ use App\Functions\Helper;
                     @foreach ($vouchers as $voucher)
                         <tr>
                             <td>{{ $voucher->id }}</td>
-                            <td>{{ $voucher->recipient_first_name . ' ' . $voucher->recipient_last_name }}</td>
+                            <td><a
+                                    href="{{ route('admin.gift_vouchers.show', $voucher) }}">{{ $voucher->recipient_first_name . ' ' . $voucher->recipient_last_name }}</a>
+                            </td>
                             <td>{{ $voucher->code }}</td>
                             <td>{{ $voucher->amount }} €</td>
                             <td>{{ Helper::formatDate($voucher->expiration_date) }}</td>
@@ -90,6 +90,21 @@ use App\Functions\Helper;
                                 @endif
                             </td>
                             <td class="text-center">
+                                @if ($voucher->status === 'valid' || $voucher->status === 'used')
+                                    <form action="{{ route('admin.gift_vouchers.toggleStatus', $voucher) }}" method="POST"
+                                        style="display:inline;"
+                                        onsubmit="return confirm('Sei sicuro di usare questo buono?')">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button type="submit" class="btn btn-success">
+                                            @if ($voucher->status === 'valid')
+                                                <i class="fa-solid fa-circle-dollar-to-slot"></i>
+                                            @else
+                                                <i class="fa-solid fa-check-circle"></i>
+                                            @endif
+                                        </button>
+                                    </form>
+                                @endif
                                 <a href="{{ route('admin.gift_vouchers.edit', $voucher) }}" class="btn btn-warning">
                                     <i class="fa-solid fa-pencil"></i>
                                 </a>
