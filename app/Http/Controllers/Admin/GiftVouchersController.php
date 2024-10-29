@@ -15,6 +15,7 @@ class GiftVouchersController extends Controller
     // Duration coupon
     const MOUNTH_VOUCHER_VALIDATION = 2;
 
+
     /**
      * Display a listing of the resource.
      */
@@ -126,7 +127,8 @@ class GiftVouchersController extends Controller
      */
     public function show(GiftVoucher $gift_voucher)
     {
-        return view('admin.gift_vouchers.show', compact('gift_voucher'));
+        $monthsToAdd = self::MOUNTH_VOUCHER_VALIDATION;
+        return view('admin.gift_vouchers.show', compact('gift_voucher', 'monthsToAdd'));
     }
 
     /**

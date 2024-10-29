@@ -32,9 +32,9 @@ use App\Functions\Helper;
 
                     <div class="text-muted small position-absolute bottom-0 end-0">
                         {{ $gift_voucher->status === 'expired'
-                            ? 'Scaduto il ' . Helper::formatDate($gift_voucher->created_at->addMonths(2))
+                            ? 'Scaduto il ' . Helper::formatDate($gift_voucher->created_at->addMonths($monthsToAdd))
                             : ($gift_voucher->status === 'valid'
-                                ? 'Valido fino a ' . Helper::formatDate($gift_voucher->created_at->addMonths(2))
+                                ? 'Valido fino a ' . Helper::formatDate($gift_voucher->created_at->addMonths($monthsToAdd))
                                 : 'Usato il ' . Helper::formatDate($gift_voucher->used_at)) }}
                     </div>
 
