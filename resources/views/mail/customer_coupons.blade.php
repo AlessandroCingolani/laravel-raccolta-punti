@@ -4,91 +4,62 @@
 <head>
     <title>Coupons</title>
     <style>
+        /* Stili generali per la card e la struttura */
         .container-fluid {
             width: 100%;
-            margin-right: auto;
-            margin-left: auto;
+            padding: 0;
+            background-color: #f4f8fb;
+            font-family: Arial, sans-serif;
+            color: #333;
         }
 
         .card {
-            position: relative;
-            display: -webkit-box;
-            display: -ms-flexbox;
-            display: flex;
-            -webkit-box-orient: vertical;
-            -webkit-box-direction: normal;
-            -ms-flex-direction: column;
-            flex-direction: column;
-            min-width: 0;
-            word-wrap: break-word;
-            background-color: #fff;
-            background-clip: border-box;
-            border: 1px solid rgba(0, 0, 0, 0.125);
-            border-radius: 0.25rem;
-            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-            width: 18rem;
-            margin: auto;
+            max-width: 400px;
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: #fff;
+            margin: 30px auto;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         .card-body {
-            -webkit-box-flex: 1;
-            -ms-flex: 1 1 auto;
-            flex: 1 1 auto;
-            padding: 1.25rem;
-        }
-
-        .card-title {
-            margin-bottom: 0.75rem;
-            font-size: 1.5rem;
-            color: #007bff;
-        }
-
-        .card-subtitle {
-            margin-top: -0.375rem;
-            margin-bottom: 0.5rem;
-            font-size: 1rem;
-            color: #6c757d;
-        }
-
-        .card-text {
-            margin-top: 0;
-            margin-bottom: 1rem;
-            font-size: 1rem;
-            color: #6c757d;
-        }
-
-        .display-4 {
-            font-size: 2.5rem;
-            font-weight: 300;
-            line-height: 1.2;
-            color: #dc3545;
-        }
-
-        .text-center {
+            padding: 2rem;
             text-align: center;
         }
 
-        .text-primary {
-            color: #007bff !important;
-        }
-
-        .text-muted {
-            color: #6c757d !important;
-        }
-
-        .text-secondary {
-            color: #6c757d !important;
-        }
-
-        .text-danger {
-            color: #dc3545 !important;
-        }
-
-        hr {
-            margin-top: 1rem;
+        .card-title {
+            font-size: 1.75rem;
+            font-weight: bold;
             margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .card-subtitle {
+            font-size: 1.1rem;
+            color: #cce1ff;
+        }
+
+        .display-4 {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #ffc107;
+            margin: 1.5rem 0;
+        }
+
+        .card-text {
+            font-size: 1rem;
+            color: #cce1ff;
+            margin-bottom: 1.5rem;
+        }
+
+
+        /* Linea di separazione personalizzata */
+        hr {
+            margin: 1.5rem 0;
             border: 0;
-            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            height: 1px;
+            background: #cce1ff;
         }
     </style>
 </head>
@@ -97,12 +68,11 @@
     <div class="container-fluid">
         <div class="card shadow-sm">
             <div class="card-body">
-                <h3 class="card-title text-primary">Ciao {{ $lead->recipient_name . ' ' . $lead->recipient_surname }}
-                </h3>
-                <h5 class="card-subtitle mb-2 text-muted">Hai un totale di:</h5>
-                <p class="card-text display-4  text-danger">{{ $lead->customer_points }} coupons</p>
+                <h3 class="card-title">Ciao {{ $lead->recipient_name . ' ' . $lead->recipient_surname }}</h3>
+                <h5 class="card-subtitle mb-2">Hai un totale di:</h5>
+                <p class="card-text display-4">{{ $lead->customer_points }} coupons</p>
                 <hr>
-                <p class="card-text text-secondary">Grazie per la tua fedeltà!</p>
+                <p class="card-text">Grazie per la tua fedeltà!</p>
             </div>
         </div>
     </div>
