@@ -35,15 +35,20 @@ class PurchaseController extends Controller
             ->where('coupons_used', '>', 0)
             ->whereBetween('created_at', Helper::getReferencePeriod());
 
-
-        // if request has tosearch input
         if ($request->has('tosearch')) {
             $search = $request->input('tosearch');
+            $fullName = explode(' ', $search);
 
-            // add at purchases wherehas customer who have name and surname tosearch
-            $purchases->whereHas('customer', function ($query) use ($search) {
-                $query->where('name', 'LIKE', '%' . $search . '%')
-                    ->orWhere('surname', 'LIKE', '%' . $search . '%');
+            $purchases->whereHas('customer', function ($query) use ($fullName, $search) {
+                if (count($fullName) === 2) {
+                    $firstName = $fullName[0];
+                    $lastName = $fullName[1];
+                    $query->where('name', 'LIKE', '%' . $firstName . '%')
+                        ->where('surname', 'LIKE', '%' . $lastName . '%');
+                } else {
+                    $query->where('name', 'LIKE', '%' . $search . '%')
+                        ->orWhere('surname', 'LIKE', '%' . $search . '%');
+                }
             });
         }
 
