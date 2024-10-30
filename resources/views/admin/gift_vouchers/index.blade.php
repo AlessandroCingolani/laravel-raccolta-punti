@@ -96,7 +96,7 @@ use App\Functions\Helper;
                                 @if ($voucher->status === 'valid' || $voucher->status === 'used')
                                     <form action="{{ route('admin.gift_vouchers.toggleStatus', $voucher) }}" method="POST"
                                         style="display:inline;"
-                                        onsubmit="return confirm('{{ $voucher->status === 'valid' ? 'Sei sicuro di usare questo buono?' : 'Sei sicuro di rendere valido questo buono?' }}')">
+                                        onsubmit="return confirm('{{ $voucher->status === 'valid' ? 'Sei sicura/o di usare questo buono?' : 'Sei sicura/o di rendere valido questo buono?' }}')">
                                         @csrf
                                         @method('PATCH')
                                         <button type="submit" class="btn btn-success">
@@ -113,7 +113,7 @@ use App\Functions\Helper;
                                 </a>
                                 <form class="d-inline-block" action="{{ route('admin.gift_vouchers.destroy', $voucher) }}"
                                     method="POST"
-                                    onsubmit="return confirm('Sei sicuro di voler cancellare questo buono?')">
+                                    onsubmit="return confirm('Sei sicura/o di voler cancellare questo buono?')">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger">
