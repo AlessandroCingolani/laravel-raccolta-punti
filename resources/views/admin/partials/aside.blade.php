@@ -9,7 +9,9 @@
             <a href="{{ route('admin.customers.index') }}" @class([
                 'active' =>
                     Route::is('admin.customers.index') ||
-                    Route::is('admin.search-customer'),
+                    Route::is('admin.search-customer') ||
+                    Route::is('admin.customers.show') ||
+                    Route::is('admin.order-by'),
             ])>I Tuoi Clienti
             </a>
         </li>
@@ -37,7 +39,9 @@
             <a href="{{ route('admin.gift_vouchers.index') }}" @class([
                 'active' =>
                     Route::is('admin.gift_vouchers.index') ||
-                    Route::is('admin.search-gift-customers'),
+                    Route::is('admin.search-gift-customers') ||
+                    Route::is('admin.gift-expired') ||
+                    Route::is('admin.gift-used'),
             ])>Visualizza buoni
                 regalo
             </a>
