@@ -21,21 +21,21 @@ use App\Functions\Helper;
                 </ul>
             </div>
         @endif
-        {{-- TODO: Imposta grafica per bottoni rotta gift usati e scaduti --}}
-        <a href="{{ Route::is('admin.gift-used') ? route('admin.gift_vouchers.index') : route('admin.gift-used') }}"
-            class="btn {{ Route::is('admin.gift-used') ? 'btn-primary' : 'btn-warning' }}">
-            {{ Route::is('admin.gift-used') ? 'Buoni regalo Validi' : 'Buoni regalo Usati' }}
-        </a>
-        <a href="{{ Route::is('admin.gift-expired') ? route('admin.gift_vouchers.index') : route('admin.gift-expired') }}"
-            class="btn {{ Route::is('admin.gift-expired') ? 'btn-primary' : 'btn-danger' }}">
-            {{ Route::is('admin.gift-expired') ? 'Buoni regalo Validi' : 'Buoni regalo Scaduti' }}
-        </a>
+        <div class="position-absolute end-0">
+            {{-- TODO: Imposta grafica per bottoni rotta gift usati e scaduti --}}
+            <a href="{{ Route::is('admin.gift-used') ? route('admin.gift_vouchers.index') : route('admin.gift-used') }}"
+                class="btn {{ Route::is('admin.gift-used') ? 'btn-primary' : 'btn-warning' }}">
+                {{ Route::is('admin.gift-used') ? 'Buoni regalo Validi' : 'Buoni regalo Usati' }}
+            </a>
+            <a href="{{ Route::is('admin.gift-expired') ? route('admin.gift_vouchers.index') : route('admin.gift-expired') }}"
+                class="btn {{ Route::is('admin.gift-expired') ? 'btn-primary' : 'btn-danger' }}">
+                {{ Route::is('admin.gift-expired') ? 'Buoni regalo Validi' : 'Buoni regalo Scaduti' }}
+            </a>
+        </div>
+
 
         @if (count($vouchers) > 0)
-            <div class="d-flex
-            justify-content-between">
-                <h2 class="mb-3">{{ $title }}</h2>
-            </div>
+            <h2 class="mb-3">{{ $title }}</h2>
             <div class="d-none d-md-block col-md-4 position-relative mb-3">
                 {{-- componente autocomplete  --}}
                 @include('admin.partials.autocomplete', [
