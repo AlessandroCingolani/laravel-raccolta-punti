@@ -24,3 +24,5 @@ Route::get('/auto-complete/{search}', [PageController::class, 'autoComplete']);
 
 // Route Gift autocomplete
 Route::get('/auto-complete-gift/{search}', [PageController::class, 'autoCompleteGift']);
+
+Route::get('/autocomplete-coupon-customers/{search}', [PageController::class, 'autoCompleteCouponCustomers']);
