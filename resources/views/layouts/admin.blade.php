@@ -38,7 +38,8 @@ iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H
     @include('admin.partials.header')
     <main class="d-flex">
         @include('admin.partials.aside')
-        <div class="w-100  overflow-auto p-2">
+        {{-- main with position relative for btn or other in absolute --}}
+        <div class="w-100 position-relative overflow-auto p-2">
             @yield('content')
         </div>
     </main>
