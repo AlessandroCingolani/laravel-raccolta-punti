@@ -24,7 +24,8 @@
                         <div class="col-md-6 mb-3">
                             <label for="name" class="form-label">Nome *</label>
                             <input id="name" class="form-control @error('name') is-invalid @enderror" name="name"
-                                value="{{ old('name', $customer?->name) }}" autocomplete="name" type="text">
+                                value="{{ old('name', $customer?->name) }}" autocomplete="name" type="text"
+                                placeholder="Nome">
                             @error('name')
                                 <p class="text-danger">{{ $message }}</p>
                             @enderror
@@ -32,7 +33,8 @@
                         <div class="col-md-6 mb-3">
                             <label for="surname" class="form-label">Cognome *</label>
                             <input id="surname" class="form-control @error('surname') is-invalid @enderror" name="surname"
-                                value="{{ old('surname', $customer?->surname) }}" autocomplete="surname" type="text">
+                                value="{{ old('surname', $customer?->surname) }}" autocomplete="surname" type="text"
+                                placeholder="Cognome">
                             @error('surname')
                                 <p class="text-danger">{{ $message }}</p>
                             @enderror
@@ -43,7 +45,8 @@
                         <div class="col-md-6 mb-3">
                             <label for="email" class="form-label">Email *</label>
                             <input id="email" class="form-control @error('email') is-invalid @enderror" name="email"
-                                value="{{ old('email', $customer?->email) }}" autocomplete="email" type="text">
+                                value="{{ old('email', $customer?->email) }}" autocomplete="email" type="text"
+                                placeholder="Email">
 
                             @error('email')
                                 <p class="text-danger">{{ $message }}</p>
@@ -53,7 +56,8 @@
                         <div class="col-md-6 mb-3">
                             <label for="phone" class="form-label">Telefono </label>
                             <input id="phone" class="form-control @error('phone') is-invalid @enderror" name= "phone"
-                                value="{{ old('phone', $customer?->phone) }}" autocomplete="phone" type="text">
+                                value="{{ old('phone', $customer?->phone) }}" autocomplete="phone" type="text"
+                                placeholder="Numero di telefono">
                             @error('phone')
                                 <p class="text-danger">{{ $message }}</p>
                             @enderror
@@ -65,7 +69,7 @@
                             <label for="address" class="form-label">Indirizzo </label>
                             <input id="address" class="form-control @error('address') is-invalid @enderror"
                                 name= "address" value="{{ old('address', $customer?->address) }}" autocomplete="address"
-                                type="text">
+                                type="text" placeholder="Indirizzo">
                             @error('address')
                                 <p class="text-danger">{{ $message }}</p>
                             @enderror
@@ -74,7 +78,8 @@
                         <div class="col-md-6 mb-3">
                             <label for="city" class="form-label">Città </label>
                             <input id="city" class="form-control @error('city') is-invalid @enderror" name= "city"
-                                value="{{ old('city', $customer?->city) }}" autocomplete="city" type="text">
+                                value="{{ old('city', $customer?->city) }}" autocomplete="city" type="text"
+                                placeholder="Città">
                             @error('city')
                                 <p class="text-danger">{{ $message }}</p>
                             @enderror
