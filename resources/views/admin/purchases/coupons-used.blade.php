@@ -13,12 +13,18 @@ use App\Functions\Helper;
         <h2 class="mb-3">
             {{ count($purchases) > 0 ? 'Acquisti con coupon ' : 'Nessun acquisto con coupon da visualizzare' }}</h2>
         {{-- search client bar --}}
-        <div class="w-50 m-auto my-4">
-            <form method="GET" action="{{ route('admin.coupons-used') }}" class="input-group">
-                <input type="text" class="form-control" placeholder="Cerca cliente per coupons utilizzati"
-                    aria-label="Ricerca cliente" aria-describedby="button-addon2" name="tosearch" id="tosearch">
-                <button class="btn btn-info" type="submit" id="button-addon2">Cerca</button>
-            </form>
+        <div class="d-none d-md-block col-md-4 position-relative mb-3">
+            {{-- componente autocomplete  --}}
+            @include('admin.partials.autocomplete', [
+                'idInput' => 'searchUsedCoupons',
+                'idResults' => 'resultsUsedCoupons',
+                'idError' => 'errorUsedCoupons',
+                'route' => 'admin.coupons-used',
+                'label' => 'Ricerca Cliente per coupons utilizzati',
+                'api' => 'http://127.0.0.1:8000/api/autocomplete-coupon-customers/',
+                'email' => true,
+                'code' => false,
+            ])
         </div>
 
         @if (count($purchases) > 0)
