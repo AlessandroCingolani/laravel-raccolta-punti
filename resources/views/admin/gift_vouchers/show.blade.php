@@ -5,7 +5,8 @@ use App\Functions\Helper;
 
 @section('content')
     <div class="row w-100 justify-content-center">
-        <div class="col-4">
+        <div class="col-lg-6 col-10">
+            <h2 class="text-center mt-3">Buono regalo </h2>
             <div class="card w-100 shadow-sm my-4 p-4">
                 <div class="card-body position-relative">
                     {{-- Stato del voucher in alto a destra --}}
@@ -21,12 +22,14 @@ use App\Functions\Helper;
                         {{ $gift_voucher->recipient_last_name }}
                     </h2>
 
+                    {{-- TODO: ridimensionamento schermata si sovrappongono le scritte in absolute --}}
+
                     {{-- Importo del voucher sotto il nome --}}
                     <p class="text-center fs-4 text-primary">{{ number_format($gift_voucher->amount, 2) }} €</p>
 
                     {{-- Data di creazione in basso a sinistra --}}
                     <div class="text-muted small position-absolute bottom-0 start-0">
-                        Creato il {{ Helper::formatDate($gift_voucher->created_at) }}
+                        Acquistato il {{ Helper::formatDate($gift_voucher->created_at) }}
                     </div>
 
 
