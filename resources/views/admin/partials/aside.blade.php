@@ -41,7 +41,8 @@
                     Route::is('admin.gift_vouchers.index') ||
                     Route::is('admin.search-gift-customers') ||
                     Route::is('admin.gift-expired') ||
-                    Route::is('admin.gift-used'),
+                    Route::is('admin.gift-used') ||
+                    Route::is('admin.gift_vouchers.show'),
             ])>Visualizza buoni
                 regalo
             </a>
