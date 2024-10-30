@@ -4,9 +4,10 @@
 $height-header: 60px;
 $width-aside:200px;
 $width-small-aside :60px;
-$color-aside: #007BFF;
+$color-aside: rgb(23, 63, 114);
 $color-link-aside:white;
 $active-route-color:#FFC107;
+$active-route-background:white;
 $color-main:#F8F9FA;
 
 // font google
@@ -113,18 +114,36 @@ header {
 }
 
 aside {
-    background-color:$color-aside ;
-    width : $width-aside;
+    background-color: $color-aside;
+    width: $width-aside;
     height: calc(100vh - $height-header);
+
     ul {
+        width: 100%;
         list-style: none;
-        .active {
-            color: $active-route-color;
-        }
-        a {
-            text-decoration: none;
-            font-weight: bolder;
-            color: $color-link-aside;
+
+        li {
+            width: 90%;
+
+
+            a {
+                display: block;
+                text-decoration: none;
+                font-weight: bolder;
+                color: $color-link-aside;
+                padding: 10px;
+                border-radius: 0 20px 20px 0;
+                transition: background-color 0.3s, color 0.3s;
+
+                &:hover {
+                    color: $active-route-color;
+                }
+
+                &.active {
+                    background-color: $active-route-background;
+                    color: $active-route-color;
+                }
+            }
         }
     }
     @media screen and (max-width: 767px) {
