@@ -4,7 +4,8 @@
             <div class="row w-100 h-100 align-items-center justify-content-between">
                 {{-- Logo --}}
                 <div class="col-3">
-                    <a href="{{ url('/') }}">LOGO CLIENTE</a>
+                    <a href="{{ url('/') }}"><img class="logo-header" src="{{ asset('assets/logo.png') }}"
+                            alt="logo"></a>
                 </div>
                 {{-- search client bar --}}
                 <div class="d-none d-md-block col-md-6 position-relative">

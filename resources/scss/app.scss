@@ -107,16 +107,24 @@ h1,h2,h3 {
 
 header {
     height: $height-header;
-
+    background: linear-gradient(to right, white, #b0b0b08e 60%);
     nav {
         height: 100%;
+        .logo-header {
+            height: $height-header;
+            width: auto;
+            border-radius: 50%;
+
+        }
     }
+
 }
 
 aside {
     background-color: $color-aside;
     width: $width-aside;
     height: calc(100vh - $height-header);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.671);
 
     ul {
         width: 100%;
