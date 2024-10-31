@@ -71,7 +71,7 @@ use App\Functions\Helper;
                     @foreach ($customers as $customer)
                         <tr>
                             <td class="d-none d-lg-table-cell">{{ $customer->id }}</td>
-                            <td><a
+                            <td class="name-table"><a
                                     href="{{ route('admin.customers.show', $customer) }}">{{ $customer->name . ' ' . $customer->surname }}</a>
                             </td>
                             <td>{{ $customer?->email ?? '-' }}</td>

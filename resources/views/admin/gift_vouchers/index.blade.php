@@ -79,7 +79,7 @@ use App\Functions\Helper;
                     @foreach ($vouchers as $voucher)
                         <tr>
                             <td>{{ $voucher->id }}</td>
-                            <td><a
+                            <td class="name-table"><a
                                     href="{{ route('admin.gift_vouchers.show', $voucher) }}">{{ $voucher->recipient_first_name . ' ' . $voucher->recipient_last_name }}</a>
                             </td>
                             <td>{{ $voucher->code }}</td>

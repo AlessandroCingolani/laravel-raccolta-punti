@@ -56,7 +56,7 @@ use App\Functions\Helper;
                     @forelse ($purchases as $purchase)
                         <tr>
                             <td class="d-none d-lg-table-cell">{{ $purchase->id }}</td>
-                            <td><a
+                            <td class="name-table"><a
                                     href="{{ route('admin.customers.show', $purchase->customer) }}">{{ $purchase->customer?->name . ' ' . $purchase->customer?->surname }}</a>
                             </td>
                             <td>{{ Helper::formatDate($purchase->created_at) }}</td>
