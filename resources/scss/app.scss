@@ -9,6 +9,7 @@ $color-link-aside:white;
 $active-route-color:#FFC107;
 $active-route-background:rgba(255, 255, 255, 0.606);
 $color-main:#ededed;
+$client-name-color:$color-aside;
 
 // font google
 h1,h2,h3 {
@@ -91,13 +92,15 @@ h1,h2,h3 {
         &:hover {
             background-color: #f1f1f1;
             color: #333;
+            span{
+                font-size: 16px;
+                color: #030303;
+                font-weight: 700;
+            }
         }
         span{
             font-size: 14px;
             color: #666;
-            &:hover {
-                color: #000;
-            }
         }
     }
 
@@ -114,7 +117,6 @@ header {
             height: $height-header;
             width: auto;
             border-radius: 50%;
-
         }
     }
 
@@ -167,6 +169,47 @@ main {
             &:hover{
                 td {
                     background-color: transparent;
+                }
+            }
+            td {
+                // class for name table animation and color
+                &.name-table{
+                    a {
+                        color: $client-name-color;
+                        font-weight: bold;
+                        text-decoration: none;
+                        position: relative;
+                        transition: color 0.3s ease;
+
+                        &:hover {
+                            color:$client-name-color;
+                        }
+
+                        &:after {
+                            content: "";
+                            position: absolute;
+                            width: 100%;
+                            height: 2px;
+                            left: 0;
+                            bottom: -2px;
+                            background-color:$client-name-color;
+                            transform: scaleX(0);
+                            transition: transform 0.3s ease;
+                        }
+
+                        &:hover:after {
+                            transform: scaleX(1);
+                        }
+                    }
+                }
+
+                // style btn inside table
+                .btn {
+                    border-radius: 50%;
+                    transition: scale 0.3s ease;
+                    &:hover {
+                        scale:1.1;
+                    }
                 }
             }
         }
